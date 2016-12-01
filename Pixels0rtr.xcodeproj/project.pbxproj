@@ -12,6 +12,7 @@
 		F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */; };
 		F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B6E1DEEDCD900376A98 /* SortPattern.swift */; };
 		F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B721DEEE77800376A98 /* MathUtils.swift */; };
+		F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B741DEFDCF700376A98 /* AppConfig.swift */; };
 		F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB671DEEBE3000FB3817 /* AppDelegate.swift */; };
 		F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB691DEEBE3000FB3817 /* ViewController.swift */; };
 		F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6B1DEEBE3000FB3817 /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 		F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelSorting.swift; sourceTree = "<group>"; };
 		F3087B6E1DEEDCD900376A98 /* SortPattern.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortPattern.swift; sourceTree = "<group>"; };
 		F3087B721DEEE77800376A98 /* MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
+		F3087B741DEFDCF700376A98 /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		F336FB641DEEBE3000FB3817 /* Pixels0rtr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixels0rtr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F336FB671DEEBE3000FB3817 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F336FB691DEEBE3000FB3817 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		F336FB7B1DEECB3000FB3817 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				F3087B741DEFDCF700376A98 /* AppConfig.swift */,
 				F336FB7C1DEECBEA00FB3817 /* ImageAccess.swift */,
 				F3087B6A1DEED10000376A98 /* Pixels.swift */,
 				F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */,
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
+				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
 				F3087B6B1DEED10000376A98 /* Pixels.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
