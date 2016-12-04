@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import C4
 
 protocol PixelSorter {
     var name: String {get}
-    func order(byColor color: UIColor, index: Float, totalColors: Int)->Float
+    func order(by color: Color, index: Float, totalColors: Int)->Double
 }
 
 class SorterBrightness: PixelSorter {
@@ -20,58 +21,61 @@ class SorterBrightness: PixelSorter {
         }
     }
     
-    func order(byColor color: UIColor, index: Float, totalColors: Int) -> Float {
-        var b: CGFloat = 0;
-        color.getHue(nil, saturation: nil, brightness: &b, alpha: nil)
-        return Float(b);
+    func order(by color: Color, index: Float, totalColors: Int)->Double {
         
+        return color.brightness
     }
 }
 
 class PixelSorting: NSObject {
     
-    func sortedImage(withImage image: UIImage, pattern: SortPattern, sorter: PixelSorter) -> UIImage {
+    static func sorted(image: Image, pattern: SortPattern, sorter: PixelSorter, progress: ((Float)->Void)?) -> Image {
+        let toSort = pattern.colorArrays(of: image.cgImage, size: image.size)
+        print("\(toSort.count) pieces to sort")
+        var sortedArrays = [[Color]]()
         
-        var sortedColumns = [[UIColor]]()
-        for colIndex in 0..<Int(image.size.width) {
-            var columnOfPixels = image.pixels(withColumnIndex: colIndex)!
-            sort(colorsToSort: &columnOfPixels, forColumnIndex: colIndex, pattern: pattern, sorter: sorter)
-            sortedColumns.append(columnOfPixels)
-        }
-        
-        return UIImage.image(withPixelColumns: sortedColumns)
+//        for index in 0..<toSort.count {
+//            var colors = toSort[index]
+//            sort(colors: &colors, sortIndex: index, pattern: pattern, sorter: sorter)
+//            sortedArrays.append(colors)
+//            if let p = progress {
+//                p(Float(index)/Float(toSort.count))
+//            }
+//        }
+        let image = pattern.image(with: toSort, size: image.size)
+        return image
     }
     
     
-    fileprivate func sort(colorsToSort: inout [UIColor], forColumnIndex colIndex: Int, pattern: SortPattern, sorter: PixelSorter) {
-        if colorsToSort.count == 0 {
+    static fileprivate func sort(colors: inout [Color], sortIndex:  Int, pattern: SortPattern, sorter: PixelSorter) {
+        if colors.count == 0 {
             return
         }
         
         //to create pattern, divide array into pieces and sort them separately
-        let unsortedPhases = sortPhases(withColors: colorsToSort, forColumnIndex: colIndex, pattern: pattern)
+        let unsortedPhases = sortPhases(withColors: colors, sortIndex: sortIndex, pattern: pattern)
         
-        var sortedPhases = [[UIColor]]()
+        var sortedPhases = [[Color]]()
         for var phase in unsortedPhases {
-            quicksort(WithColors: &phase, low: 0, high: phase.count, pixelsort: sorter)
+            quicksort(WithColors: &phase, low: 0, high: phase.count - 1, pixelsort: sorter)
             sortedPhases.append(phase)
         }
-        colorsToSort = colors(withSortPhases: sortedPhases)
+        colors = combinedColors(withSortPhases: sortedPhases)
     }
     
     /**
      @return phases to sort defined by input sort pattern
      */
-    fileprivate func sortPhases(withColors colors: [UIColor], forColumnIndex colIndex: Int, pattern: SortPattern) -> [[UIColor]]{
+    static fileprivate func sortPhases(withColors colors: [Color], sortIndex: Int, pattern: SortPattern) -> [[Color]]{
         
         if colors.count < 2 {
             return [colors]
         }
         
-        var results = [[UIColor]]()
-        var curCol = [UIColor]()
+        var results = [[Color]]()
+        var curCol = [Color]()
         for i in 0..<colors.count {
-            if pattern.resetSubsortBlock(withRow: i, column: colIndex) {
+            if pattern.resetSubsortBlock(withIndex: i, sortIndex: sortIndex) {
                 results.append(curCol)
                 curCol = [colors[i]]
             }else {
@@ -85,8 +89,8 @@ class PixelSorting: NSObject {
     /**
      * reduce phases of colors back to a one dimensio array of colors
      **/
-    fileprivate func colors(withSortPhases phases: [[UIColor]]) -> [UIColor] {
-        return phases.reduce([], { (npr, phase) -> [UIColor] in
+    static fileprivate func combinedColors(withSortPhases phases: [[Color]]) -> [Color] {
+        return phases.reduce([], { (npr, phase) -> [Color] in
             var result = npr
             result.append(contentsOf: phase)
             return result
@@ -94,7 +98,7 @@ class PixelSorting: NSObject {
     }
 
     
-    fileprivate func quicksort(WithColors colors : inout [UIColor], low: Int, high: Int, pixelsort: PixelSorter ){
+    static fileprivate func quicksort(WithColors colors : inout [Color], low: Int, high: Int, pixelsort: PixelSorter ){
         
         if colors.count == 0 {
             return
@@ -106,15 +110,15 @@ class PixelSorting: NSObject {
         
         let middle = Int(Float(low) + Float(high - low) * 0.5)
         let index_factor = Float(low)/Float(colors.count)
-        let pivot = pixelsort.order(byColor: colors[middle], index: index_factor, totalColors: colors.count)
+        let pivot = pixelsort.order(by: colors[middle], index: index_factor, totalColors: colors.count)
         
         var i = low, j = high;
         while i <= j {
-            while pixelsort.order(byColor: colors[i], index: index_factor, totalColors: colors.count) < pivot{
+            while pixelsort.order(by: colors[i], index: index_factor, totalColors: colors.count) < pivot{
                 i = i + 1
             }
-            while pixelsort.order(byColor: colors[j], index: index_factor, totalColors: colors.count) > pivot{
-                j = j + 1
+            while pixelsort.order(by: colors[j], index: index_factor, totalColors: colors.count) > pivot{
+                j = j - 1
             }
             if i <= j {
                 let temp = colors[i]
@@ -134,27 +138,4 @@ class PixelSorting: NSObject {
         }
         
     }
-    
-    
-    
-    //    func partition(colors: inout [UIColor], left: Int, right: Int, pixelSort: PixelSorter) -> Int{
-    //        var i = left, j = right
-    //        let pivot = colors[Int(Float(left+right)*0.5)]
-    //        let index = Float(i)/Float(colors.count)
-    //        let NUM_COLORS = colors.count
-    //        let order_i = pixelSort.order(byColor: colors[i], index: index, totalColors: NUM_COLORS)
-    //        let order_j = pixelSort.order(byColor: colors[j], index: index, totalColors: NUM_COLORS)
-    //        let pivot_vc = pixelSort.order(byColor: pivot, index: index, totalColors: NUM_COLORS)
-    //
-    //        while i <= j {
-    //            let tmp = colors[i]
-    //            colors[i] = colors[j]
-    //            colors[j] = tmp
-    //            i = i + 1
-    //            j = j + 1
-    //        }
-    //        
-    //    }
-    
-    
 }

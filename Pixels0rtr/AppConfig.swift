@@ -10,6 +10,10 @@ import UIKit
 
 class AppConfig: NSObject {
     
+    
+    
+    
+    
     //#MARK: - singleton
     static let shared: AppConfig = {
         let instance = AppConfig()

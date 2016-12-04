@@ -7,33 +7,29 @@
 //
 
 import UIKit
-import C4
-
-
-
+struct Pixel {
+    var r: Int
+    var g: Int
+    var b: Int
+    var a: Int
+}
 
 extension UIImage {
     
-    fileprivate struct PixelData {
-        var a:UInt8 = 255
-        var r:UInt8
-        var g:UInt8
-        var b:UInt8
-    }
     
-    static fileprivate var rgbColorSpace: CGColorSpace {
+    static var rgbColorSpace: CGColorSpace {
         get {
             return CGColorSpaceCreateDeviceRGB()
         }
     }
     
-    static fileprivate var bitmapInfo:CGBitmapInfo {
+    static var bitmapInfo:CGBitmapInfo {
         get {
             return CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
         }
     }
     
-    static fileprivate func imageFromARGB32Bitmap(pixels:[PixelData], width:UInt, height:UInt) -> UIImage {
+    static func imageFromARGB32Bitmap(pixels:[Pixel], width:UInt, height:UInt) -> UIImage {
         let bitsPerComponent:UInt = 8
         let bitsPerPixel:UInt = 32
         
@@ -41,7 +37,7 @@ extension UIImage {
         
         var data = pixels // Copy to mutable []
         let providerRef = CGDataProvider(
-            data: NSData(bytes: &data, length: data.count * MemoryLayout<PixelData>.size)
+            data: NSData(bytes: &data, length: data.count * MemoryLayout<Pixel>.size)
         )
         
         let cgim = CGImage(
@@ -49,7 +45,7 @@ extension UIImage {
             height: Int(height),
             bitsPerComponent: Int(bitsPerComponent),
             bitsPerPixel: Int(bitsPerPixel),
-            bytesPerRow: Int(width) * MemoryLayout<PixelData>.size,
+            bytesPerRow: Int(width) * MemoryLayout<Pixel>.size,
             space: rgbColorSpace,
             bitmapInfo: bitmapInfo,
             provider: providerRef!,
@@ -61,25 +57,19 @@ extension UIImage {
         return UIImage(cgImage: cgim!)
     }
     
-    static func image(withPixelColumns columns: [[UIColor]]) -> UIImage {
-        var pixels = [PixelData]()
+    static func image(withPixelColumns columns: [[Pixel]]) -> UIImage {
+        var pixels = [Pixel]()
         for colIndex in 0..<columns.count {
             let col = columns[colIndex]
             for rowIndex in 0..<col.count {
-                let color = col[rowIndex]
-                var red: CGFloat = 0
-                var green: CGFloat = 0
-                var blue: CGFloat = 0
-                color.getRed(&red, green: &green, blue: &blue, alpha: nil)
-                let pdata = PixelData(a: 255, r: UInt8(255.0 * red), g: UInt8(255.0 * green), b: UInt8(255.0 * blue))
-                pixels.append(pdata)
+                pixels.append(col[rowIndex])
             }
         }
         
        return imageFromARGB32Bitmap(pixels: pixels, width: UInt(columns.count), height: UInt((columns.first?.count)!))
     }
     
-    var pixelDataPointer: UnsafePointer<UInt8>? {
+    var PixelPointer: UnsafePointer<UInt8>? {
         get {
             guard let cgi = cgImage else {
                 return nil
@@ -97,49 +87,41 @@ extension UIImage {
         }
     }
     
-    func pixels(withColumnIndex colIndex: Int) -> [UIColor]? {
+    func pixels(withColumnIndex colIndex: Int) -> [Pixel]? {
         
         if colIndex >= Int(self.size.width) {
             return nil
         }
         
-        guard let data = self.pixelDataPointer else {
+        guard let data = self.PixelPointer else {
             return nil
         }
         
-        var pixels = [UIColor]()
+        var pixels = [Pixel]()
         let numberOfComponents = 4
         for y in 0..<Int(size.height) {
-            let pixelData = ((Int(size.width) * y) + colIndex) * numberOfComponents
-            let r = CGFloat(data[pixelData]) / 255.0
-            let g = CGFloat(data[pixelData + 1]) / 255.0
-            let b = CGFloat(data[pixelData + 2]) / 255.0
-            let a = CGFloat(data[pixelData + 3]) / 255.0
-            let c = UIColor(red: r, green: g, blue: b, alpha: a)
-            pixels.append(c)
+            let p = ((Int(size.width) * y) + colIndex) * numberOfComponents
+            
+            let pixel = Pixel(r:Int(data[p]),g:Int(data[p+1]),b:Int(data[p+2]),a:Int(data[p+3]))
+            pixels.append(pixel)
         }
         
         return pixels
     }
     
-    var pixels: [UIColor]? {
+    var pixels: [Pixel]? {
         get {
-            guard let data = self.pixelDataPointer else {
+            guard let data = self.PixelPointer else {
                 return nil
             }
             let numberOfComponents = 4
-            var pixels = [UIColor]()
+            var pixels = [Pixel]()
             
             for x in 0..<Int(size.width) {
                 for y in 0..<Int(size.height) {
-                    let pixelData = ((Int(size.width) * y) + x) * numberOfComponents
-                    let r = CGFloat(data[pixelData]) / 255.0
-                    let g = CGFloat(data[pixelData + 1]) / 255.0
-                    let b = CGFloat(data[pixelData + 2]) / 255.0
-                    let a = CGFloat(data[pixelData + 3]) / 255.0
-                    
-                    let c = UIColor(red: r, green: g, blue: b, alpha: a)
-                    pixels.append(c)
+                    let p = ((Int(size.width) * y) + x) * numberOfComponents
+                    let pixel = Pixel(r:Int(data[p]),g:Int(data[p+1]),b:Int(data[p+2]),a:Int(data[p+3]))
+                    pixels.append(pixel)
                 }
             }
             

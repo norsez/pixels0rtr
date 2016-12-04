@@ -28,6 +28,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pixels0rt needs your permission to access your photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Pixels0rt needs your permission to access your camera</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

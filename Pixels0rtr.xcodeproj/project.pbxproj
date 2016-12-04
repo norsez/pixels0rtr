@@ -8,18 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		01D0ACEE3F94AE88D83D9E43 /* Pods_Pixels0rtr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02818AF82A8723DE4CE8D2CF /* Pods_Pixels0rtr.framework */; };
-		F3087B6B1DEED10000376A98 /* Pixels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B6A1DEED10000376A98 /* Pixels.swift */; };
 		F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */; };
 		F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B6E1DEEDCD900376A98 /* SortPattern.swift */; };
 		F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B721DEEE77800376A98 /* MathUtils.swift */; };
 		F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B741DEFDCF700376A98 /* AppConfig.swift */; };
+		F3087B771DF114BA00376A98 /* ImageSelecterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */; };
+		F3087B791DF11DA200376A98 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3087B781DF11DA200376A98 /* Photos.framework */; };
 		F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB671DEEBE3000FB3817 /* AppDelegate.swift */; };
 		F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB691DEEBE3000FB3817 /* ViewController.swift */; };
 		F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6B1DEEBE3000FB3817 /* Main.storyboard */; };
 		F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */; };
 		F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */; };
 		F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F336FB791DEEBE4600FB3817 /* Podfile */; };
-		F336FB7D1DEECBEA00FB3817 /* ImageAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB7C1DEECBEA00FB3817 /* ImageAccess.swift */; };
+		F39F30DB1DF2A3020070F379 /* Pixels+ColorAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DA1DF2A3020070F379 /* Pixels+ColorAt.swift */; };
+		F39F30DD1DF2A3460070F379 /* Pixels+Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DC1DF2A3460070F379 /* Pixels+Rect.swift */; };
+		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
+		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,8 @@
 		F3087B6E1DEEDCD900376A98 /* SortPattern.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortPattern.swift; sourceTree = "<group>"; };
 		F3087B721DEEE77800376A98 /* MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 		F3087B741DEFDCF700376A98 /* AppConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSelecterViewController.swift; sourceTree = "<group>"; };
+		F3087B781DF11DA200376A98 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		F336FB641DEEBE3000FB3817 /* Pixels0rtr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixels0rtr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F336FB671DEEBE3000FB3817 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F336FB691DEEBE3000FB3817 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,7 +44,10 @@
 		F336FB711DEEBE3000FB3817 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F336FB731DEEBE3000FB3817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F336FB791DEEBE4600FB3817 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		F336FB7C1DEECBEA00FB3817 /* ImageAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAccess.swift; sourceTree = "<group>"; };
+		F39F30DA1DF2A3020070F379 /* Pixels+ColorAt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pixels+ColorAt.swift"; sourceTree = "<group>"; };
+		F39F30DC1DF2A3460070F379 /* Pixels+Rect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pixels+Rect.swift"; sourceTree = "<group>"; };
+		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3087B791DF11DA200376A98 /* Photos.framework in Frameworks */,
 				01D0ACEE3F94AE88D83D9E43 /* Pods_Pixels0rtr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,6 +76,7 @@
 		EB309A8A9915D4FDFB78E6AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3087B781DF11DA200376A98 /* Photos.framework */,
 				02818AF82A8723DE4CE8D2CF /* Pods_Pixels0rtr.framework */,
 			);
 			name = Frameworks;
@@ -95,6 +106,7 @@
 				F336FB7B1DEECB3000FB3817 /* model */,
 				F336FB671DEEBE3000FB3817 /* AppDelegate.swift */,
 				F336FB691DEEBE3000FB3817 /* ViewController.swift */,
+				F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */,
 				F336FB6B1DEEBE3000FB3817 /* Main.storyboard */,
 				F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */,
 				F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */,
@@ -108,8 +120,11 @@
 			isa = PBXGroup;
 			children = (
 				F3087B741DEFDCF700376A98 /* AppConfig.swift */,
-				F336FB7C1DEECBEA00FB3817 /* ImageAccess.swift */,
 				F3087B6A1DEED10000376A98 /* Pixels.swift */,
+				F39F30E01DF4140B0070F379 /* Bitmap.swift */,
+				F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */,
+				F39F30DA1DF2A3020070F379 /* Pixels+ColorAt.swift */,
+				F39F30DC1DF2A3460070F379 /* Pixels+Rect.swift */,
 				F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */,
 				F3087B6E1DEEDCD900376A98 /* SortPattern.swift */,
 				F3087B721DEEE77800376A98 /* MathUtils.swift */,
@@ -245,11 +260,14 @@
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
-				F3087B6B1DEED10000376A98 /* Pixels.swift in Sources */,
+				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
+				F39F30DD1DF2A3460070F379 /* Pixels+Rect.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
+				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
 				F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */,
+				F39F30DB1DF2A3020070F379 /* Pixels+ColorAt.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,
-				F336FB7D1DEECBEA00FB3817 /* ImageAccess.swift in Sources */,
+				F3087B771DF114BA00376A98 /* ImageSelecterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
