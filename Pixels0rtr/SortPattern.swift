@@ -84,13 +84,18 @@ class AbstractSortPattern: SortPattern{
     
     func colorArrays(of cgimage: CGImage, size: Size) -> [[Color]]{
         
-        let imageProvider = cgimage.dataProvider
+        let bitmap = Bitmap(img: cgimage)
+        guard let correctedBitmapCGImage = bitmap.asCGImage else {
+            print("can't create correct bitmap format")
+            return []
+        }
+        let imageProvider = correctedBitmapCGImage.dataProvider
         let imageData = imageProvider?.data
         
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(imageData)
         
         var results = [[Color]]()
-        let NUM_COMPS = Int(Double(cgimage.bitsPerPixel) / Double(cgimage.bitsPerComponent))
+        let NUM_COMPS = 4 //know this from how bitmap object defines context
         let DATA_SIZE = Int(size.width)*Int(size.height) * NUM_COMPS
         
         switch self.sortOrientation {

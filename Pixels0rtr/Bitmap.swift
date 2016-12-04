@@ -41,22 +41,29 @@ class Bitmap {
         context.draw(img, in: rect)
     }
     
-    func color_at(x: Int, y: Int)->(Int, Int, Int, Int) {
-        
-        assert(0<=x && x<width)
-        assert(0<=y && y<height)
-        
-        let uncasted_data = CGBitmapContextGetData(context)
-        let data = UnsafePointer<UInt8>(uncasted_data)
-        
-        let offset = 4 * (y * width + x)
-        
-        let alpha = data[offset]
-        let red = data[offset+1]
-        let green = data[offset+2]
-        let blue = data[offset+3]
-        
-        let color = (Int(red), Int(green), Int(blue), Int(alpha))
-        return color
+    var asCGImage: CGImage? {
+        get {
+            let result = context.makeImage().flatMap { $0 }
+            return result
+        }
     }
+//    
+//    func color_at(x: Int, y: Int)->(Int, Int, Int, Int) {
+//        
+//        assert(0<=x && x<width)
+//        assert(0<=y && y<height)
+//        
+//        let uncasted_data = CGBitmapContextGetData(context)
+//        let data = UnsafePointer<UInt8>(uncasted_data)
+//        
+//        let offset = 4 * (y * width + x)
+//        
+//        let alpha = data[offset]
+//        let red = data[offset+1]
+//        let green = data[offset+2]
+//        let blue = data[offset+3]
+//        
+//        let color = (Int(red), Int(green), Int(blue), Int(alpha))
+//        return color
+//    }
 }

@@ -34,15 +34,15 @@ class PixelSorting: NSObject {
         print("\(toSort.count) pieces to sort")
         var sortedArrays = [[Color]]()
         
-//        for index in 0..<toSort.count {
-//            var colors = toSort[index]
-//            sort(colors: &colors, sortIndex: index, pattern: pattern, sorter: sorter)
-//            sortedArrays.append(colors)
-//            if let p = progress {
-//                p(Float(index)/Float(toSort.count))
-//            }
-//        }
-        let image = pattern.image(with: toSort, size: image.size)
+        for index in 0..<toSort.count {
+            var colors = toSort[index]
+            sort(colors: &colors, sortIndex: index, pattern: pattern, sorter: sorter)
+            sortedArrays.append(colors)
+            if let p = progress {
+                p(Float(index)/Float(toSort.count))
+            }
+        }
+        let image = pattern.image(with: sortedArrays, size: image.size)
         return image
     }
     

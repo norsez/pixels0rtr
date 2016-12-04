@@ -84,7 +84,7 @@ class ViewController: UIViewController, ImagePickerDelegate, UIScrollViewDelegat
             DispatchQueue.global().async {
                 print("init pattern…")
                 let imageToSort = Image(uiimage:img)
-                pattern.initialize(withWidth: Int(imageToSort.width), height: Int(imageToSort.height), amount: 0.05, motion: 0)
+                pattern.initialize(withWidth: Int(imageToSort.width), height: Int(imageToSort.height), amount: 0.5, motion: 0)
                 
                 let sortedImage = PixelSorting.sorted(image: imageToSort , pattern: pattern, sorter: sorter, progress: { p in
                     DispatchQueue.main.async {
