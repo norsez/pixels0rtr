@@ -9,16 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>ImagePicker-ImagePicker.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>ImagePicker.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Pixels0rtr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3DEA8B88B0FAB6964AFAA46E52EED279</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>55BD3033702F62283C42C1F6E037342D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7C4108C3722F95AE55CEDD665AC9630D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>A1E9741307AE910A4DDBD504D0F2D899</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D1C16D501305D8634D1DAE499A47D11C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

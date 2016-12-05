@@ -16,14 +16,14 @@ enum SortOrientation {
 protocol SortPattern {
     var name: String {get}
     var sortOrientation: SortOrientation {get set}
-    func initialize(withWidth width:Int, height: Int, amount: Float, motion: Float)
+    func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
     func colorArrays(of cgimage: CGImage, size: Size) -> [[Color]]
     func image(with colorArrays: [[Color]], size: Size) -> Image
 }
 
 class AbstractSortPattern: SortPattern{
-    internal func initialize(withWidth width: Int, height: Int, amount: Float, motion: Float) {
+    internal func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         
     }
 
@@ -62,26 +62,7 @@ class AbstractSortPattern: SortPattern{
         }
         return Image(pixels: pixels, size: size)
     }
-    
-//    func colorArrays(of image: Image) -> [[Color]] {
-//        var results = [[Color]]()
-//        switch self.sortOrientation {
-//        case .horizontal:
-//            for h in 0..<Int(image.height) {
-//                let rect = CGRect(x: 0, y: h, width: Int(image.width), height: 1)
-//                let c = image.colors(at: rect)
-//                results.append(c)
-//            }
-//        default:
-//            for w in 0..<Int(image.width) {
-//                let rect = CGRect(x: w, y: 0, width: 1, height: Int(image.height))
-//                let c = image.colors(at: rect)
-//                results.append(c)
-//            }
-//        }
-//        return results
-//    }
-    
+        
     func colorArrays(of cgimage: CGImage, size: Size) -> [[Color]]{
         
         let bitmap = Bitmap(img: cgimage)
@@ -131,23 +112,23 @@ class PatternClassic : AbstractSortPattern {
         }
     }
     
-    override func initialize(withWidth width: Int, height: Int, amount: Float, motion: Float) {
+    override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         resetRowIndexByCol = [Int]()
-        let factor = 1.0/(amount + 0.00001);
-        let _max: Float = 2.0 * factor;
-        let _min: Float = 25.0 * factor;
+        let factor = 1.0/(sortParam.sortAmount + 0.00001);
+        let _max = 2.0 * factor;
+        let _min = 25.0 * factor;
         
         switch self.sortOrientation {
         case .vertical:
             for _ in 0..<width {
-                let r = fRandom(min: Float(height)/_min, max: Float(height)/_max)
-                let v = max(2.0, r) + motion * 25.0
+                let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
+                let v = max(2.0, r) + sortParam.motionAmount * 25.0
                 resetRowIndexByCol.append(Int(v))
             }
         default:
             for _ in 0..<height {
-                let r = fRandom(min: Float(height)/_min, max: Float(height)/_max)
-                let v = max(2.0, r) + motion * 25.0
+                let r = fRandom(min: Double(width)/_min, max: Double(width)/_max)
+                let v = max(2.0, r) + sortParam.motionAmount * 25.0
                 resetRowIndexByCol.append(Int(v))
             }
             

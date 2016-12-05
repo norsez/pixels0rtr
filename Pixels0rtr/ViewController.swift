@@ -8,10 +8,10 @@
 
 import UIKit
 import MobileCoreServices
-import ImagePicker
+
 import C4
 
-class ViewController: UIViewController, ImagePickerDelegate, UIScrollViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet var imageScrollView: UIScrollView!
     @IBOutlet weak var selectImageButton: UIBarButtonItem!
@@ -33,20 +33,20 @@ class ViewController: UIViewController, ImagePickerDelegate, UIScrollViewDelegat
 
     //MARK: image selector
     @IBAction func didPressSelectImage(_ sender: Any) {
-        let imagePickerController = ImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.imageLimit = 1
-        present(imagePickerController, animated: true, completion: nil)
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = false
+        picker.delegate = self
+        self.present(picker, animated: true, completion: nil)
     }
     
     func display(image: UIImage) {
         self.imageView.image = image
         self.imageView.frame.size = image.size
         self.imageScrollView.contentSize = self.imageView.frame.size
-        let minScale = min(self.imageScrollView.frame.size.width/image.size.width, 1);
+        let minScale = self.imageScrollView.frame.size.width < image.size.width ? self.imageScrollView.frame.size.width/image.size.width : 1
         self.imageScrollView.minimumZoomScale = minScale
-        self.imageScrollView.maximumZoomScale = 5
-        
+        self.imageScrollView.maximumZoomScale = 2
         self.imageScrollView.setZoomScale(minScale, animated: true)
         
         
@@ -57,59 +57,49 @@ class ViewController: UIViewController, ImagePickerDelegate, UIScrollViewDelegat
     }
     
     
-    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
-        
-    }
-    
-    
-    
-    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         dismiss(animated: true, completion: nil)
-        
-        if var img = images.first  {
-            print("original size: \(img.size)")
-            
-            if true {
-                img = img.resize(byMaxPixels: 600)!
-            }
-            
-            print("image size: \(img.size)")
-            
-            self.display(image: img)
-            let pattern = PatternClassic()
-            let sorter = SorterBrightness()
-            
-            self.progressView.progress = 0
-            DispatchQueue.global().async {
-                print("init pattern…")
-                let imageToSort = Image(uiimage:img)
-                pattern.initialize(withWidth: Int(imageToSort.width), height: Int(imageToSort.height), amount: 0.5, motion: 0)
-                
-                let sortedImage = PixelSorting.sorted(image: imageToSort , pattern: pattern, sorter: sorter, progress: { p in
-                    DispatchQueue.main.async {
-                        self.progressView.progress = p
-                    }
-                })
-                
-                DispatchQueue.main.async {
-                    self.progressView.progress = 1
-                    self.display(image: sortedImage.uiimage)
-                }
-                
-            }
-            
-            
-            
+        print(info)
+        guard var img = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            print("none selected")
+            return
         }
         
-    }
-    
-    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        print("original size: \(img.size)")
         
+        if true {
+            img = img.resize(byMaxPixels: 600)!
+        }
+        
+        print("image size: \(img.size)")
+        
+        self.display(image: img)
+        
+        
+        self.progressView.progress = 0
+        DispatchQueue.global().async {
+            print("init pattern…")
+            let imageToSort = Image(uiimage:img)
+            
+            let sortParameters = AppConfig.shared.SortParameters
+            
+            sortParameters.pattern.initialize(withWidth: Int(imageToSort.width), height: Int(imageToSort.height), sortParam: sortParameters)
+            
+            let sortedImage = PixelSorting.sorted(image: imageToSort , sortParam: sortParameters, progress: { p in
+                DispatchQueue.main.async {
+                    self.progressView.progress = Float(p)
+                }
+            })
+            
+            DispatchQueue.main.async {
+                self.progressView.progress = 1
+                self.display(image: sortedImage.uiimage)
+                UIImageWriteToSavedPhotosAlbum(sortedImage.uiimage, nil, nil, nil)
+            }
+            
+        }
     }
-    
-    
     
 }
 
