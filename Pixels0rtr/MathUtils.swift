@@ -18,3 +18,27 @@ func fRandom(min: Double, max: Double) -> Double {
     let r = arc4random_uniform(CEIL)
     return fMap(value: Double(r), fromMin: 0, fromMax: Double(CEIL), toMin: min, toMax: max)
 }
+
+
+
+extension UIImage {
+    static func loadJPEG(with name:String) -> UIImage? {
+        guard let path = Bundle.main.path(forResource: name, ofType: "jpg") else {
+            print("can't find \(name).jpg in bundle")
+            return nil
+        }
+        
+        let image = UIImage(contentsOfFile: path)
+        return image
+    }
+    
+    
+    func makeCopy() -> UIImage? {
+        UIGraphicsBeginImageContext(self.size)
+        self.draw(in: CGRect(x:0,y: 0,width: self.size.width,height: self.size.height))
+        let copy = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return copy
+    }
+    
+}

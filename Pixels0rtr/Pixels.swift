@@ -16,7 +16,7 @@ struct Pixel {
 
 extension UIImage {
     
-    
+        
     static var rgbColorSpace: CGColorSpace {
         get {
             return CGColorSpaceCreateDeviceRGB()

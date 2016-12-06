@@ -71,4 +71,20 @@ public extension Image {
                      blue: Double(data[3])/255.0,
                      alpha: Double(data[0])/255.0)
     }
+    
+    func resizeToFit(size: Size) {
+        
+        let isPortrait = self.size.height > self.size.width
+        var factor = 1.0
+        if isPortrait {
+            factor = size.height / self.size.height
+        }else {
+            factor = size.width / self.size.width
+        }
+        
+        self.width = self.width * factor
+        self.height = self.height * factor
+        
+    }
+    
 }

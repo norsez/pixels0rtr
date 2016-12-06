@@ -23,7 +23,7 @@ protocol PixelSorter {
 
 class PixelSorterFactory {
     
-    static let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue()]
+    static let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue(), SorterSaturation(), SorterCenterSorted(), SorterIntervals()]
     
     static func sorter(with name: String) -> PixelSorter? {
         for s in ALL_SORTERS {

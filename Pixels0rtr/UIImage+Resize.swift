@@ -8,25 +8,30 @@
 
 import UIKit
 
-extension UIImage {
-    func resize(byMaxPixels maxPixels: Int) -> UIImage? {
-        
-        if Int(self.size.width) <= maxPixels &&
-            Int(self.size.height) <= maxPixels {
+extension CGSize {
+    func fit(maxPixels: Int) -> CGSize {
+        if Int(self.width) <= maxPixels &&
+            Int(self.height) <= maxPixels {
             return self
         }
         
-        let isPortrait = self.size.width <= self.size.height
+        let isPortrait = self.width <= self.height
         
         var factor: CGFloat = 1
         if isPortrait {
-            factor = CGFloat(maxPixels)/self.size.height
+            factor = CGFloat(maxPixels)/self.height
         }else {
-            factor = CGFloat(maxPixels)/self.size.width
+            factor = CGFloat(maxPixels)/self.width
         }
         
-        let resizedSize = CGSize(width: CGFloat(factor) * self.size.width, height: CGFloat(factor) * self.size.height)
-        return self.resize(resizedSize)
+        let resizedSize = CGSize(width: CGFloat(factor) * self.width, height: CGFloat(factor) * self.height)
+        return resizedSize
+    }
+}
+
+extension UIImage {
+    func resize(byMaxPixels maxPixels: Int) -> UIImage? {
+        return self.resize(self.size.fit(maxPixels: maxPixels))
         
     }
     
@@ -79,3 +84,4 @@ extension UIImage {
         return scaledImage
     }
 }
+
