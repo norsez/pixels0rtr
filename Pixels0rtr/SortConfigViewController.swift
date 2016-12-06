@@ -169,16 +169,27 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
         let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
         let sortParam = SortParam(motionAmount: 0, sortAmount: 0.5, sorter: sorter, pattern: PatternClassic())
-        guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: {
-            progress in
-//                Logger.log("sorting step: \(progress)")
-            self.progressView.progress = Float(progress)
-        }) else {
-            Logger.log("Sorting failed.")
-            return
+        
+        self.setProgressView(hidden: false)
+        
+        DispatchQueue.global().async {
+            guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: {
+                progress in
+                DispatchQueue.main.async {
+                    self.progressView.progress = Float(progress)
+                }
+            }) else {
+                Logger.log("Sorting failed.")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
+                self.setProgressView(hidden: true)
+            }
+            
         }
         
-        UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
     }
     
     fileprivate func setupSizeSelector() {
