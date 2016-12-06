@@ -125,7 +125,7 @@ class PixelSorting: NSObject {
         let pattern = sortParam.pattern
         
         let toSort = pattern.colorArrays(of: image.cgImage, size: image.size)
-        print("\(toSort.count) pieces to sort")
+        Logger.log("\(toSort.count) pieces to sort")
         var sortedArrays = [[Color]]()
         
         for index in 0..<toSort.count {

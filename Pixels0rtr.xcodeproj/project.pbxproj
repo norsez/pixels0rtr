@@ -16,6 +16,7 @@
 		F3087B791DF11DA200376A98 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3087B781DF11DA200376A98 /* Photos.framework */; };
 		F3087B7B1DF6605500376A98 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B7A1DF6605500376A98 /* TestViewController.swift */; };
 		F3087B7D1DF69BFB00376A98 /* Silom.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3087B7C1DF69B6300376A98 /* Silom.ttf */; };
+		F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B7E1DF6B56000376A98 /* Logger.swift */; };
 		F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB671DEEBE3000FB3817 /* AppDelegate.swift */; };
 		F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB691DEEBE3000FB3817 /* ViewController.swift */; };
 		F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6B1DEEBE3000FB3817 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		F3087B781DF11DA200376A98 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		F3087B7A1DF6605500376A98 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		F3087B7C1DF69B6300376A98 /* Silom.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Silom.ttf; sourceTree = "<group>"; };
+		F3087B7E1DF6B56000376A98 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		F336FB641DEEBE3000FB3817 /* Pixels0rtr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixels0rtr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F336FB671DEEBE3000FB3817 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F336FB691DEEBE3000FB3817 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				F3087B6E1DEEDCD900376A98 /* SortPattern.swift */,
 				F3087B721DEEE77800376A98 /* MathUtils.swift */,
 				F33BA43C1DF51719008304E4 /* SortingPreview.swift */,
+				F3087B7E1DF6B56000376A98 /* Logger.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
+				F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */,
 				F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,
 				F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */,

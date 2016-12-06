@@ -60,26 +60,25 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         dismiss(animated: true, completion: nil)
-        print(info)
         guard var img = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-            print("none selected")
+            Logger.log("none selected")
             return
         }
         
-        print("original size: \(img.size)")
+        Logger.log("original size: \(img.size)")
         
         if true {
             img = img.resize(byMaxPixels: 600)!
         }
         
-        print("image size: \(img.size)")
+        Logger.log("image size: \(img.size)")
         
         self.display(image: img)
         
         
         self.progressView.progress = 0
         DispatchQueue.global().async {
-            print("init pattern…")
+            Logger.log("init pattern…")
             let imageToSort = Image(uiimage:img)
             
             let sortParameters = AppConfig.shared.SortParameters

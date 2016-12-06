@@ -67,7 +67,7 @@ class AbstractSortPattern: SortPattern{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {
-            print("can't create correct bitmap format")
+            Logger.log("can't create correct bitmap format")
             return []
         }
         let imageProvider = correctedBitmapCGImage.dataProvider
@@ -97,7 +97,7 @@ class AbstractSortPattern: SortPattern{
             
         default:
             
-            print("imple this")
+            Logger.log("imple this")
         }
         
         return results

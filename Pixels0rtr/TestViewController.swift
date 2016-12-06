@@ -16,7 +16,7 @@ class TestViewController: CanvasController {
         self.canvas.backgroundColor = black
         
         guard let image = UIImage.loadJPEG(with: "defaultImage") else {
-            print("default image")
+            Logger.log("default image")
             return
         }
         

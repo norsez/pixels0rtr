@@ -24,7 +24,7 @@ func fRandom(min: Double, max: Double) -> Double {
 extension UIImage {
     static func loadJPEG(with name:String) -> UIImage? {
         guard let path = Bundle.main.path(forResource: name, ofType: "jpg") else {
-            print("can't find \(name).jpg in bundle")
+            Logger.log("can't find \(name).jpg in bundle")
             return nil
         }
         

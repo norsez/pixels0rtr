@@ -29,12 +29,36 @@ class AppConfig: NSObject {
         
       static let ALL_SIZES: [MaxSize] = [.px600, .px1200, .px2400, .pxTrueSize]
         
+        static func maxSize(fromPixels numPixels:Int) -> MaxSize? {
+            for ms in ALL_SIZES {
+                if ms.pixels == numPixels {
+                    return ms
+                }
+            }
+            return nil
+        }
+        
     }
     
     enum Config: String {
         case Sorter, Pattern, SortAmount, MotionAmount, MaxSize
     }
     
+    
+    var maxPixels: MaxSize? {
+        get {
+            let savedValue = UserDefaults.standard.integer(forKey: Config.MaxSize.rawValue)
+            if let ms = MaxSize.maxSize(fromPixels: savedValue) {
+                return ms
+            }
+            return nil
+        }
+        
+        set (value) {
+            UserDefaults.standard.setValue(value?.pixels, forKey: Config.MaxSize.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+    }
     
     var SortParameters: SortParam {
         get {

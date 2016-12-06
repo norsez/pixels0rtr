@@ -19,6 +19,25 @@ class HorizontalSelectCell: UICollectionViewCell {
     
     @IBOutlet var textLabel: UILabel!
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var selectedBorderView: UIView!
+    var initalizedUI = false
+    
+//    
+//    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        
+//        if !self.initalizedUI {
+//            self.selectedBorderView.layer.cornerRadius = 4
+//            self.selectedBorderView.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.8).cgColor
+//            self.initalizedUI = true
+//        }
+//        
+//        self.selectedBorderView.isHidden = !self.isHighlighted
+//        self.imageView.alpha = self.isHighlighted ? 0.2 : 0.9
+//    }
+//    
+    
 }
 
 class HorizontalSelectorCollectionViewController: UICollectionViewController {
@@ -31,6 +50,7 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         self.collectionView?.backgroundView = nil
         self.collectionView?.backgroundColor = UIColor.clear
         self.collectionView?.allowsMultipleSelection = false
+        self.collectionView?.allowsSelection = true
     }
 
 // MARK: UICollectionViewDataSource
@@ -59,6 +79,11 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         }
         
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
+        return true
     }
 
     /*

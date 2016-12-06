@@ -58,7 +58,7 @@ extension UIImage {
     
     func resize(_ size: CGSize) -> UIImage? {
         guard let cgImage = self.cgImage?.copy() else {
-            print ("can't make a copy of CGImage")
+            Logger.log("can't make a copy of CGImage")
             return nil
         }
         
@@ -71,7 +71,7 @@ extension UIImage {
         
         guard let context = CGContext(data: nil, width: Int(width), height:Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
             else {
-                print("can't create bitmap context")
+                Logger.log("can't create bitmap context")
                 return nil
         }
         
