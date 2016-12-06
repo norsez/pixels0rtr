@@ -9,6 +9,31 @@
 import UIKit
 import C4
 
+//MARK: optimized color stub for HSB access
+class SortColor {
+    var hue: Double = 0
+    var brightness: Double = 0
+    var saturation: Double = 0
+    var red: Double = 0
+    var green: Double = 0
+    var blue: Double = 0
+    var alpha: Double = 0
+    init(withRed red:UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
+        self.red = Double(red)/255.0
+        self.green = Double(green)/255.0
+        self.blue = Double(blue)/255.0
+        self.alpha = Double(alpha)/255.0
+        let c = Color(red: self.red,
+                      green: self.green,
+                      blue: self.blue,
+                      alpha: self.alpha)
+        self.brightness = c.brightness
+        self.saturation = c.saturation
+        self.hue = c.hue
+    }
+}
+
+//MARK:
 struct SortParam {
     var motionAmount: Double = 0
     var sortAmount: Double = 0.5
@@ -16,11 +41,14 @@ struct SortParam {
     var pattern: SortPattern
 }
 
+
+//MARK:
 protocol PixelSorter {
     var name: String {get}
     func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double
 }
 
+//MARK:
 class PixelSorterFactory {
     
     static let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue(), SorterSaturation(), SorterCenterSorted(), SorterIntervals()]
@@ -45,6 +73,7 @@ class PixelSorterFactory {
     
 }
 
+//MARK: brightness sorter
 class SorterBrightness: PixelSorter {
     var name: String {
         get {
@@ -58,7 +87,7 @@ class SorterBrightness: PixelSorter {
     }
 }
 
-
+//MARK: hue sorter
 class SorterHue: PixelSorter {
     var name: String {
         get {
