@@ -29,8 +29,8 @@ protocol SortPattern {
     var sortOrientation: SortOrientation {get set}
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
-    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[Color]]
-    func image(with colorArrays: [[Color]], size: CGSize) -> Image
+    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[SortColor]]
+    func image(with colorArrays: [[SortColor]], size: CGSize) -> Image
 }
 
 class AbstractSortPattern: SortPattern{
@@ -53,12 +53,13 @@ class AbstractSortPattern: SortPattern{
         return false
     }
     
-    func image(with colorArrays: [[Color]], size: CGSize) -> Image {
+    func image(with colorArrays: [[SortColor]], size: CGSize) -> Image {
         var pixels = [Pixel]()
         for index in 0..<colorArrays.count {
             switch self.sortOrientation {
             case .horizontal:
-                let parr = colorArrays[index].flatMap({ (c) -> Pixel? in
+                let parr = colorArrays[index].flatMap({ (sortColor) -> Pixel? in
+                    let c = sortColor.C4Color
                     return Pixel(c)
                 })
                 pixels.append(contentsOf: parr)
@@ -66,7 +67,7 @@ class AbstractSortPattern: SortPattern{
                 for col in 0..<Int(size.width) {
                     let col = colorArrays[col]
                     for w in 0..<Int(size.height) {
-                        pixels.append(Pixel(col[w]))
+                        pixels.append(Pixel(col[w].C4Color))
                     }
                 }
             }
@@ -74,7 +75,7 @@ class AbstractSortPattern: SortPattern{
         return Image(pixels: pixels, size: Size(size))
     }
         
-    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[Color]]{
+    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[SortColor]]{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {
@@ -86,22 +87,22 @@ class AbstractSortPattern: SortPattern{
         
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(imageData)
         
-        var results = [[Color]]()
+        var results = [[SortColor]]()
         let NUM_COMPS = 4 //know this from how bitmap object defines context
         let DATA_SIZE = Int(size.width)*Int(size.height) * NUM_COMPS
         
         switch self.sortOrientation {
         case .horizontal:
-            var rowData = [Color]()
+            var rowData = [SortColor]()
             for idx in stride(from: 0, to: DATA_SIZE, by: NUM_COMPS) {
                 if idx > 0 && idx % (Int(size.width) * NUM_COMPS) == 0 {
                     results.append(rowData)
-                    rowData = [Color]()
+                    rowData = [SortColor]()
                 }
-                let c = Color(red: Double(data[idx + 1])/255.0,
-                         green: Double(data[idx + 2])/255.0,
-                         blue: Double(data[idx + 3])/255.0,
-                         alpha: Double(data[idx])/255.0)
+                let c = SortColor(withRed: data[idx + 1],
+                         green: data[idx + 2],
+                         blue: data[idx + 3],
+                         alpha: data[idx])
                 rowData.append(c)
             }
             results.append(rowData)

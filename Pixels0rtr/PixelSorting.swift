@@ -31,6 +31,12 @@ class SortColor {
         self.saturation = c.saturation
         self.hue = c.hue
     }
+    
+    var C4Color: Color {
+        get {
+            return Color(red: red, green: green, blue: blue, alpha: alpha)
+        }
+    }
 }
 
 //MARK:
@@ -45,7 +51,7 @@ struct SortParam {
 //MARK:
 protocol PixelSorter {
     var name: String {get}
-    func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double
 }
 
 //MARK:
@@ -81,7 +87,7 @@ class SorterBrightness: PixelSorter {
         }
     }
     
-    func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double {
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         
         return color.brightness
     }
@@ -95,7 +101,7 @@ class SorterHue: PixelSorter {
         }
     }
     
-    func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double {
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         return color.hue
     }
 }
@@ -107,7 +113,7 @@ class SorterSaturation: PixelSorter {
         }
     }
     
-    func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double {
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         
         return color.saturation
     }
@@ -120,7 +126,7 @@ class SorterCenterSorted: PixelSorter {
         }
     }
     
-    func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double {
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         let t = sortParam.motionAmount * 0.4 + 0.01
         if (index < t ){
             return ((1 - index) * Double(totalColors)) - 2805.0
@@ -138,7 +144,7 @@ class SorterIntervals: PixelSorter {
         }
     }
     
-    func order(by color: Color, index: Double, totalColors: Int, sortParam: SortParam)->Double {
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         let thres = 0.4
         if index <= thres {
             return index * Double(totalColors)
@@ -161,7 +167,7 @@ class PixelSorting: NSObject {
         
         let toSort = pattern.colorArrays(of: cgImage, size: image.size)
         Logger.log("\(toSort.count) pieces to sort")
-        var sortedArrays = [[Color]]()
+        var sortedArrays = [[SortColor]]()
         
         for index in 0..<toSort.count {
             var colors = toSort[index]
@@ -176,7 +182,7 @@ class PixelSorting: NSObject {
     }
     
     
-    static fileprivate func sort(colors: inout [Color], sortIndex:  Int, sortParam: SortParam) {
+    static fileprivate func sort(colors: inout [SortColor], sortIndex:  Int, sortParam: SortParam) {
         if colors.count == 0 {
             return
         }
@@ -184,7 +190,7 @@ class PixelSorting: NSObject {
         //to create pattern, divide array into pieces and sort them separately
         let unsortedPhases = sortPhases(withColors: colors, sortIndex: sortIndex, sortParam: sortParam)
         
-        var sortedPhases = [[Color]]()
+        var sortedPhases = [[SortColor]]()
         for var phase in unsortedPhases {
             quicksort(WithColors: &phase, low: 0, high: phase.count - 1, sortParam: sortParam)
             sortedPhases.append(phase)
@@ -195,7 +201,7 @@ class PixelSorting: NSObject {
     /**
      @return phases to sort defined by input sort pattern
      */
-    static fileprivate func sortPhases(withColors colors: [Color], sortIndex: Int, sortParam: SortParam) -> [[Color]]{
+    static fileprivate func sortPhases(withColors colors: [SortColor], sortIndex: Int, sortParam: SortParam) -> [[SortColor]]{
         
         if colors.count < 2 {
             return [colors]
@@ -203,8 +209,8 @@ class PixelSorting: NSObject {
         
         let pattern = sortParam.pattern
         
-        var results = [[Color]]()
-        var curCol = [Color]()
+        var results = [[SortColor]]()
+        var curCol = [SortColor]()
         for i in 0..<colors.count {
             if pattern.resetSubsortBlock(withIndex: i, sortIndex: sortIndex) {
                 results.append(curCol)
@@ -220,8 +226,8 @@ class PixelSorting: NSObject {
     /**
      * reduce phases of colors back to a one dimensio array of colors
      **/
-    static fileprivate func combinedColors(withSortPhases phases: [[Color]]) -> [Color] {
-        return phases.reduce([], { (npr, phase) -> [Color] in
+    static fileprivate func combinedColors(withSortPhases phases: [[SortColor]]) -> [SortColor] {
+        return phases.reduce([], { (npr, phase) -> [SortColor] in
             var result = npr
             result.append(contentsOf: phase)
             return result
@@ -229,7 +235,7 @@ class PixelSorting: NSObject {
     }
 
     
-    static fileprivate func quicksort(WithColors colors : inout [Color], low: Int, high: Int, sortParam: SortParam){
+    static fileprivate func quicksort(WithColors colors : inout [SortColor], low: Int, high: Int, sortParam: SortParam){
         
         if colors.count == 0 {
             return
