@@ -9,8 +9,19 @@
 import UIKit
 import C4
 
-enum SortOrientation {
+enum SortOrientation: Int, CustomStringConvertible {
     case horizontal, vertical
+    
+    var description: String {
+        get {
+            switch self {
+            case .horizontal:
+                return "Horizontal"
+            default:
+                return "Vertical"
+            }
+        }
+    }
 }
 
 protocol SortPattern {
@@ -18,8 +29,8 @@ protocol SortPattern {
     var sortOrientation: SortOrientation {get set}
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
-    func colorArrays(of cgimage: CGImage, size: Size) -> [[Color]]
-    func image(with colorArrays: [[Color]], size: Size) -> Image
+    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[Color]]
+    func image(with colorArrays: [[Color]], size: CGSize) -> Image
 }
 
 class AbstractSortPattern: SortPattern{
@@ -42,7 +53,7 @@ class AbstractSortPattern: SortPattern{
         return false
     }
     
-    func image(with colorArrays: [[Color]], size: Size) -> Image {
+    func image(with colorArrays: [[Color]], size: CGSize) -> Image {
         var pixels = [Pixel]()
         for index in 0..<colorArrays.count {
             switch self.sortOrientation {
@@ -60,10 +71,10 @@ class AbstractSortPattern: SortPattern{
                 }
             }
         }
-        return Image(pixels: pixels, size: size)
+        return Image(pixels: pixels, size: Size(size))
     }
         
-    func colorArrays(of cgimage: CGImage, size: Size) -> [[Color]]{
+    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[Color]]{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {

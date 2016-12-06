@@ -79,22 +79,25 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
         self.progressView.progress = 0
         DispatchQueue.global().async {
             Logger.log("init pattern…")
-            let imageToSort = Image(uiimage:img)
+            let imageToSort = img
             
             let sortParameters = AppConfig.shared.SortParameters
             
-            sortParameters.pattern.initialize(withWidth: Int(imageToSort.width), height: Int(imageToSort.height), sortParam: sortParameters)
+            sortParameters.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParameters)
             
-            let sortedImage = PixelSorting.sorted(image: imageToSort , sortParam: sortParameters, progress: { p in
+            guard let sortedImage = PixelSorting.sorted(image: imageToSort , sortParam: sortParameters, progress: { p in
                 DispatchQueue.main.async {
                     self.progressView.progress = Float(p)
                 }
-            })
+            }) else {
+                print ("can't get sorted image")
+                return
+            }
             
             DispatchQueue.main.async {
                 self.progressView.progress = 1
-                self.display(image: sortedImage.uiimage)
-                UIImageWriteToSavedPhotosAlbum(sortedImage.uiimage, nil, nil, nil)
+                self.display(image: sortedImage)
+                UIImageWriteToSavedPhotosAlbum(sortedImage, nil, nil, nil)
             }
             
         }

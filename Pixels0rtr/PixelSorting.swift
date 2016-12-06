@@ -121,10 +121,16 @@ class SorterIntervals: PixelSorter {
 //MARK: quick sort
 class PixelSorting: NSObject {
     
-    static func sorted(image: Image, sortParam: SortParam, progress: ((Double)->Void)?) -> Image {
-        let pattern = sortParam.pattern
+    static func sorted(image: UIImage, sortParam: SortParam, progress: ((Double)->Void)?) -> UIImage? {
         
-        let toSort = pattern.colorArrays(of: image.cgImage, size: image.size)
+        let pattern = sortParam.pattern
+        pattern.initialize(withWidth: Int(image.size.width), height: Int(image.size.height), sortParam: sortParam)
+        guard let cgImage = image.cgImage else {
+            Logger.log("can't create cgImage from input image")
+            return nil
+        }
+        
+        let toSort = pattern.colorArrays(of: cgImage, size: image.size)
         Logger.log("\(toSort.count) pieces to sort")
         var sortedArrays = [[Color]]()
         
@@ -137,7 +143,7 @@ class PixelSorting: NSObject {
             }
         }
         let image = pattern.image(with: sortedArrays, size: image.size)
-        return image
+        return image.uiimage
     }
     
     

@@ -41,9 +41,24 @@ class AppConfig: NSObject {
     }
     
     enum Config: String {
-        case Sorter, Pattern, SortAmount, MotionAmount, MaxSize
+        case Sorter, Pattern, SortAmount, MotionAmount, MaxSize, SortOrientation
     }
     
+    var sortOrientation: SortOrientation {
+        get {
+            let savedValue = UserDefaults.standard.integer(forKey: Config.SortOrientation.rawValue)
+            if savedValue == SortOrientation.vertical.rawValue {
+                return SortOrientation.vertical
+            }else {
+                return SortOrientation.horizontal
+            }
+        }
+        
+        set (value) {
+            UserDefaults.standard.setValue(value.rawValue, forKey: Config.MaxSize.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+    }
     
     var maxPixels: MaxSize? {
         get {
@@ -87,7 +102,8 @@ class AppConfig: NSObject {
             Config.Pattern.rawValue: "Classic",
             Config.SortAmount.rawValue: 0.5,
             Config.MotionAmount.rawValue: 0.5,
-            Config.MaxSize.rawValue: MaxSize.px600.pixels
+            Config.MaxSize.rawValue: MaxSize.px600.pixels,
+            Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue
         ]
         uf.register(defaults: defaults)
         

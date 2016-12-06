@@ -8,8 +8,10 @@
 
 import UIKit
 
-class SortConfigViewController: UIViewController, LoggerListener, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class SortConfigViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    @IBOutlet var constraintThumbnailWidth: NSLayoutConstraint!
     
+    @IBOutlet var constraintThumbnailHeight: NSLayoutConstraint!
     @IBOutlet weak var thumbnailLabel: UILabel!
     @IBOutlet weak var thumbnailBackgroundView: UIView!
     @IBOutlet var backgroundImageView: UIImageView!
@@ -18,27 +20,39 @@ class SortConfigViewController: UIViewController, LoggerListener, UIImagePickerC
     @IBOutlet var containerViewForPatternPreviews: UIView!
     @IBOutlet weak var predictionView: UIImageView!
     @IBOutlet weak var sizeSelector: UISegmentedControl!
+    @IBOutlet weak var sortDirectionSelector: UISegmentedControl!
     
+    @IBOutlet var startSortButton: UIButton!
+    @IBOutlet var progressView: UIProgressView!
     @IBOutlet weak var consoleTextView: UITextView!
     
     var showingThumbnailView = true
     var patternPreviewsSelector: HorizontalSelectorCollectionViewController!
     var previewItems = [HorizontalSelectItem]()
+    var selectedImage: UIImage?
     var selectedSorterIndex = 0
     let CORNER_RADIUS: CGFloat = 8
     
+    var firstLaunch = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        Logger.shared.addLoggerListener(self)
+        
         self.setupPatternSelector()
         self.setupThumbnails()
         self.setupSizeSelector()
         self.consoleTextView.alpha = 0.3
         
-        if let defaultImage = UIImage.loadJPEG(with: "defaultImage") {
-            self.setSelected(image: defaultImage)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.firstLaunch {
+            if let defaultImage = UIImage.loadJPEG(with: "defaultImage") {
+                self.setSelected(image: defaultImage)
+            }
+            self.firstLaunch = false
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,14 +61,69 @@ class SortConfigViewController: UIViewController, LoggerListener, UIImagePickerC
     }
     
     func setSelected(image: UIImage) {
+        self.setProgressView(hidden: false)
+        self.hidePredictionView()
+        self.selectedImage = image
         self.thumbnailView.image = image
         self.backgroundImageView.image = image
-        let previews = SortingPreview().generatePreviews(with: image)!
-        self.patternPreviewsSelector.items = previews
-        self.previewItems = previews
+        
+        
         self.patternPreviewsSelector.collectionView?.reloadData()
         
+        let fitSize = image.size.fit(maxPixels: Int(self.view.bounds.width - 16))
+        self.constraintThumbnailWidth.constant = fitSize.width
+        self.constraintThumbnailHeight.constant = fitSize.height
+        UIView.animate(withDuration: 1, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {
+            finished in
+            
+            self.updatePreviews(withImage: image, completion:{
+                self.setProgressView(hidden: true)
+            })
+        })
+        
+        
+        
     }
+    
+    fileprivate func updatePreviews (withImage image:UIImage, completion: @escaping ()->Void) {
+        self.patternPreviewsSelector.items = []
+        self.patternPreviewsSelector.collectionView?.reloadData()
+        
+        DispatchQueue.global().async {
+            let previews = SortingPreview().generatePreviews(with: image, progress: {
+                progress in
+                DispatchQueue.main.async {
+                    self.progressView.progress = progress
+                }
+            })!
+            
+            self.patternPreviewsSelector.items = previews
+            self.previewItems = previews
+            
+            DispatchQueue.main.async {
+                self.patternPreviewsSelector.collectionView?.reloadData()
+                self.selectedSorterIndex = 0
+                self.hidePredictionView()
+                completion()
+            }
+        }
+        
+        
+    }
+    
+    fileprivate func setProgressView(hidden: Bool) {
+        self.view.isUserInteractionEnabled = hidden
+        
+        let endAlphaStartbutton:CGFloat = hidden ? 1 : 0
+        let endAlphaProgressBar:CGFloat = hidden ? 0 : 1
+        UIView.animate(withDuration: 0.25, animations: {
+            self.startSortButton.alpha = endAlphaStartbutton
+            self.progressView.alpha = endAlphaProgressBar
+        })
+    }
+
     
     func didSelectItem(atIndex index: Int) {
         self.selectedSorterIndex = index
@@ -82,6 +151,34 @@ class SortConfigViewController: UIViewController, LoggerListener, UIImagePickerC
         let selected = AppConfig.MaxSize.ALL_SIZES[index]
         AppConfig.shared.maxPixels = selected
         Logger.log("render size: \(selected)")
+    }
+    
+    @IBAction func didSelectSortDirection(_ sender: Any) {
+        let index = self.sortDirectionSelector.selectedSegmentIndex
+        if let orientation = SortOrientation(rawValue: index) {
+            AppConfig.shared.sortOrientation = orientation
+            Logger.log("set sort orientation: \(orientation)")
+        }
+    }
+    
+    @IBAction func didPressSort(_ sender: Any) {
+        
+        guard let image = self.selectedImage else {
+            Logger.log("no image!")
+            return
+        }
+        let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
+        let sortParam = SortParam(motionAmount: 0, sortAmount: 0.5, sorter: sorter, pattern: PatternClassic())
+        guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: {
+            progress in
+//                Logger.log("sorting step: \(progress)")
+            self.progressView.progress = Float(progress)
+        }) else {
+            Logger.log("Sorting failed.")
+            return
+        }
+        
+        UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
     }
     
     fileprivate func setupSizeSelector() {
@@ -119,9 +216,10 @@ class SortConfigViewController: UIViewController, LoggerListener, UIImagePickerC
     @objc fileprivate func showPredictionView () {
         Logger.log("show prediction view")
         self.thumbnailLabel.alpha = 0
-        self.thumbnailLabel.text = "Prediction"
+        let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
+        self.thumbnailLabel.text = "Prediction - \(sorter.name)"
         UIView.animate(withDuration: 0.5) {
-            self.predictionView.alpha = 0.9
+            self.predictionView.alpha = 1
             self.thumbnailLabel.alpha = 1
         }
     }
@@ -173,48 +271,4 @@ class SortConfigViewController: UIViewController, LoggerListener, UIImagePickerC
             self.setSelected(image: img)
         }
     }
-
-    //MARK: logging
-    
-    
-    var logBusy = false
-    func didReceiveLog(_ log: String) {
-        
-        if logBusy {
-            return
-        }
-        
-        logBusy = true
-        
-        DispatchQueue.global(qos: .utility).async {
-            DispatchQueue.main.async {
-                
-                if Logger.shared.entries.count == 0 {
-                    return
-                }
-                
-                let MAX_LINES = 30
-                let last = Logger.shared.entries.count
-                let first = max(last - MAX_LINES, 0)
-                let entries = Logger.shared.entries[first..<last]
-                let ALINGS: [NSTextAlignment] = [.center, .left, .right, .justified]
-                let astr = NSMutableAttributedString()
-                
-                
-                for t in entries {
-                    let size = CGFloat( 8.0 + 17.0 * fRandom(min: 0, max: 1))
-                    let font = UIFont(name:"Silom", size: size)!
-                    let color = UIColor(red: CGFloat(fRandom(min: 0, max: 0.1)), green: 1, blue: CGFloat(fRandom(min: 0, max: 0.1)), alpha: CGFloat(0.02 + 0.15 * fRandom(min: 0, max: 1)))
-                    let par = NSMutableParagraphStyle()
-                    par.alignment = ALINGS[Int(arc4random_uniform(100)) % ALINGS.count]
-                    
-                    let ntr = NSAttributedString(string: "\(t)\n", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color, NSParagraphStyleAttributeName: par])
-                    astr.append(ntr)
-                }
-                self.consoleTextView.attributedText = astr
-                self.logBusy = false
-            }
-        }
-    }
-
 }

@@ -10,10 +10,10 @@ import UIKit
 import C4
 import CoreImage
 class SortingPreview: NSObject {
-    let MAX_THUMB_SIZE = 200
+    let MAX_THUMB_SIZE = 300
     var previews = [HorizontalSelectItem]()
     
-    func generatePreviews(with image: UIImage) -> [HorizontalSelectItem]?{
+    func generatePreviews(with image: UIImage, progress: ((Float)->Void)? = nil) -> [HorizontalSelectItem]?{
         
         guard let thumbnail = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
             Logger.log("failed creating thumbnail")
@@ -23,18 +23,26 @@ class SortingPreview: NSObject {
         let blurredThumb = self.imageToSort(withImage: thumbnail)
         let pattern = PatternClassic()
         previews = [HorizontalSelectItem]()
+        
         for s in PixelSorterFactory.ALL_SORTERS {
             guard let imageToSort = blurredThumb?.makeCopy() else {
                 Logger.log("can't copy original blurred image")
                 continue
             }
             let param = SortParam(motionAmount: 0, sortAmount: 1, sorter: s, pattern:pattern)
-            pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
-            let preview = PixelSorting.sorted(image: Image(uiimage:imageToSort), sortParam: param, progress: { (progress) in
-                Logger.log("generting preview \(s.name) :\(progress)")
-            })
-            let previewItem = HorizontalSelectItem(image: preview.uiimage, title: s.name)
+            //pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
+            
+            guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
+                if let p = progress {
+                    p(Float(v))
+                }
+            }) else {
+                continue
+            }
+            
+            let previewItem = HorizontalSelectItem(image: preview, title: s.name)
             previews.append(previewItem)
+            
         }
         return self.previews
     }

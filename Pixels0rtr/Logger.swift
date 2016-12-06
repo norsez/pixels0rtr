@@ -23,6 +23,13 @@ class Logger: NSObject {
     
     static func log(_ log: String) {
         Logger.shared.entries.append(log)
+        
+        if Logger.shared.entries.count > 50 {
+            let last = Logger.shared.entries.count
+            let first = last - 50
+            Logger.shared.entries = Array(Logger.shared.entries[first..<last])
+        }
+        
         for l in Logger.shared.listeners {
             l.didReceiveLog(log)
         }
