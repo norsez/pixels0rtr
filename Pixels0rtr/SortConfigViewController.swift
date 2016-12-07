@@ -171,7 +171,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         let sortParam = SortParam(motionAmount: 0, sortAmount: 0.5, sorter: sorter, pattern: PatternClassic())
         
         self.setProgressView(hidden: false)
-        
+        self.progressView.progress = 0.01
         DispatchQueue.global().async {
             guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: {
                 progress in

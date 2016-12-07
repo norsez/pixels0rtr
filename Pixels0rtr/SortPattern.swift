@@ -29,7 +29,7 @@ protocol SortPattern {
     var sortOrientation: SortOrientation {get set}
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
-    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[SortColor]]
+    func colorArrays(of cgimage: CGImage, size: CGSize, progress: ((Double)->Void)?) -> [[SortColor]]
     func image(with colorArrays: [[SortColor]], size: CGSize) -> Image
 }
 
@@ -75,7 +75,7 @@ class AbstractSortPattern: SortPattern{
         return Image(pixels: pixels, size: Size(size))
     }
         
-    func colorArrays(of cgimage: CGImage, size: CGSize) -> [[SortColor]]{
+    func colorArrays(of cgimage: CGImage, size: CGSize, progress: ((Double)->Void)?) -> [[SortColor]]{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {
@@ -104,6 +104,9 @@ class AbstractSortPattern: SortPattern{
                          blue: data[idx + 3],
                          alpha: data[idx])
                 rowData.append(c)
+                if let p = progress {
+                    p (Double(idx)/Double(DATA_SIZE))
+                }
             }
             results.append(rowData)
             
