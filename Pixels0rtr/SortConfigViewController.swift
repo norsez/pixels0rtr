@@ -26,11 +26,13 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet weak var consoleTextView: UITextView!
     
+    @IBOutlet weak var sortAmountSlider: UISlider!
     var showingThumbnailView = true
     var patternPreviewsSelector: HorizontalSelectorCollectionViewController!
     var previewItems = [HorizontalSelectItem]()
     var selectedImage: UIImage?
     var selectedSorterIndex = 0
+    
     let CORNER_RADIUS: CGFloat = 8
     
     var firstLaunch = true
@@ -54,6 +56,11 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             }
             self.firstLaunch = false
         }
+        
+        self.sortAmountSlider.value = Float(AppConfig.shared.sortAmount)
+        self.sizeSelector.selectedSegmentIndex = AppConfig.shared.maxPixels?.rawValue ?? 0
+        self.sortDirectionSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,8 +96,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     fileprivate func updatePreviews (withImage image:UIImage, completion: @escaping ()->Void) {
-        self.patternPreviewsSelector.items = []
-        self.patternPreviewsSelector.collectionView?.reloadData()
         
         let progressBlock = { p in
             self.updatePregressInMainThread(p)
@@ -105,20 +110,41 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             DispatchQueue.main.async {
                 self.patternPreviewsSelector.collectionView?.reloadData()
                 self.selectedSorterIndex = 0
+                self.predictionView.image = previews.first?.image
                 self.hidePredictionView()
                 completion()
             }
         }
     }
     
+    @IBAction func sortAmountValueDidChange(_ sender: Any) {
+        self.setProgressView(hidden:  false)
+        AppConfig.shared.sortAmount = Double(self.sortAmountSlider.value)
+        Logger.log("sort amount did change: \(self.sortAmountSlider.value)")
+        if let image = self.selectedImage {
+            self.updatePreviews(withImage: image, completion: {
+                self.setProgressView(hidden: true)
+            })
+        }
+        
+    }
+    
     fileprivate func setProgressView(hidden: Bool) {
         self.view.isUserInteractionEnabled = hidden
+        
+        let endAlpha:CGFloat = hidden ? 1 : 0.25
         
         let endAlphaStartbutton:CGFloat = hidden ? 1 : 0
         let endAlphaProgressBar:CGFloat = hidden ? 0 : 1
         UIView.animate(withDuration: 0.25, animations: {
             self.startSortButton.alpha = endAlphaStartbutton
             self.progressView.alpha = endAlphaProgressBar
+            
+            self.sortAmountSlider.alpha = endAlpha
+            self.sizeSelector.alpha = endAlpha
+            self.patternPreviewsSelector.view.alpha = endAlpha
+            self.sortDirectionSelector.alpha = endAlpha
+            
         })
     }
 
@@ -126,7 +152,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     func didSelectItem(atIndex index: Int) {
         self.selectedSorterIndex = index
         self.predictionView.image = self.previewItems[index].image
-        
+
         UIView.animate(withDuration: 0.05, animations: {
           self.predictionView.alpha = 0
         }, completion: { finished in
@@ -152,10 +178,16 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @IBAction func didSelectSortDirection(_ sender: Any) {
+        self.setProgressView(hidden: false)
         let index = self.sortDirectionSelector.selectedSegmentIndex
         if let orientation = SortOrientation(rawValue: index) {
             AppConfig.shared.sortOrientation = orientation
             Logger.log("set sort orientation: \(orientation)")
+        }
+        if let image = self.selectedImage {
+            self.updatePreviews(withImage:image , completion: {
+                self.setProgressView(hidden: true)
+            })
         }
     }
     
@@ -166,7 +198,10 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             return
         }
         let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
-        let sortParam = SortParam(motionAmount: 0, sortAmount: 0.5, sorter: sorter, pattern: PatternClassic())
+        let pattern = PatternClassic()
+        pattern.sortOrientation = AppConfig.shared.sortOrientation
+        let sortAmount = AppConfig.shared.sortAmount
+        let sortParam = SortParam(motionAmount: 0, sortAmount: sortAmount, sorter: sorter, pattern: pattern)
         
         self.setProgressView(hidden: false)
         self.progressView.progress = 0.01
@@ -241,8 +276,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
         
     }
-    
-    
     
     fileprivate func setupPatternSelector() {
         self.patternPreviewsSelector = storyboard?.instantiateViewController(withIdentifier: "patternSelecter") as! HorizontalSelectorCollectionViewController

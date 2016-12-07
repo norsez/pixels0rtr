@@ -22,14 +22,16 @@ class SortingPreview: NSObject {
         
         let blurredThumb = self.imageToSort(withImage: thumbnail)
         let pattern = PatternClassic()
+        pattern.sortOrientation = AppConfig.shared.sortOrientation
         previews = [HorizontalSelectItem]()
+        let sortAmount = AppConfig.shared.sortAmount
         
         for s in PixelSorterFactory.ALL_SORTERS {
             guard let imageToSort = blurredThumb?.makeCopy() else {
                 Logger.log("can't copy original blurred image")
                 continue
             }
-            let param = SortParam(motionAmount: 0, sortAmount: 1, sorter: s, pattern:pattern)
+            let param = SortParam(motionAmount: 0, sortAmount: sortAmount, sorter: s, pattern:pattern)
             pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
             
             guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in

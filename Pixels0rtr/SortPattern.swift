@@ -55,23 +55,25 @@ class AbstractSortPattern: SortPattern{
     
     func image(with colorArrays: [[SortColor]], size: CGSize) -> Image {
         var pixels = [Pixel]()
-        for index in 0..<colorArrays.count {
+        
             switch self.sortOrientation {
             case .horizontal:
-                let parr = colorArrays[index].flatMap({ (sortColor) -> Pixel? in
-                    let c = sortColor.C4Color
-                    return Pixel(c)
-                })
-                pixels.append(contentsOf: parr)
+                for index in 0..<colorArrays.count {
+                    let parr = colorArrays[index].flatMap({ (sortColor) -> Pixel? in
+                        let c = sortColor.C4Color
+                        return Pixel(c)
+                    })
+                    pixels.append(contentsOf: parr)
+                }
             default:
-                for col in 0..<Int(size.width) {
-                    let col = colorArrays[col]
-                    for w in 0..<Int(size.height) {
-                        pixels.append(Pixel(col[w].C4Color))
+                for row in 0..<Int(size.height) {
+                    for colarr in colorArrays {
+                        pixels.append(Pixel(colarr[row].C4Color))
                     }
                 }
             }
-        }
+        
+        Logger.log("built image of size \(size)")
         return Image(pixels: pixels, size: Size(size))
     }
         
@@ -111,8 +113,22 @@ class AbstractSortPattern: SortPattern{
             results.append(rowData)
             
         default:
-            
-            Logger.log("imple this")
+            for x in 0..<Int(size.width) {
+                var colorCols = [SortColor]()
+                for y in 0..<Int(size.height) {
+                    let idx = (y * Int(size.width) + x) * NUM_COMPS
+                    let c = SortColor(withRed: data[idx + 1],
+                                      green: data[idx + 2],
+                                      blue: data[idx + 3],
+                                      alpha: data[idx])
+                    colorCols.append(c)
+                }
+                
+                if let p = progress {
+                    p (Float(x)/Float(size.width))
+                }
+                results.append(colorCols)
+            }
         }
         
         return results

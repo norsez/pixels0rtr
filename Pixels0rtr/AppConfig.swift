@@ -10,7 +10,7 @@ import UIKit
 
 class AppConfig: NSObject {
     
-    enum MaxSize: String {
+    enum MaxSize: Int {
         case px600, px1200, px2400, pxTrueSize
         var pixels: Int {
             get {
@@ -55,7 +55,7 @@ class AppConfig: NSObject {
         }
         
         set (value) {
-            UserDefaults.standard.setValue(value.rawValue, forKey: Config.MaxSize.rawValue)
+            UserDefaults.standard.setValue(value.rawValue, forKey: Config.SortOrientation.rawValue)
             UserDefaults.standard.synchronize()
         }
     }
@@ -71,6 +71,16 @@ class AppConfig: NSObject {
         
         set (value) {
             UserDefaults.standard.setValue(value?.pixels, forKey: Config.MaxSize.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    var sortAmount: Double {
+        get {
+            return UserDefaults.standard.double(forKey: Config.SortAmount.rawValue)
+        }
+        set (value) {
+            UserDefaults.standard.setValue(value, forKey: Config.SortAmount.rawValue)
             UserDefaults.standard.synchronize()
         }
     }

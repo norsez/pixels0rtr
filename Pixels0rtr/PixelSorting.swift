@@ -194,8 +194,6 @@ class PixelSorting: NSObject {
     }
     
     static func sorted(withColorArrays colorArrays: [[SortColor]], size: CGSize, sortParam: SortParam, progress: ((Float)->Void)?) -> UIImage? {
-    
-        
         var sortedArrays = [[SortColor]]()
         
         for index in 0..<colorArrays.count {
@@ -206,6 +204,8 @@ class PixelSorting: NSObject {
                 p(Float(index)/Float(colorArrays.count))
             }
         }
+        
+        Logger.log("finished sorting size \(size)")
         let image = sortParam.pattern.image(with: sortedArrays, size: size)
         return image.uiimage
     }
@@ -213,6 +213,7 @@ class PixelSorting: NSObject {
     
     static fileprivate func sort(colors: inout [SortColor], sortIndex:  Int, sortParam: SortParam) {
         if colors.count == 0 {
+            Logger.log("no colors to sort")
             return
         }
         
@@ -256,6 +257,7 @@ class PixelSorting: NSObject {
      * reduce phases of colors back to a one dimensio array of colors
      **/
     static fileprivate func combinedColors(withSortPhases phases: [[SortColor]]) -> [SortColor] {
+        //Logger.log("combining \(phases.count) sort phases")
         return phases.reduce([], { (npr, phase) -> [SortColor] in
             var result = npr
             result.append(contentsOf: phase)
