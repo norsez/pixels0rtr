@@ -30,7 +30,7 @@ class SortingPreview: NSObject {
                 continue
             }
             let param = SortParam(motionAmount: 0, sortAmount: 1, sorter: s, pattern:pattern)
-            //pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
+            pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
             
             guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
                 if let p = progress {

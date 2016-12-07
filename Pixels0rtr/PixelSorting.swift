@@ -11,6 +11,9 @@ import C4
 
 //MARK: optimized color stub for HSB access
 class SortColor {
+    
+    fileprivate static var colorCache = [String:SortColor]()
+    
     var hue: Double = 0
     var brightness: Double = 0
     var saturation: Double = 0
@@ -19,19 +22,40 @@ class SortColor {
     var blue: Double = 0
     var alpha: Double = 0
     init(withRed red:UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
-        self.red = Double(red)/255.0
-        self.green = Double(green)/255.0
-        self.blue = Double(blue)/255.0
-        self.alpha = Double(alpha)/255.0
-        let c = Color(red: self.red,
-                      green: self.green,
-                      blue: self.blue,
-                      alpha: self.alpha)
-        self.brightness = c.brightness
-        self.saturation = c.saturation
-        self.hue = c.hue
+        
+        let key = "\(red)-\(green)-\(blue)-\(alpha)"
+        if let cached = SortColor.colorCache[key] {
+            self.hue = cached.hue
+            self.brightness = cached.brightness
+            self.saturation = cached.saturation
+            self.alpha = cached.alpha
+            self.red = cached.red
+            self.green = cached.green
+            self.blue = cached.blue
+        }else{
+            
+            self.red = Double(red)/255.0
+            self.green = Double(green)/255.0
+            self.blue = Double(blue)/255.0
+            self.alpha = Double(alpha)/255.0
+            
+            let c = UIColor(red: CGFloat(self.red),
+                            green: CGFloat(self.green),
+                            blue: CGFloat(self.blue),
+                            alpha: CGFloat(self.alpha))
+            
+            var h:CGFloat = 0
+            var s:CGFloat = 0
+            var b:CGFloat = 0
+            var a:CGFloat = 0
+            c.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+            self.hue = Double(h)
+            self.brightness = Double(b)
+            self.saturation = Double(s)
+            self.alpha = Double(a)
+        }
     }
-    
+
     var C4Color: Color {
         get {
             return Color(red: red, green: green, blue: blue, alpha: alpha)
@@ -156,10 +180,8 @@ class SorterIntervals: PixelSorter {
 //MARK: quick sort
 class PixelSorting: NSObject {
     
-    static func sorted(image: UIImage, sortParam: SortParam, progress: ((Double)->Void)?) -> UIImage? {
-        
+    static func sorted(image: UIImage, sortParam: SortParam, progress: ((Float)->Void)?) -> UIImage? {
         let pattern = sortParam.pattern
-        pattern.initialize(withWidth: Int(image.size.width), height: Int(image.size.height), sortParam: sortParam)
         guard let cgImage = image.cgImage else {
             Logger.log("can't create cgImage from input image")
             return nil
@@ -167,17 +189,23 @@ class PixelSorting: NSObject {
         
         let toSort = pattern.colorArrays(of: cgImage, size: image.size, progress: progress)
         Logger.log("\(toSort.count) pieces to sort")
+        
+        return PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
+    }
+    static func sorted(withColorArrays colorArrays: [[SortColor]], size: CGSize, sortParam: SortParam, progress: ((Float)->Void)?) -> UIImage? {
+    
+        
         var sortedArrays = [[SortColor]]()
         
-        for index in 0..<toSort.count {
-            var colors = toSort[index]
+        for index in 0..<colorArrays.count {
+            var colors = colorArrays[index]
             sort(colors: &colors, sortIndex: index, sortParam: sortParam)
             sortedArrays.append(colors)
             if let p = progress {
-                p(Double(index)/Double(toSort.count))
+                p(Float(index)/Float(colorArrays.count))
             }
         }
-        let image = pattern.image(with: sortedArrays, size: image.size)
+        let image = sortParam.pattern.image(with: sortedArrays, size: size)
         return image.uiimage
     }
     

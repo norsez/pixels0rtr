@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -67,7 +67,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="17"/>
                                 <state key="normal" title="Image…">
-                                    <color key="titleColor" red="0.0" green="1" blue="0.18643208609516071" alpha="0.89595445736434109" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.0" green="1" blue="0.18643208609516071" alpha="0.74978803294573648" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="didPressSelectImage:" destination="4e0-rS-Mih" eventType="touchUpInside" id="UtH-Xa-z1m"/>
@@ -103,7 +103,7 @@
                                     <segment title="2400p"/>
                                     <segment title="Actual"/>
                                 </segments>
-                                <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74815285856279068" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="didPressSizeSelector:" destination="4e0-rS-Mih" eventType="valueChanged" id="lrv-vI-1CP"/>
                                 </connections>
@@ -117,7 +117,7 @@
                                     <segment title="→"/>
                                     <segment title="↓"/>
                                 </segments>
-                                <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74818313957054261" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="didSelectSortDirection:" destination="4e0-rS-Mih" eventType="valueChanged" id="rSR-R3-hlz"/>
                                 </connections>
@@ -216,7 +216,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="patternSelecter" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="57"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -348,7 +348,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

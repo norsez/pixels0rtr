@@ -35,6 +35,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     
     var firstLaunch = true
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -91,13 +92,12 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.patternPreviewsSelector.items = []
         self.patternPreviewsSelector.collectionView?.reloadData()
         
+        let progressBlock = { p in
+            self.updatePregressInMainThread(p)
+        }
+        
         DispatchQueue.global().async {
-            let previews = SortingPreview().generatePreviews(with: image, progress: {
-                progress in
-                DispatchQueue.main.async {
-                    self.progressView.progress = progress
-                }
-            })!
+            let previews = SortingPreview().generatePreviews(with: image, progress:progressBlock)!
             
             self.patternPreviewsSelector.items = previews
             self.previewItems = previews
@@ -172,13 +172,12 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         
         self.setProgressView(hidden: false)
         self.progressView.progress = 0.01
+        let progressBlock = { p in self.updatePregressInMainThread(p) }
         DispatchQueue.global().async {
-            guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: {
-                progress in
-                DispatchQueue.main.async {
-                    self.progressView.progress = Float(progress)
-                }
-            }) else {
+            
+            sortParam.pattern.initialize(withWidth: Int(image.size.width), height: Int(image.size.height), sortParam: sortParam)
+            
+            guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: progressBlock) else {
                 Logger.log("Sorting failed.")
                 return
             }
@@ -228,7 +227,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         Logger.log("show prediction view")
         self.thumbnailLabel.alpha = 0
         let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
-        self.thumbnailLabel.text = "Prediction - \(sorter.name)"
+        self.thumbnailLabel.text = "low-res preview - \(sorter.name)"
         UIView.animate(withDuration: 0.5) {
             self.predictionView.alpha = 1
             self.thumbnailLabel.alpha = 1
@@ -270,6 +269,17 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
         
     }
+    
+    
+    //MARK: progress bar
+    
+    
+    func updatePregressInMainThread(_ progress:Float) {
+        DispatchQueue.main.async {
+            self.progressView.progress = Float(progress)
+        }
+    }
+    
     
     //MARK: image picker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
