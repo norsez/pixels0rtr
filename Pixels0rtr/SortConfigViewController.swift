@@ -109,8 +109,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 completion()
             }
         }
-        
-        
     }
     
     fileprivate func setProgressView(hidden: Bool) {

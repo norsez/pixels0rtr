@@ -192,6 +192,7 @@ class PixelSorting: NSObject {
         
         return PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
     }
+    
     static func sorted(withColorArrays colorArrays: [[SortColor]], size: CGSize, sortParam: SortParam, progress: ((Float)->Void)?) -> UIImage? {
     
         

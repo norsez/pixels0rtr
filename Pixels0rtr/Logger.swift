@@ -33,6 +33,9 @@ class Logger: NSObject {
         for l in Logger.shared.listeners {
             l.didReceiveLog(log)
         }
+        #if DEBUG
+            print(log)
+        #endif
     }
     
     //#MARK: - singleton
