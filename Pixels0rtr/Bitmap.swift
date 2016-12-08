@@ -14,6 +14,12 @@ class Bitmap {
     let height: Int
     let context: CGContext
     
+    var colorSpace: CGColorSpace {
+        get {
+            return CGColorSpaceCreateDeviceRGB()
+        }
+    }
+    
     init(img: CGImage) {
         
         // Set image width, height
@@ -47,23 +53,35 @@ class Bitmap {
             return result
         }
     }
-//    
-//    func color_at(x: Int, y: Int)->(Int, Int, Int, Int) {
-//        
-//        assert(0<=x && x<width)
-//        assert(0<=y && y<height)
-//        
-//        let uncasted_data = CGBitmapContextGetData(context)
-//        let data = UnsafePointer<UInt8>(uncasted_data)
-//        
-//        let offset = 4 * (y * width + x)
-//        
-//        let alpha = data[offset]
-//        let red = data[offset+1]
-//        let green = data[offset+2]
-//        let blue = data[offset+3]
-//        
-//        let color = (Int(red), Int(green), Int(blue), Int(alpha))
-//        return color
-//    }
+    
+    func image(inRect rect: CGRect) -> CGImage?{
+        if let cgimage = self.asCGImage {
+            return cgimage.cropping(to: rect)
+        }
+        return nil
+    }
+    
+    func resizedImage(withSize size:CGSize) -> CGImage? {
+        guard let cgImage = self.context.makeImage() else {
+            Logger.log("can' resize nil bitmap")
+            return nil
+        }
+        
+        let width = cgImage.width / 2
+        let height = cgImage.height / 2
+        let bitsPerComponent = cgImage.bitsPerComponent
+        let bytesPerRow = cgImage.bytesPerRow
+        let bitmapInfo = cgImage.bitmapInfo
+        
+        guard let newContext = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: self.colorSpace, bitmapInfo: bitmapInfo.rawValue)else {
+            Logger.log("can't create resized buffer")
+            return nil
+        }
+        
+        newContext.interpolationQuality = CGInterpolationQuality.high
+        newContext.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
+        
+        let scaledImage = newContext.makeImage()
+        return scaledImage
+    }
 }

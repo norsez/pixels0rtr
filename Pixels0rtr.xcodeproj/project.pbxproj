@@ -23,6 +23,7 @@
 		F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */; };
 		F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */; };
 		F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F336FB791DEEBE4600FB3817 /* Podfile */; };
+		F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */; };
 		F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43C1DF51719008304E4 /* SortingPreview.swift */; };
 		F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F33BA4411DF5231A008304E4 /* defaultImage.jpg */; };
 		F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */; };
@@ -52,6 +53,7 @@
 		F336FB711DEEBE3000FB3817 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F336FB731DEEBE3000FB3817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F336FB791DEEBE4600FB3817 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Profiling.swift"; sourceTree = "<group>"; };
 		F33BA43C1DF51719008304E4 /* SortingPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortingPreview.swift; sourceTree = "<group>"; };
 		F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortConfigViewController.swift; sourceTree = "<group>"; };
 		F33BA4411DF5231A008304E4 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				F3087B721DEEE77800376A98 /* MathUtils.swift */,
 				F33BA43C1DF51719008304E4 /* SortingPreview.swift */,
 				F3087B7E1DF6B56000376A98 /* Logger.swift */,
+				F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
+				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
 				F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */,

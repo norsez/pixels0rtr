@@ -22,7 +22,7 @@ class AppConfig: NSObject {
                 case .px2400:
                     return 2400
                 case .pxTrueSize:
-                    return 0
+                    return 2401
                 }
             }
         }
@@ -41,7 +41,7 @@ class AppConfig: NSObject {
     }
     
     enum Config: String {
-        case Sorter, Pattern, SortAmount, MotionAmount, MaxSize, SortOrientation
+        case Sorter, Pattern, SortAmount, MotionAmount, MaxSize, SortOrientation, isNotFirstLaunch
     }
     
     var sortOrientation: SortOrientation {
@@ -60,17 +60,14 @@ class AppConfig: NSObject {
         }
     }
     
-    var maxPixels: MaxSize? {
+    var maxPixels: MaxSize {
         get {
             let savedValue = UserDefaults.standard.integer(forKey: Config.MaxSize.rawValue)
-            if let ms = MaxSize.maxSize(fromPixels: savedValue) {
-                return ms
-            }
-            return nil
+            return MaxSize.ALL_SIZES[savedValue]
         }
         
         set (value) {
-            UserDefaults.standard.setValue(value?.pixels, forKey: Config.MaxSize.rawValue)
+            UserDefaults.standard.setValue(value.rawValue, forKey: Config.MaxSize.rawValue)
             UserDefaults.standard.synchronize()
         }
     }
@@ -101,6 +98,16 @@ class AppConfig: NSObject {
         }
     }
     
+    var isNotFirstLaunch: Bool {
+        set (v) {
+            UserDefaults.standard.setValue(v, forKey: Config.isNotFirstLaunch.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: Config.isNotFirstLaunch.rawValue)
+        }
+    }
+    
     
     //#MARK: - singleton
     static let shared: AppConfig = {
@@ -112,7 +119,7 @@ class AppConfig: NSObject {
             Config.Pattern.rawValue: "Classic",
             Config.SortAmount.rawValue: 0.5,
             Config.MotionAmount.rawValue: 0.5,
-            Config.MaxSize.rawValue: MaxSize.px600.pixels,
+            Config.MaxSize.rawValue: MaxSize.px600.rawValue,
             Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue
         ]
         uf.register(defaults: defaults)

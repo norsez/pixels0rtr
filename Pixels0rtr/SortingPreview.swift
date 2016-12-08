@@ -10,7 +10,7 @@ import UIKit
 import C4
 import CoreImage
 class SortingPreview: NSObject {
-    let MAX_THUMB_SIZE = 300
+    let MAX_THUMB_SIZE = 150
     var previews = [HorizontalSelectItem]()
     
     func generatePreviews(with image: UIImage, progress: ((Float)->Void)? = nil) -> [HorizontalSelectItem]?{
@@ -25,7 +25,7 @@ class SortingPreview: NSObject {
         pattern.sortOrientation = AppConfig.shared.sortOrientation
         previews = [HorizontalSelectItem]()
         let sortAmount = AppConfig.shared.sortAmount
-        
+            
         for s in PixelSorterFactory.ALL_SORTERS {
             guard let imageToSort = blurredThumb?.makeCopy() else {
                 Logger.log("can't copy original blurred image")

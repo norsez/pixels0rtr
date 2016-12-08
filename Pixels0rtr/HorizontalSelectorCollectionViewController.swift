@@ -51,6 +51,7 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         self.collectionView?.backgroundColor = UIColor.clear
         self.collectionView?.allowsMultipleSelection = false
         self.collectionView?.allowsSelection = true
+        self.collectionView?.showsHorizontalScrollIndicator = false
     }
 
 // MARK: UICollectionViewDataSource

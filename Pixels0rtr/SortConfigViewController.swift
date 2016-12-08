@@ -26,6 +26,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet weak var consoleTextView: UITextView!
     
+    @IBOutlet weak var sortAmountLabel: UILabel!
     @IBOutlet weak var sortAmountSlider: UISlider!
     var showingThumbnailView = true
     var patternPreviewsSelector: HorizontalSelectorCollectionViewController!
@@ -35,9 +36,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     
     let CORNER_RADIUS: CGFloat = 8
     
-    var firstLaunch = true
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,20 +43,28 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.setupThumbnails()
         self.setupSizeSelector()
         self.consoleTextView.alpha = 0.3
-        
+        self.thumbnailLabel.text = "…"
+        let controls: [UIView] = [self.startSortButton, self.sortDirectionSelector, self.progressView, self.sortAmountSlider, self.sizeSelector, self.thumbnailLabel, self.sortAmountLabel]
+        for c in controls {
+            c.alpha = 0.1
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.firstLaunch {
-            if let defaultImage = UIImage.loadJPEG(with: "defaultImage") {
-                self.setSelected(image: defaultImage)
-            }
-            self.firstLaunch = false
+        
+        guard let defaultImage = UIImage.loadJPEG(with: "defaultImage") else {
+            Logger.log("defaultImage.jpg can't be found")
+            return
+        }
+        if AppConfig.shared.isNotFirstLaunch == false {
+            self.setSelected(image: defaultImage)
+            AppConfig.shared.isNotFirstLaunch = true
+        }else {
+            self.backgroundImageView.image = defaultImage
         }
         
         self.sortAmountSlider.value = Float(AppConfig.shared.sortAmount)
-        self.sizeSelector.selectedSegmentIndex = AppConfig.shared.maxPixels?.rawValue ?? 0
         self.sortDirectionSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
     }
@@ -68,19 +74,62 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    
+    var thumbnailSize: Int {
+        let width = Int(self.view.bounds.width)
+        let height = Int(self.view.bounds.height)
+        if height == 640 {
+            return 176
+        }else if width == 320 {
+            return 280
+        }else if width == 375 {
+            return 320
+        }else {
+            return width - 16
+        }
+    }
+    
     func setSelected(image: UIImage) {
         self.setProgressView(hidden: false)
         self.hidePredictionView()
         self.selectedImage = image
         self.thumbnailView.image = image
         self.backgroundImageView.image = image
-        
-        
+        self.thumbnailLabel.text = "…"
         self.patternPreviewsSelector.collectionView?.reloadData()
         
-        let fitSize = image.size.fit(maxPixels: Int(self.view.bounds.width - 16))
+        let fitSize = image.size.fit(maxPixels: self.thumbnailSize)
         self.constraintThumbnailWidth.constant = fitSize.width
         self.constraintThumbnailHeight.constant = fitSize.height
+        
+        
+        for m in 0..<AppConfig.MaxSize.ALL_SIZES.count - 1 {
+            let mz = AppConfig.MaxSize.ALL_SIZES[m]
+            let canRender = self.selectedImage?.canRender(atMaxSize: mz) ?? false
+            self.sizeSelector.setEnabled( canRender, forSegmentAt: m)
+        }
+        
+        if !self.sizeSelector.isEnabledForSegment(at: AppConfig.shared.maxPixels.rawValue) {
+            var foundASize = false
+            for m in 0..<AppConfig.MaxSize.ALL_SIZES.count - 1 {
+                let mz = AppConfig.MaxSize.ALL_SIZES[m]
+                let canRender = self.selectedImage?.canRender(atMaxSize: mz) ?? false
+                if  canRender {
+                    self.sizeSelector.selectedSegmentIndex = m
+                    AppConfig.shared.maxPixels = mz
+                    foundASize = true
+                    break
+                }
+            }
+            
+            //at this point, resort to full size
+            if !foundASize {
+            self.sizeSelector.selectedSegmentIndex = self.sizeSelector.numberOfSegments - 1
+            AppConfig.shared.maxPixels = AppConfig.MaxSize.pxTrueSize
+            }
+        }
+        
+        
         UIView.animate(withDuration: 1, animations: {
             self.view.layoutIfNeeded()
         }, completion: {
@@ -111,7 +160,8 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 self.patternPreviewsSelector.collectionView?.reloadData()
                 self.selectedSorterIndex = 0
                 self.predictionView.image = previews.first?.image
-                self.hidePredictionView()
+                self.showPredictionView()
+                
                 completion()
             }
         }
@@ -132,7 +182,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     fileprivate func setProgressView(hidden: Bool) {
         self.view.isUserInteractionEnabled = hidden
         
-        let endAlpha:CGFloat = hidden ? 1 : 0.25
+        let endAlpha:CGFloat = hidden ? 1 : 0.15
         
         let endAlphaStartbutton:CGFloat = hidden ? 1 : 0
         let endAlphaProgressBar:CGFloat = hidden ? 0 : 1
@@ -144,6 +194,8 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             self.sizeSelector.alpha = endAlpha
             self.patternPreviewsSelector.view.alpha = endAlpha
             self.sortDirectionSelector.alpha = endAlpha
+            self.sortAmountLabel.alpha = endAlpha
+            self.selectImageButton.alpha = endAlpha
             
         })
     }
@@ -197,7 +249,10 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             Logger.log("no image!")
             return
         }
-        let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
+        
+        let SELECTED_SORTER_INDEX = self.selectedSorterIndex
+        
+        let sorter = PixelSorterFactory.ALL_SORTERS[SELECTED_SORTER_INDEX]
         let pattern = PatternClassic()
         pattern.sortOrientation = AppConfig.shared.sortOrientation
         let sortAmount = AppConfig.shared.sortAmount
@@ -208,16 +263,31 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         let progressBlock = { p in self.updatePregressInMainThread(p) }
         DispatchQueue.global().async {
             
-            sortParam.pattern.initialize(withWidth: Int(image.size.width), height: Int(image.size.height), sortParam: sortParam)
+            var imageToSort = image
+            let selectedSize = AppConfig.shared.maxPixels.pixels
+            if (selectedSize != 0) {
+               imageToSort = imageToSort.resize(byMaxPixels: selectedSize)!
+            }
             
-            guard let output = PixelSorting.sorted(image: image, sortParam: sortParam, progress: progressBlock) else {
+            sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParam)
+            
+            guard let output = PixelSorting.sorted(image: imageToSort, sortParam: sortParam, progress: progressBlock) else {
                 Logger.log("Sorting failed.")
                 return
             }
             
+            
             DispatchQueue.main.async {
                 UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
                 self.setProgressView(hidden: true)
+                var item = self.previewItems[SELECTED_SORTER_INDEX]
+                item.image = output
+                self.previewItems[SELECTED_SORTER_INDEX] = item
+                self.patternPreviewsSelector.items = self.previewItems
+                self.patternPreviewsSelector.collectionView?.reloadData()
+                self.predictionView.image = output
+                self.showPredictionView()
+                
             }
             
         }
@@ -226,14 +296,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     
     fileprivate func setupSizeSelector() {
         self.sizeSelector.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Silom", size: 12) as Any], for: .normal)
-        if let mp = AppConfig.shared.maxPixels {
-            for i in 0..<AppConfig.MaxSize.ALL_SIZES.count {
-                let test = AppConfig.MaxSize.ALL_SIZES[i]
-                if mp.pixels == test.pixels {
-                    self.sizeSelector.selectedSegmentIndex = i
-                }
-            }
-        }
+        self.sizeSelector.selectedSegmentIndex = AppConfig.shared.maxPixels.rawValue
     }
     
     fileprivate func setupThumbnails () {
@@ -269,7 +332,14 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     @objc fileprivate func hidePredictionView () {
         Logger.log("hide prediction view")
         self.thumbnailLabel.alpha = 0
-        self.thumbnailLabel.text = "Original"
+        var sizeString = ""
+        if let img = self.selectedImage {
+            let size = img.size
+            let width = Int(size.width)
+            let height = Int(size.height)
+            sizeString = "\(width)x\(height)"
+        }
+        self.thumbnailLabel.text = "Original \(sizeString)"
         UIView.animate(withDuration: 0.5) {
             self.predictionView.alpha = 0
             self.thumbnailLabel.alpha = 1

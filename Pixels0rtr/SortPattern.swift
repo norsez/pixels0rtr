@@ -29,8 +29,8 @@ protocol SortPattern {
     var sortOrientation: SortOrientation {get set}
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
-    func colorArrays(of cgimage: CGImage, size: CGSize, progress: ((Float)->Void)?) -> [[SortColor]]
-    func image(with colorArrays: [[SortColor]], size: CGSize) -> Image
+    func colorArrays(of cgimage: CGImage, size: CGSize, progress: (Float)->Void) -> [[SortColor]]
+    func image(with colorArrays: [[SortColor]], size: CGSize, progress: (Float)->Void) -> Image
 }
 
 class AbstractSortPattern: SortPattern{
@@ -53,7 +53,7 @@ class AbstractSortPattern: SortPattern{
         return false
     }
     
-    func image(with colorArrays: [[SortColor]], size: CGSize) -> Image {
+    func image(with colorArrays: [[SortColor]], size: CGSize, progress: (Float)->Void) -> Image {
         var pixels = [Pixel]()
         
             switch self.sortOrientation {
@@ -64,12 +64,14 @@ class AbstractSortPattern: SortPattern{
                         return Pixel(c)
                     })
                     pixels.append(contentsOf: parr)
+                    progress(Float(index)/Float(colorArrays.count))
                 }
             default:
                 for row in 0..<Int(size.height) {
                     for colarr in colorArrays {
                         pixels.append(Pixel(colarr[row].C4Color))
                     }
+                    progress(Float(row)/Float(size.height))
                 }
             }
         
@@ -77,7 +79,7 @@ class AbstractSortPattern: SortPattern{
         return Image(pixels: pixels, size: Size(size))
     }
         
-    func colorArrays(of cgimage: CGImage, size: CGSize, progress: ((Float)->Void)?) -> [[SortColor]]{
+    func colorArrays(of cgimage: CGImage, size: CGSize, progress: (Float)->Void) -> [[SortColor]]{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {
@@ -106,9 +108,8 @@ class AbstractSortPattern: SortPattern{
                          blue: data[idx + 3],
                          alpha: data[idx])
                 rowData.append(c)
-                if let p = progress {
-                    p (Float(idx)/Float(DATA_SIZE))
-                }
+                progress(Float(idx)/Float(DATA_SIZE))
+                
             }
             results.append(rowData)
             
@@ -124,9 +125,9 @@ class AbstractSortPattern: SortPattern{
                     colorCols.append(c)
                 }
                 
-                if let p = progress {
-                    p (Float(x)/Float(size.width))
-                }
+                
+                    progress (Float(x)/Float(size.width))
+                
                 results.append(colorCols)
             }
         }

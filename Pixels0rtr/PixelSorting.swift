@@ -180,7 +180,7 @@ class SorterIntervals: PixelSorter {
 //MARK: quick sort
 class PixelSorting: NSObject {
     
-    static func sorted(image: UIImage, sortParam: SortParam, progress: ((Float)->Void)?) -> UIImage? {
+    static func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
         let pattern = sortParam.pattern
         guard let cgImage = image.cgImage else {
             Logger.log("can't create cgImage from input image")
@@ -193,20 +193,19 @@ class PixelSorting: NSObject {
         return PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
     }
     
-    static func sorted(withColorArrays colorArrays: [[SortColor]], size: CGSize, sortParam: SortParam, progress: ((Float)->Void)?) -> UIImage? {
+    static func sorted(withColorArrays colorArrays: [[SortColor]], size: CGSize, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
         var sortedArrays = [[SortColor]]()
         
         for index in 0..<colorArrays.count {
             var colors = colorArrays[index]
             sort(colors: &colors, sortIndex: index, sortParam: sortParam)
             sortedArrays.append(colors)
-            if let p = progress {
-                p(Float(index)/Float(colorArrays.count))
-            }
+            progress(Float(index)/Float(colorArrays.count))
+            
         }
         
         Logger.log("finished sorting size \(size)")
-        let image = sortParam.pattern.image(with: sortedArrays, size: size)
+        let image = sortParam.pattern.image(with: sortedArrays, size: size, progress: progress )
         return image.uiimage
     }
     

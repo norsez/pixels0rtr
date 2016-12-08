@@ -27,7 +27,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xRh-6Q-sH9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xRh-6Q-sH9">
                                 <rect key="frame" x="16" y="64" width="343" height="603"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Yg-v1-pIg">
@@ -101,7 +101,7 @@
                                     <segment title="600p"/>
                                     <segment title="1200p"/>
                                     <segment title="2400p"/>
-                                    <segment title="Actual"/>
+                                    <segment title="Full"/>
                                 </segments>
                                 <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74815285856279068" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -229,6 +229,7 @@
                         <outlet property="progressView" destination="yqx-MR-LXO" id="AEq-ie-ghI"/>
                         <outlet property="selectImageButton" destination="i3d-y6-roO" id="0TD-dt-5ch"/>
                         <outlet property="sizeSelector" destination="Exu-z2-BVV" id="nM1-IT-50M"/>
+                        <outlet property="sortAmountLabel" destination="vhQ-ci-hFt" id="FKW-Wn-pLE"/>
                         <outlet property="sortAmountSlider" destination="3Te-kV-XUe" id="uob-7G-eTC"/>
                         <outlet property="sortDirectionSelector" destination="mRA-54-QCW" id="bGW-PE-Ssi"/>
                         <outlet property="startSortButton" destination="qac-f8-Htg" id="YB9-wQ-X51"/>
@@ -271,7 +272,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="27.5" y="16.5" width="95.5" height="19.5"/>
+                                            <rect key="frame" x="27" y="16" width="96" height="20"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
