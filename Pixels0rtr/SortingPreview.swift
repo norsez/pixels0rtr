@@ -61,8 +61,8 @@ class SortingPreview: NSObject {
         }
         
         filter.setValue(beginImage, forKey: kCIInputImageKey)
-//        filter.setValue(CIVector(x:image.size.width * 0.9, y:image.size.height * 0.9), forKey: kCIInputCenterKey)
-        filter.setValue(4, forKey: kCIInputScaleKey)
+        //filter.setValue(CIVector(x:image.size.width * 0.9, y:image.size.height * 0.9), forKey: kCIInputCenterKey)
+        filter.setValue(2, forKey: kCIInputScaleKey)
         guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
             Logger.log("can't get filter output")
             return nil
