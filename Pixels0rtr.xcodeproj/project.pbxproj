@@ -426,7 +426,7 @@
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.Pixels0rtr;
+				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.pixels0rtr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0.1;
 			};
@@ -440,7 +440,7 @@
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.Pixels0rtr;
+				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.pixels0rtr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0.1;
 			};
