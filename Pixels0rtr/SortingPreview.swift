@@ -20,17 +20,18 @@ class SortingPreview: NSObject {
             return nil
         }
         
-        let blurredThumb = self.imageToSort(withImage: thumbnail)
+        let blurredThumb = thumbnail
         let pattern = PatternClassic()
         pattern.sortOrientation = AppConfig.shared.sortOrientation
         previews = [HorizontalSelectItem]()
         let sortAmount = AppConfig.shared.sortAmount
             
         for s in PixelSorterFactory.ALL_SORTERS {
-            guard let imageToSort = blurredThumb?.makeCopy() else {
-                Logger.log("can't copy original blurred image")
-                continue
-            }
+//            guard let imageToSort = blurredThumb?.makeCopy() else {
+//                Logger.log("can't copy original blurred image")
+//                continue
+//            }
+            let imageToSort = blurredThumb
             let param = SortParam(motionAmount: 0, sortAmount: sortAmount, sorter: s, pattern:pattern)
             pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
             
@@ -62,7 +63,7 @@ class SortingPreview: NSObject {
         
         filter.setValue(beginImage, forKey: kCIInputImageKey)
         //filter.setValue(CIVector(x:image.size.width * 0.9, y:image.size.height * 0.9), forKey: kCIInputCenterKey)
-        filter.setValue(2, forKey: kCIInputScaleKey)
+        filter.setValue(Double(beginImage.extent.width)  * 0.05, forKey: kCIInputScaleKey)
         guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
             Logger.log("can't get filter output")
             return nil

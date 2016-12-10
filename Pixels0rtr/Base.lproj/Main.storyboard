@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -168,12 +168,23 @@
                                 <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6h0-Qp-8PE">
+                                <rect key="frame" x="278" y="528" width="46" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="JTZ-z5-oxf"/>
+                                    <constraint firstAttribute="height" constant="21" id="jGR-pV-LhT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.70712209302325579" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Exu-z2-BVV" firstAttribute="leading" secondItem="mRA-54-QCW" secondAttribute="leading" id="1gt-h6-shb"/>
                             <constraint firstItem="Xc2-rL-UGg" firstAttribute="leading" secondItem="QnE-Yb-9mC" secondAttribute="leading" id="2mB-or-uhr"/>
                             <constraint firstItem="9Yg-v1-pIg" firstAttribute="top" secondItem="sdS-zI-44l" secondAttribute="bottom" id="4Up-i7-8iw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6h0-Qp-8PE" secondAttribute="trailing" constant="35" id="4wq-vj-sZF"/>
                             <constraint firstItem="i3d-y6-roO" firstAttribute="top" secondItem="QnE-Yb-9mC" secondAttribute="bottom" constant="2" id="95R-d6-bFB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pPL-DD-06u" secondAttribute="trailing" id="AJi-1r-ZGe"/>
                             <constraint firstItem="Z9b-Yv-DCf" firstAttribute="top" secondItem="xRh-6Q-sH9" secondAttribute="bottom" id="BMl-3l-tPm"/>
@@ -207,9 +218,11 @@
                             <constraint firstItem="fI8-cZ-tYN" firstAttribute="trailing" secondItem="QnE-Yb-9mC" secondAttribute="trailing" constant="-4" id="h1E-0D-dlJ"/>
                             <constraint firstItem="pPL-DD-06u" firstAttribute="top" secondItem="sdS-zI-44l" secondAttribute="bottom" id="hlq-1X-Ul5"/>
                             <constraint firstItem="QnE-Yb-9mC" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="jAH-DD-X3P"/>
+                            <constraint firstItem="qac-f8-Htg" firstAttribute="centerY" secondItem="6h0-Qp-8PE" secondAttribute="centerY" id="l8a-T6-K8x"/>
                             <constraint firstItem="3Te-kV-XUe" firstAttribute="trailing" secondItem="mRA-54-QCW" secondAttribute="trailing" id="nyC-Jh-plr"/>
                             <constraint firstItem="vhQ-ci-hFt" firstAttribute="leading" secondItem="mRA-54-QCW" secondAttribute="leading" id="o1K-OT-DRF"/>
                             <constraint firstItem="Xc2-rL-UGg" firstAttribute="height" secondItem="QnE-Yb-9mC" secondAttribute="height" id="pZx-vP-YH6"/>
+                            <constraint firstItem="6h0-Qp-8PE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qac-f8-Htg" secondAttribute="trailing" id="qHg-Yn-b9q"/>
                             <constraint firstItem="mRA-54-QCW" firstAttribute="top" secondItem="v4y-7S-60h" secondAttribute="bottom" constant="16" id="uLC-Kd-kLZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xRh-6Q-sH9" secondAttribute="trailing" id="uYy-lM-kia"/>
                             <constraint firstItem="qac-f8-Htg" firstAttribute="top" secondItem="yqx-MR-LXO" secondAttribute="bottom" constant="16" id="uwN-iq-4lf"/>
@@ -224,6 +237,7 @@
                         <outlet property="consoleTextView" destination="pPL-DD-06u" id="IIB-Yu-3jK"/>
                         <outlet property="constraintThumbnailHeight" destination="l7U-cG-5Cj" id="Wwz-k5-FWt"/>
                         <outlet property="constraintThumbnailWidth" destination="E31-EB-8JH" id="ywO-06-pHQ"/>
+                        <outlet property="constraintToastY" destination="l8a-T6-K8x" id="O9z-cw-1pl"/>
                         <outlet property="containerViewForPatternPreviews" destination="v4y-7S-60h" id="J2H-Pp-S79"/>
                         <outlet property="predictionView" destination="Xc2-rL-UGg" id="0cp-S9-vxg"/>
                         <outlet property="progressView" destination="yqx-MR-LXO" id="AEq-ie-ghI"/>
@@ -236,6 +250,7 @@
                         <outlet property="thumbnailBackgroundView" destination="Ptd-Qf-jGf" id="Vmz-G6-wlj"/>
                         <outlet property="thumbnailLabel" destination="fI8-cZ-tYN" id="NPP-l0-jSu"/>
                         <outlet property="thumbnailView" destination="QnE-Yb-9mC" id="lhT-wV-6Yo"/>
+                        <outlet property="toastLabel" destination="6h0-Qp-8PE" id="wde-Ii-VgP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbo-r1-PRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -272,7 +287,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="27" y="16" width="96" height="20"/>
+                                            <rect key="frame" x="27.5" y="16.5" width="95.5" height="19.5"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>

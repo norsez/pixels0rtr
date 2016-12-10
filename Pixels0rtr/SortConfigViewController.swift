@@ -22,6 +22,8 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var sizeSelector: UISegmentedControl!
     @IBOutlet weak var sortDirectionSelector: UISegmentedControl!
     
+    @IBOutlet var constraintToastY: NSLayoutConstraint!
+    @IBOutlet var toastLabel: UILabel!
     @IBOutlet var startSortButton: UIButton!
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet weak var consoleTextView: UITextView!
@@ -44,10 +46,11 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.setupSizeSelector()
         self.consoleTextView.alpha = 0.3
         self.thumbnailLabel.text = "…"
-        let controls: [UIView] = [self.startSortButton, self.sortDirectionSelector, self.progressView, self.sortAmountSlider, self.sizeSelector, self.thumbnailLabel, self.sortAmountLabel]
+        let controls: [UIView] = [self.startSortButton, self.sortDirectionSelector, self.progressView, self.sortAmountSlider, self.sizeSelector, self.thumbnailLabel, self.sortAmountLabel, self.thumbnailBackgroundView]
         for c in controls {
-            c.alpha = 0.1
+            c.alpha = 0.0
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,6 +70,27 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.sortAmountSlider.value = Float(AppConfig.shared.sortAmount)
         self.sortDirectionSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
+//        if let imv = UIView.animatedPixelsortedImageView(fromRect: CGRect(x:20,y:300,width:100,height: 120), steps:10) {
+//            imv.frame = CGRect(x: 100, y: 50, width: 100, height: 12)
+//            self.view.addSubview(imv)
+//            imv.animationDuration = 5
+//            imv.animationRepeatCount = 100
+//            imv.startAnimating()
+//        }
+        
+//        let snapshot = UIScreen.main.snapshotView(afterScreenUpdates: false)
+//        UIGraphicsBeginImageContextWithOptions(snapshot.bounds.size, view.isOpaque, 0.0)
+//        let context = UIGraphicsGetCurrentContext()!
+//        let focusRect = CGRect(x: 64, y: 64, width: 100, height: 100)
+//        snapshot.drawHierarchy(in: focusRect, afterScreenUpdates: true)
+//        UIGraphicsEndImageContext();
+//        let c = context.makeImage()!
+//        let drawn = UIImage(cgImage: c)
+//        let imv = UIImageView(image: drawn)
+//        var f = focusRect
+//        f.origin = CGPoint(x:59, y:222)
+//        imv.frame = f
+//        self.view.addSubview(imv)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -215,11 +239,13 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     @IBAction func didPressSelectImage(_ sender: Any) {
         Logger.log("select a new image…")
         let picker = UIImagePickerController()
-        picker.view.backgroundColor = UIColor.black
+        
         picker.sourceType = .photoLibrary
         picker.allowsEditing = false
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
+        picker.view.backgroundColor = UIColor.black
+        picker.navigationBar.barStyle = .blackTranslucent
     }
     
     @IBAction func didPressSizeSelector(_ sender: Any) {
@@ -279,6 +305,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             
             DispatchQueue.main.async {
                 UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
+                self.showToastMessage("Saved")
                 self.setProgressView(hidden: true)
                 var item = self.previewItems[SELECTED_SORTER_INDEX]
                 item.image = output
@@ -287,6 +314,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 self.patternPreviewsSelector.collectionView?.reloadData()
                 self.predictionView.image = output
                 self.showPredictionView()
+                
                 
             }
             
@@ -369,6 +397,24 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             self.didSelectItem(atIndex: index)
         }
         
+    }
+    
+    func showToastMessage(_ m:String) {
+        self.toastLabel.text = m
+        self.constraintToastY.constant = 32
+        self.view.layoutIfNeeded()
+        
+        self.constraintToastY.constant = 0
+        UIView.animate(withDuration: 0.2, delay: 1, options: [], animations: {
+            self.toastLabel.alpha = 0.9
+            self.view.layoutIfNeeded()
+        }, completion: { done in
+            self.constraintToastY.constant = -32
+            UIView.animate(withDuration: 1, delay: 3, options: [], animations: { 
+                self.toastLabel.alpha = 0
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        })
     }
     
     

@@ -19,4 +19,31 @@ extension UIImage {
         let blurredImage = UIImage(ciImage: resultImage)
         return blurredImage
     }
+    
+    
+    static func image(withView view:UIView, inRect rect: CGRect) -> UIImage? {
+        
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            print("can't get view context")
+            return nil
+        }
+        view.layer.render(in: context)
+        var img = UIGraphicsGetImageFromCurrentImageContext();
+        guard let cgimg = img?.cgImage?.cropping(to: rect) else {
+            print("can't create cropped CGImage")
+            return nil
+        }
+        img = UIImage(cgImage: cgimg)
+        UIGraphicsEndImageContext();
+        return img
+    }
+    
+    
+    
+    func createImageView() -> UIImageView {
+        let iv = UIImageView(image: self)
+        return iv
+    }
+    
 }

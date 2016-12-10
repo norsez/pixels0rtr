@@ -23,6 +23,7 @@
 		F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */; };
 		F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */; };
 		F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F336FB791DEEBE4600FB3817 /* Podfile */; };
+		F3375B371DFAD52F00AF0742 /* UIView+PixelsortingFX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */; };
 		F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */; };
 		F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43C1DF51719008304E4 /* SortingPreview.swift */; };
 		F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F33BA4411DF5231A008304E4 /* defaultImage.jpg */; };
@@ -53,6 +54,7 @@
 		F336FB711DEEBE3000FB3817 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F336FB731DEEBE3000FB3817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F336FB791DEEBE4600FB3817 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+PixelsortingFX.swift"; sourceTree = "<group>"; };
 		F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Profiling.swift"; sourceTree = "<group>"; };
 		F33BA43C1DF51719008304E4 /* SortingPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortingPreview.swift; sourceTree = "<group>"; };
 		F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortConfigViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				F3087B741DEFDCF700376A98 /* AppConfig.swift */,
+				F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */,
 				F39F30E01DF4140B0070F379 /* Bitmap.swift */,
 				F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */,
 				F37F382E1DF63177001A97CE /* Image+Utils.swift */,
@@ -299,6 +302,7 @@
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
 				F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */,
 				F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */,
+				F3375B371DFAD52F00AF0742 /* UIView+PixelsortingFX.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,
 				F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */,
 				F3087B771DF114BA00376A98 /* ImageSelecterViewController.swift in Sources */,
