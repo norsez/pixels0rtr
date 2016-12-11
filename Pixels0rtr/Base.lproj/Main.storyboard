@@ -29,6 +29,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xRh-6Q-sH9">
                                 <rect key="frame" x="16" y="64" width="343" height="603"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Yg-v1-pIg">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
@@ -41,9 +42,13 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="c$ .shbash" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPL-DD-06u">
                                 <rect key="frame" x="16" y="64" width="343" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <color key="textColor" red="0.0" green="0.97235073324022347" blue="0.18127737561413398" alpha="0.29475532949302324" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="10"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="dG2-e1-DAE" appends="YES" id="yT0-R1-j6j"/>
+                                </connections>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ptd-Qf-jGf" userLabel="thumbnail bg">
                                 <rect key="frame" x="88" y="72" width="200" height="200"/>
@@ -168,13 +173,13 @@
                                 <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6h0-Qp-8PE">
-                                <rect key="frame" x="278" y="528" width="46" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6h0-Qp-8PE">
+                                <rect key="frame" x="281.5" y="528" width="42.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="JTZ-z5-oxf"/>
-                                    <constraint firstAttribute="height" constant="21" id="jGR-pV-LhT"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="jGR-pV-LhT"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.70712209302325579" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -254,6 +259,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbo-r1-PRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="dG2-e1-DAE"/>
             </objects>
             <point key="canvasLocation" x="141.59999999999999" y="639.13043478260875"/>
         </scene>
@@ -261,7 +267,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="patternSelecter" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="57"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -287,7 +293,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="27.5" y="16.5" width="95.5" height="19.5"/>
+                                            <rect key="frame" x="27" y="16" width="96" height="20"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -393,7 +399,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -409,7 +415,7 @@
         <!--Test View Controller-->
         <scene sceneID="We7-sm-89o">
             <objects>
-                <viewController id="8OZ-zr-ebF" customClass="TestViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TestViewController" id="8OZ-zr-ebF" customClass="TestViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tAe-4e-ltT"/>
                         <viewControllerLayoutGuide type="bottom" id="Vys-PW-OZu"/>
@@ -417,13 +423,41 @@
                     <view key="view" contentMode="scaleToFill" id="21y-90-qRO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gg1-Bc-Sid">
+                                <rect key="frame" x="16" y="20" width="343" height="256"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="53c-z5-x0N">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="NBd-Ie-ImC"/>
+                                            <constraint firstAttribute="height" constant="128" id="fJ3-kS-14p"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="53c-z5-x0N" firstAttribute="top" secondItem="Gg1-Bc-Sid" secondAttribute="top" id="5kO-Gh-1eo"/>
+                                    <constraint firstItem="53c-z5-x0N" firstAttribute="leading" secondItem="Gg1-Bc-Sid" secondAttribute="leading" id="c7n-b8-0FC"/>
+                                    <constraint firstAttribute="height" constant="256" id="u5H-ta-Cus"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Gg1-Bc-Sid" firstAttribute="top" secondItem="tAe-4e-ltT" secondAttribute="bottom" id="HCc-Mk-QqN"/>
+                            <constraint firstItem="Gg1-Bc-Sid" firstAttribute="trailing" secondItem="21y-90-qRO" secondAttribute="trailingMargin" id="a8b-qs-TcM"/>
+                            <constraint firstItem="Gg1-Bc-Sid" firstAttribute="leading" secondItem="21y-90-qRO" secondAttribute="leadingMargin" id="dZ1-Q0-OqS"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="BZh-f5-pbf"/>
+                    <connections>
+                        <outlet property="imageView" destination="53c-z5-x0N" id="yBM-8s-hJT"/>
+                        <outlet property="scrollView" destination="Gg1-Bc-Sid" id="SbR-TF-hkb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NZO-Cy-UUC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1186" y="-129"/>
+            <point key="canvasLocation" x="-1186.4000000000001" y="-129.08545727136433"/>
         </scene>
     </scenes>
 </document>

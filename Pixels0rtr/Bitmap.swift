@@ -61,27 +61,4 @@ class Bitmap {
         return nil
     }
     
-    func resizedImage(withSize size:CGSize) -> CGImage? {
-        guard let cgImage = self.context.makeImage() else {
-            Logger.log("can' resize nil bitmap")
-            return nil
-        }
-        
-        let width = cgImage.width / 2
-        let height = cgImage.height / 2
-        let bitsPerComponent = cgImage.bitsPerComponent
-        let bytesPerRow = cgImage.bytesPerRow
-        let bitmapInfo = cgImage.bitmapInfo
-        
-        guard let newContext = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: self.colorSpace, bitmapInfo: bitmapInfo.rawValue)else {
-            Logger.log("can't create resized buffer")
-            return nil
-        }
-        
-        newContext.interpolationQuality = CGInterpolationQuality.high
-        newContext.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
-        
-        let scaledImage = newContext.makeImage()
-        return scaledImage
-    }
 }

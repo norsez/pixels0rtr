@@ -55,9 +55,21 @@ extension UIImage {
         
     }
     
+//    func resize(_ size:CGSize) -> UIImage? {
+//        
+//        let hasAlpha = false
+//        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+//        
+//        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+//        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
+//        
+//        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return scaledImage
+//    }
     
     func resize(_ size: CGSize) -> UIImage? {
-        guard let cgImage = self.cgImage?.copy() else {
+        guard let cgImage = self.cgImage else {
             Logger.log("can't make a copy of CGImage")
             return nil
         }
@@ -65,7 +77,7 @@ extension UIImage {
         let width = size.width
         let height = size.height
         let bitsPerComponent = cgImage.bitsPerComponent
-        let bytesPerRow = cgImage.bytesPerRow
+        let bytesPerRow = max(cgImage.bytesPerRow, 8192)
         let colorSpace = cgImage.colorSpace!
         let bitmapInfo = cgImage.bitmapInfo
         

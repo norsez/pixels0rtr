@@ -9,8 +9,11 @@
 import UIKit
 
 class AppConfig: NSObject {
+    struct Key {
+        static let FreeVersion = "FreeVersion"
+    }
     
-    enum MaxSize: Int {
+    enum MaxSize: Int, CustomStringConvertible {
         case px600, px1200, px2400, pxTrueSize
         var pixels: Int {
             get {
@@ -26,6 +29,16 @@ class AppConfig: NSObject {
                 }
             }
         }
+        var description: String {
+            get {
+                if self == .pxTrueSize {
+                    return "True"
+                }else {
+                    return "\(self.pixels)p"
+                }
+            }
+        }
+        
         
       static let ALL_SIZES: [MaxSize] = [.px600, .px1200, .px2400, .pxTrueSize]
         
@@ -108,6 +121,16 @@ class AppConfig: NSObject {
         }
     }
     
+    var isFreeVersion: Bool {
+        set(v) {
+            UserDefaults.standard.setValue(v, forKey: AppConfig.Key.FreeVersion)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: AppConfig.Key.FreeVersion)
+        }
+    }
+    
     
     //#MARK: - singleton
     static let shared: AppConfig = {
@@ -120,7 +143,8 @@ class AppConfig: NSObject {
             Config.SortAmount.rawValue: 0.5,
             Config.MotionAmount.rawValue: 0.5,
             Config.MaxSize.rawValue: MaxSize.px600.rawValue,
-            Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue
+            Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue,
+            AppConfig.Key.FreeVersion: true
         ]
         uf.register(defaults: defaults)
         

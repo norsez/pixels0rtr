@@ -43,7 +43,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         
         self.setupPatternSelector()
         self.setupThumbnails()
-        self.setupSizeSelector()
+        
         self.consoleTextView.alpha = 0.3
         self.thumbnailLabel.text = "…"
         let controls: [UIView] = [self.startSortButton, self.sortDirectionSelector, self.progressView, self.sortAmountSlider, self.sizeSelector, self.thumbnailLabel, self.sortAmountLabel, self.thumbnailBackgroundView]
@@ -51,6 +51,26 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             c.alpha = 0.0
         }
         
+        
+        #if DEBUG
+            let fourtaps = UITapGestureRecognizer(target: self, action: #selector(displayDebugView))
+            fourtaps.numberOfTapsRequired = 4
+            self.view.addGestureRecognizer(fourtaps)
+        #endif
+        
+    
+    }
+    
+    var isFreeVersion : Bool {
+        get {
+            return AppConfig.shared.isFreeVersion
+        }
+    }
+    
+    func displayDebugView () {
+        if let tv = self.storyboard?.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController {
+            self.navigationController?.pushViewController(tv, animated: true)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -113,9 +133,11 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-    func setSelected(image: UIImage) {
+    func setSelected(image loadedImage: UIImage) {
         self.setProgressView(hidden: false)
         self.hidePredictionView()
+        let image = UIImage(cgImage: loadedImage.cgImage!, scale: 1, orientation: .up)
+        
         self.selectedImage = image
         self.thumbnailView.image = image
         self.backgroundImageView.image = image
@@ -126,33 +148,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.constraintThumbnailWidth.constant = fitSize.width
         self.constraintThumbnailHeight.constant = fitSize.height
         
-        
-        for m in 0..<AppConfig.MaxSize.ALL_SIZES.count - 1 {
-            let mz = AppConfig.MaxSize.ALL_SIZES[m]
-            let canRender = self.selectedImage?.canRender(atMaxSize: mz) ?? false
-            self.sizeSelector.setEnabled( canRender, forSegmentAt: m)
-        }
-        
-        if !self.sizeSelector.isEnabledForSegment(at: AppConfig.shared.maxPixels.rawValue) {
-            var foundASize = false
-            for m in 0..<AppConfig.MaxSize.ALL_SIZES.count - 1 {
-                let mz = AppConfig.MaxSize.ALL_SIZES[m]
-                let canRender = self.selectedImage?.canRender(atMaxSize: mz) ?? false
-                if  canRender {
-                    self.sizeSelector.selectedSegmentIndex = m
-                    AppConfig.shared.maxPixels = mz
-                    foundASize = true
-                    break
-                }
-            }
-            
-            //at this point, resort to full size
-            if !foundASize {
-            self.sizeSelector.selectedSegmentIndex = self.sizeSelector.numberOfSegments - 1
-            AppConfig.shared.maxPixels = AppConfig.MaxSize.pxTrueSize
-            }
-        }
-        
+        self.setupSizeSelector()
         
         UIView.animate(withDuration: 1, animations: {
             self.view.layoutIfNeeded()
@@ -246,6 +242,10 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.present(picker, animated: true, completion: nil)
         picker.view.backgroundColor = UIColor.black
         picker.navigationBar.barStyle = .blackTranslucent
+        let font = UIFont(name: "Silom", size: 16)!
+        let fontColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.9)
+        picker.navigationBar.titleTextAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
+        
     }
     
     @IBAction func didPressSizeSelector(_ sender: Any) {
@@ -305,7 +305,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             
             DispatchQueue.main.async {
                 UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
-                self.showToastMessage("Saved")
+                self.showToastMessage("Saved\nto\nCamera Roll")
                 self.setProgressView(hidden: true)
                 var item = self.previewItems[SELECTED_SORTER_INDEX]
                 item.image = output
@@ -323,8 +323,31 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     fileprivate func setupSizeSelector() {
+        
+        guard let selectedImage = self.selectedImage else {
+            Logger.log("select image first")
+            return
+        }
+        
         self.sizeSelector.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Silom", size: 12) as Any], for: .normal)
-        self.sizeSelector.selectedSegmentIndex = AppConfig.shared.maxPixels.rawValue
+        self.sizeSelector.removeAllSegments()
+        
+        self.sizeSelector.insertSegment(withTitle: AppConfig.MaxSize.px600.description, at: 0, animated: true)
+        
+        let MAX_IMAGE_SIZE = max(selectedImage.size.width, selectedImage.size.height)
+        
+        if self.isFreeVersion == false {
+            for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
+                let mp = AppConfig.MaxSize.ALL_SIZES[i]
+                if mp.pixels > Int(MAX_IMAGE_SIZE) {
+                    break
+                }
+                self.sizeSelector.insertSegment(withTitle: mp.description, at: i, animated: true)
+            }
+        }else {
+            self.sizeSelector.selectedSegmentIndex = 0
+            self.sizeSelector.setEnabled(false, forSegmentAt: 0)
+        }
     }
     
     fileprivate func setupThumbnails () {
@@ -404,16 +427,36 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.constraintToastY.constant = 32
         self.view.layoutIfNeeded()
         
-        self.constraintToastY.constant = 0
-        UIView.animate(withDuration: 0.2, delay: 1, options: [], animations: {
+        let appear = {
             self.toastLabel.alpha = 0.9
             self.view.layoutIfNeeded()
-        }, completion: { done in
-            self.constraintToastY.constant = -32
-            UIView.animate(withDuration: 1, delay: 3, options: [], animations: { 
-                self.toastLabel.alpha = 0
-                self.view.layoutIfNeeded()
-            }, completion: nil)
+        }
+        
+        let blink = { (finished: Bool, completion: @escaping (Bool)->Void) in
+            if !finished {
+                return
+            }
+            UIView.setAnimationRepeatCount(5)
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.beginFromCurrentState, .autoreverse], animations: {
+                self.toastLabel.alpha = 0.1
+            }, completion: completion)
+        }
+        
+        let moveDown = { (finished: Bool) in
+            if (finished){
+                self.constraintToastY.constant = -32
+                UIView.animate(withDuration: 1, delay:0, options: [.beginFromCurrentState], animations: {
+                    self.toastLabel.alpha = 0
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+            }
+        }
+        
+        self.constraintToastY.constant = 0
+        UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+            appear()
+        }, completion: { finished in
+            blink(finished, moveDown)
         })
     }
     

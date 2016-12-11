@@ -9,24 +9,55 @@
 import UIKit
 import C4
 
-class TestViewController: CanvasController {
+class TestViewController: CanvasController, UIScrollViewDelegate {
 
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.canvas.backgroundColor = black
+        self.scrollView.backgroundColor = UIColor.black
+        self.scrollView.delegate = self
+        
+        
         
         guard let image = UIImage.loadJPEG(with: "defaultImage") else {
-            Logger.log("default image")
+            print("cant' find default image")
             return
         }
         
-        let sp = SortingPreview()
-        
-        if let resizedImage = image.resize(byMaxPixels: 100),
-            let output = sp.imageToSort(withImage: resizedImage) {
-            let td = Image(uiimage: output)
-            td.frame = Rect(0, 64, 108, 108)
-            self.canvas.add(td)
+        guard let image600 = image.resize(byMaxPixels: 600) else {
+            print("can't get 600p")
+            return
         }
+        
+        let sorter = SorterBrightness()
+        let pattern = PatternClassic()
+        let sp = SortParam(motionAmount: 0, sortAmount: 0.5, sorter: sorter, pattern: pattern)
+        pattern.initialize(withWidth: 600, height: 600, sortParam: sp)
+        
+        
+        
+        
+        guard let imageResult = PixelSorting.sorted(image: image600, sortParam: sp, progress: {p in print(p)}) else {
+            print("can't get image result ")
+            return
+        }
+        
+        guard let enlargedImage = imageResult.resize(image.size) else {
+            print("can't enlarge")
+            return
+        }
+        
+        self.imageView.image = enlargedImage
+        self.scrollView.contentSize = enlargedImage.size
+        self.scrollView.minimumZoomScale = 1
+        self.scrollView.maximumZoomScale = 5
+        self.scrollView.setZoomScale(1, animated: false)
+        
+        
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.imageView
     }
 }
