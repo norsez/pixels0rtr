@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C147A8556F1068895BF83E2A429AC24A"
-               BuildableName = "Pods_Pixels0rtr.framework"
-               BlueprintName = "Pods-Pixels0rtr"
+               BlueprintIdentifier = "9D0F2E5EA1B46A5D72FFD42B0B39DBBC"
+               BuildableName = "Bolts.framework"
+               BlueprintName = "Bolts"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C147A8556F1068895BF83E2A429AC24A"
-            BuildableName = "Pods_Pixels0rtr.framework"
-            BlueprintName = "Pods-Pixels0rtr"
+            BlueprintIdentifier = "9D0F2E5EA1B46A5D72FFD42B0B39DBBC"
+            BuildableName = "Bolts.framework"
+            BlueprintName = "Bolts"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,6 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9D0F2E5EA1B46A5D72FFD42B0B39DBBC"
+            BuildableName = "Bolts.framework"
+            BlueprintName = "Bolts"
+            ReferencedContainer = "container:Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

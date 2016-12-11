@@ -33,6 +33,7 @@
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
+		F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
+		F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = releasenotes.txt; sourceTree = "<group>"; };
 		F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 				F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */,
 				F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */,
 				F336FB731DEEBE3000FB3817 /* Info.plist */,
+				F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */,
 				F336FB791DEEBE4600FB3817 /* Podfile */,
 			);
 			path = Pixels0rtr;
@@ -233,6 +236,7 @@
 				F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */,
 				F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */,
 				F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */,
+				F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */,
 				F3087B7D1DF69BFB00376A98 /* Silom.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
