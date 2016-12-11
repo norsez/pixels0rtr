@@ -49,7 +49,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         }
         
         self.imageView.image = enlargedImage
-        self.scrollView.contentSize = enlargedImage¬.size
+        self.scrollView.contentSize = enlargedImage.size
         self.scrollView.minimumZoomScale = 1
         self.scrollView.maximumZoomScale = 5
         self.scrollView.setZoomScale(1, animated: false)

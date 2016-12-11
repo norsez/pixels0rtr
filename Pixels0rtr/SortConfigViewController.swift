@@ -121,11 +121,9 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     
     var thumbnailSize: Int {
         let width = Int(self.view.bounds.width)
-        let height = Int(self.view.bounds.height)
-        if height == 640 {
-            return 176
-        }else if width == 320 {
-            return 280
+        
+        if width == 320 {
+            return 240
         }else if width == 375 {
             return 320
         }else {
@@ -199,7 +197,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         
     }
     
-    fileprivate func setProgressView(hidden: Bool) {
+    fileprivate func setProgressView(hidden: Bool, completion: (()->Void)? = nil) {
         self.view.isUserInteractionEnabled = hidden
         
         let endAlpha:CGFloat = hidden ? 1 : 0.15
@@ -216,6 +214,14 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             self.sortDirectionSelector.alpha = endAlpha
             self.sortAmountLabel.alpha = endAlpha
             self.selectImageButton.alpha = endAlpha
+            
+        }, completion: {
+            finished in
+            if finished {
+                if let c = completion {
+                    c()
+                }
+            }
             
         })
     }
@@ -305,8 +311,13 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             
             DispatchQueue.main.async {
                 UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
-                self.showToastMessage("Saved\nto\nCamera Roll")
-                self.setProgressView(hidden: true)
+                self.setProgressView(hidden: true, completion: {
+                    
+                    self.showToastMessage("Saved\nto\nCamera Roll")
+                })
+                
+                
+                
                 var item = self.previewItems[SELECTED_SORTER_INDEX]
                 item.image = output
                 self.previewItems[SELECTED_SORTER_INDEX] = item
@@ -422,12 +433,14 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         
     }
     
-    func showToastMessage(_ m:String) {
+    func showToastMessage(_ m:String, completion: (()->Void)? = nil) {
+        
         self.toastLabel.text = m
         self.constraintToastY.constant = 32
         self.view.layoutIfNeeded()
         
         let appear = {
+            self.startSortButton.alpha = 0
             self.toastLabel.alpha = 0.9
             self.view.layoutIfNeeded()
         }
@@ -447,16 +460,22 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 self.constraintToastY.constant = -32
                 UIView.animate(withDuration: 1, delay:0, options: [.beginFromCurrentState], animations: {
                     self.toastLabel.alpha = 0
+                    self.startSortButton.alpha = 0.9
                     self.view.layoutIfNeeded()
+                    
                 }, completion: nil)
             }
         }
         
         self.constraintToastY.constant = 0
         UIView.animate(withDuration: 0.2, delay: 0.2, options: [], animations: {
+            
             appear()
         }, completion: { finished in
             blink(finished, moveDown)
+            if let c = completion {
+                c()
+            }
         })
     }
     
