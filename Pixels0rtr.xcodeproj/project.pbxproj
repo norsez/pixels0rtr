@@ -32,6 +32,7 @@
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
+		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
+		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,6 +151,7 @@
 				F33BA43C1DF51719008304E4 /* SortingPreview.swift */,
 				F3087B7E1DF6B56000376A98 /* Logger.swift */,
 				F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */,
+				F3D91AA31DFCE4C300D45413 /* Analytics.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
+				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,

@@ -160,7 +160,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             })
         })
         
-        
+        Analytics.shared.logSelectImage(withActualSize: loadedImage.size)
         
     }
     
@@ -314,7 +314,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 self.patternPreviewsSelector.collectionView?.reloadData()
                 self.predictionView.image = output
                 self.showPredictionView()
-                
+                Analytics.shared.logSort(withSortParam: sortParam)
                 
             }
             
