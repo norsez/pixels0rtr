@@ -285,7 +285,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         let SELECTED_SORTER_INDEX = self.selectedSorterIndex
         
         let sorter = PixelSorterFactory.ALL_SORTERS[SELECTED_SORTER_INDEX]
-        let pattern = PatternClassic()
+        let pattern = PatternClassic(withRoughness: 4)
         pattern.sortOrientation = AppConfig.shared.sortOrientation
         let sortAmount = AppConfig.shared.sortAmount
         let sortParam = SortParam(motionAmount: 0, sortAmount: sortAmount, sorter: sorter, pattern: pattern)

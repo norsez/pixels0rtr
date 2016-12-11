@@ -1,5 +1,8 @@
 release notes
 =============
 
+build 3
+- change classic roughness default to 4
+
 build 2
 - add Facebook Analytics

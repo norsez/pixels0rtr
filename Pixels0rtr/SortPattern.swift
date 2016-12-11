@@ -138,10 +138,16 @@ class AbstractSortPattern: SortPattern{
 
 class PatternClassic : AbstractSortPattern {
     var resetRowIndexByCol: [Int] = []
+    var roughness: Int = 1
     override var name: String {
         get {
             return "Classic"
         }
+    }
+    
+    init(withRoughness r: Int = 1) {
+        super.init()
+        self.roughness = r
     }
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
@@ -150,18 +156,34 @@ class PatternClassic : AbstractSortPattern {
         let _max = 2.0 * factor;
         let _min = 25.0 * factor;
         
+        var lastValue: Int = 0
+        
         switch self.sortOrientation {
         case .vertical:
-            for _ in 0..<width {
-                let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
-                let v = max(2.0, r) + sortParam.motionAmount * 25.0
-                resetRowIndexByCol.append(Int(v))
+            for i in 0..<width {
+                
+                if i % roughness != 0 {
+                    resetRowIndexByCol.append(lastValue)
+                }else {
+                    let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
+                    let v = max(2.0, r) + sortParam.motionAmount * 25.0
+                    lastValue = Int(v)
+                    resetRowIndexByCol.append(lastValue)
+                    
+                }
             }
         default:
-            for _ in 0..<height {
-                let r = fRandom(min: Double(width)/_min, max: Double(width)/_max)
-                let v = max(2.0, r) + sortParam.motionAmount * 25.0
-                resetRowIndexByCol.append(Int(v))
+            
+            for i in 0..<height {
+                
+                if i % roughness != 0 {
+                    resetRowIndexByCol.append(lastValue)
+                }else {
+                    let r = fRandom(min: Double(width)/_min, max: Double(width)/_max)
+                    let v = max(2.0, r) + sortParam.motionAmount * 25.0
+                    lastValue = Int(v)
+                    resetRowIndexByCol.append(lastValue)
+                }
             }
             
         }
