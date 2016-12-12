@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = self.window?.rootViewController as? UINavigationController
         nav?.navigationBar.barStyle = .blackTranslucent
         
+        
         setupAppearance()
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -37,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fontColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.9)
         let textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
         UIBarButtonItem.appearance().setTitleTextAttributes(textAttributes, for: .normal)
+        UINavigationBar.appearance().tintColor = fontColor
         
     }
 

@@ -34,6 +34,7 @@
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
 		F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */; };
+		F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA71DFE693900D45413 /* UnlockViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = releasenotes.txt; sourceTree = "<group>"; };
+		F3D91AA71DFE693900D45413 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
 		F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 				F336FB691DEEBE3000FB3817 /* ViewController.swift */,
 				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
 				F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */,
+				F3D91AA71DFE693900D45413 /* UnlockViewController.swift */,
 				F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */,
 				F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */,
 				F336FB6B1DEEBE3000FB3817 /* Main.storyboard */,
@@ -306,6 +309,7 @@
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
+				F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
 				F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */,

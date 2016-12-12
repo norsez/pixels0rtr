@@ -310,14 +310,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             
             
             DispatchQueue.main.async {
-                UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
-                self.setProgressView(hidden: true, completion: {
-                    
-                    self.showToastMessage("Saved\nto\nCamera Roll")
-                })
-                
-                
-                
+                self.manageOutputImage(output)
                 var item = self.previewItems[SELECTED_SORTER_INDEX]
                 item.image = output
                 self.previewItems[SELECTED_SORTER_INDEX] = item
@@ -326,11 +319,36 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 self.predictionView.image = output
                 self.showPredictionView()
                 Analytics.shared.logSort(withSortParam: sortParam)
-                
             }
             
         }
         
+    }
+    
+    func manageOutputImage(_ output:UIImage) {
+        
+        if AppConfig.shared.isFreeVersion && AppConfig.shared.maxPixels != .px600 {
+            
+            self.performSegue(withIdentifier: "showUnlock", sender: output)
+            self.setProgressView(hidden: true, completion: {})
+        }else {
+            
+            UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
+            self.setProgressView(hidden: true, completion: {
+                self.showToastMessage("Saved\nto\nCamera Roll")
+            })
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showUnlock" {
+            if let image = sender as? UIImage {
+                if let ctrl = segue.destination as? UnlockViewController {
+                    ctrl.image = image
+                }
+                
+            }
+        }
     }
     
     fileprivate func setupSizeSelector() {
@@ -346,19 +364,13 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.sizeSelector.insertSegment(withTitle: AppConfig.MaxSize.px600.description, at: 0, animated: true)
         
         let MAX_IMAGE_SIZE = max(selectedImage.size.width, selectedImage.size.height)
-        
-        if self.isFreeVersion == false {
-            for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
-                let mp = AppConfig.MaxSize.ALL_SIZES[i]
-                if mp.pixels > Int(MAX_IMAGE_SIZE) {
-                    break
-                }
-                self.sizeSelector.insertSegment(withTitle: mp.description, at: i, animated: true)
-            }
-        }else {
-            self.sizeSelector.selectedSegmentIndex = 0
-            self.sizeSelector.setEnabled(false, forSegmentAt: 0)
+        for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
+            let mp = AppConfig.MaxSize.ALL_SIZES[i]
+            self.sizeSelector.insertSegment(withTitle: mp.description, at: i, animated: true)
+            self.sizeSelector.setEnabled(mp.pixels <= Int(MAX_IMAGE_SIZE), forSegmentAt: i)
         }
+        
+        self.sizeSelector.selectedSegmentIndex = 0
     }
     
     fileprivate func setupThumbnails () {
@@ -382,6 +394,9 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @objc fileprivate func showPredictionView () {
+        guard let _ = self.selectedImage else {
+            return
+        }
         Logger.log("show prediction view")
         self.thumbnailLabel.alpha = 0
         let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
@@ -392,6 +407,9 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     @objc fileprivate func hidePredictionView () {
+        guard let _ = self.selectedImage else {
+            return
+        }
         Logger.log("hide prediction view")
         self.thumbnailLabel.alpha = 0
         var sizeString = ""
