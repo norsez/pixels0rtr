@@ -65,10 +65,18 @@ class SortColor {
 
 //MARK:
 struct SortParam {
-    var motionAmount: Double = 0
+    var roughnessAmount: Double = 0
     var sortAmount: Double = 0.5
     var sorter: PixelSorter
     var pattern: SortPattern
+    var motionAmount: Double = 0
+    
+    init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern) {
+        self.roughnessAmount = roughness
+        self.sortAmount = sortAmount
+        self.sorter = sorter
+        self.pattern = pattern
+    }
 }
 
 

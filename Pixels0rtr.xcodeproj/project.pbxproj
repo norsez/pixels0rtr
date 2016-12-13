@@ -24,6 +24,8 @@
 		F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */; };
 		F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F336FB791DEEBE4600FB3817 /* Podfile */; };
 		F3375B371DFAD52F00AF0742 /* UIView+PixelsortingFX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */; };
+		F3375B571DFFE2CD00AF0742 /* ScrollableContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3375B561DFFE2CD00AF0742 /* ScrollableContainerView.swift */; };
+		F3375B7D1DFFEC0800AF0742 /* VerticalSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */; };
 		F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */; };
 		F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43C1DF51719008304E4 /* SortingPreview.swift */; };
 		F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F33BA4411DF5231A008304E4 /* defaultImage.jpg */; };
@@ -32,6 +34,7 @@
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
+		F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */; };
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
 		F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */; };
 		F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA71DFE693900D45413 /* UnlockViewController.swift */; };
@@ -58,6 +61,8 @@
 		F336FB731DEEBE3000FB3817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F336FB791DEEBE4600FB3817 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+PixelsortingFX.swift"; sourceTree = "<group>"; };
+		F3375B561DFFE2CD00AF0742 /* ScrollableContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableContainerView.swift; sourceTree = "<group>"; };
+		F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalSelectorViewController.swift; sourceTree = "<group>"; };
 		F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Profiling.swift"; sourceTree = "<group>"; };
 		F33BA43C1DF51719008304E4 /* SortingPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortingPreview.swift; sourceTree = "<group>"; };
 		F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortConfigViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +71,7 @@
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
+		F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortParamUIViewController.swift; sourceTree = "<group>"; };
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = releasenotes.txt; sourceTree = "<group>"; };
 		F3D91AA71DFE693900D45413 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
@@ -131,8 +137,11 @@
 				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
 				F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */,
 				F3D91AA71DFE693900D45413 /* UnlockViewController.swift */,
+				F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */,
 				F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */,
+				F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */,
 				F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */,
+				F3375B561DFFE2CD00AF0742 /* ScrollableContainerView.swift */,
 				F336FB6B1DEEBE3000FB3817 /* Main.storyboard */,
 				F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */,
 				F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */,
@@ -303,12 +312,14 @@
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
+				F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */,
 				F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */,
 				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
+				F3375B7D1DFFEC0800AF0742 /* VerticalSelectorViewController.swift in Sources */,
 				F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
@@ -317,6 +328,7 @@
 				F3375B371DFAD52F00AF0742 /* UIView+PixelsortingFX.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,
 				F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */,
+				F3375B571DFFE2CD00AF0742 /* ScrollableContainerView.swift in Sources */,
 				F3087B771DF114BA00376A98 /* ImageSelecterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

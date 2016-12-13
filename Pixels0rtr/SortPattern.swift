@@ -136,6 +136,8 @@ class AbstractSortPattern: SortPattern{
     }
 }
 
+
+
 class PatternClassic : AbstractSortPattern {
     var resetRowIndexByCol: [Int] = []
     var roughness: Int = 1
@@ -192,5 +194,17 @@ class PatternClassic : AbstractSortPattern {
     
     override func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool {
         return index % resetRowIndexByCol[sortIndex] == 0;
+    }
+}
+
+class PatternClassicFine: PatternClassic {
+    init() {
+        super.init(withRoughness: 1)
+    }
+    
+    override var name: String {
+        get {
+            return "Fine"
+        }
     }
 }

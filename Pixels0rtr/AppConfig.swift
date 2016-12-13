@@ -8,6 +8,10 @@
 
 import UIKit
 
+let ALL_SORT_PATTERNS: [SortPattern] = [PatternClassic(), PatternClassicFine()]
+let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue(), SorterSaturation(), SorterCenterSorted(), SorterIntervals()]
+
+//MARK: AppConfig
 class AppConfig: NSObject {
     struct Key {
         static let FreeVersion = "FreeVersion"
@@ -54,7 +58,7 @@ class AppConfig: NSObject {
     }
     
     enum Config: String {
-        case Sorter, Pattern, SortAmount, MotionAmount, MaxSize, SortOrientation, isNotFirstLaunch
+        case Sorter, Pattern, SortAmount, RoughnessAmount, MaxSize, SortOrientation, isNotFirstLaunch
     }
     
     var sortOrientation: SortOrientation {
@@ -103,7 +107,7 @@ class AppConfig: NSObject {
             let pixelSorter = PixelSorterFactory.sorter(with: uf.string(forKey: Config.Sorter.rawValue) ?? "")!
             let sortPattern = PatternClassic()
             
-            let sp = SortParam(motionAmount: uf.double(forKey: Config.MotionAmount.rawValue),
+            let sp = SortParam(roughness: uf.double(forKey: Config.RoughnessAmount.rawValue),
                                sortAmount: uf.double(forKey: Config.SortAmount.rawValue),
                             sorter: pixelSorter,
                             pattern: sortPattern)
@@ -141,7 +145,7 @@ class AppConfig: NSObject {
             Config.Sorter.rawValue: "Brightness",
             Config.Pattern.rawValue: "Classic",
             Config.SortAmount.rawValue: 0.5,
-            Config.MotionAmount.rawValue: 0.5,
+            Config.RoughnessAmount.rawValue: 0,
             Config.MaxSize.rawValue: MaxSize.px600.rawValue,
             Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue,
             AppConfig.Key.FreeVersion: true

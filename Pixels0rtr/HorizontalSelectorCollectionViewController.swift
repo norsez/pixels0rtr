@@ -11,7 +11,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 struct HorizontalSelectItem {
-    var image: UIImage
+    var image: UIImage?
     var title: String
 }
 
@@ -52,6 +52,14 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         self.collectionView?.allowsMultipleSelection = false
         self.collectionView?.allowsSelection = true
         self.collectionView?.showsHorizontalScrollIndicator = false
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 1
+        flowLayout.minimumInteritemSpacing = 1
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        flowLayout.scrollDirection = .horizontal
+        self.collectionView?.collectionViewLayout = flowLayout
+        flowLayout.itemSize = CGSize(width: 120, height: 57)
     }
 
 // MARK: UICollectionViewDataSource

@@ -17,7 +17,7 @@ class Analytics: NSObject {
             ["pattern": sp.pattern.name,
              "sorter": sp.sorter.name,
              "sortAmount": "\(sp.sortAmount * 100)",
-             "motionAmount": "\(sp.motionAmount * 100)",
+             "roughnessAmount": "\(sp.roughnessAmount * 100)",
              "size": AppConfig.shared.maxPixels.description
              ])
     }
@@ -29,6 +29,9 @@ class Analytics: NSObject {
             ]
         )
     }
+    
+    
+    
     //#MARK: - singleton
     static let shared: Analytics = {
         let instance = Analytics()

@@ -8,7 +8,8 @@
 
 import UIKit
 
-class SortConfigViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class SortConfigViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,
+SortParamUIViewControllerDelegate{
     @IBOutlet var constraintThumbnailWidth: NSLayoutConstraint!
     
     @IBOutlet var constraintThumbnailHeight: NSLayoutConstraint!
@@ -17,41 +18,35 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet var backgroundImageView: UIImageView!
     @IBOutlet var selectImageButton: UIButton!
     @IBOutlet var thumbnailView: UIImageView!
-    @IBOutlet var containerViewForPatternPreviews: UIView!
     @IBOutlet weak var predictionView: UIImageView!
-    @IBOutlet weak var sizeSelector: UISegmentedControl!
-    @IBOutlet weak var sortDirectionSelector: UISegmentedControl!
-    
     @IBOutlet var constraintToastY: NSLayoutConstraint!
     @IBOutlet var toastLabel: UILabel!
     @IBOutlet var startSortButton: UIButton!
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet weak var consoleTextView: UITextView!
+    @IBOutlet weak var controlScrollView: UIScrollView!
     
-    @IBOutlet weak var sortAmountLabel: UILabel!
-    @IBOutlet weak var sortAmountSlider: UISlider!
+    
     var showingThumbnailView = true
-    var patternPreviewsSelector: HorizontalSelectorCollectionViewController!
+    var paramController: SortParamUIViewController!
     var previewItems = [HorizontalSelectItem]()
     var selectedImage: UIImage?
     var selectedSorterIndex = 0
-    
     let CORNER_RADIUS: CGFloat = 8
+    
+    var isFreeVersion : Bool {
+        get {
+            return AppConfig.shared.isFreeVersion
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.setupPatternSelector()
         self.setupThumbnails()
+        self.setupParamControllerView()
         
         self.consoleTextView.alpha = 0.3
         self.thumbnailLabel.text = "…"
-        let controls: [UIView] = [self.startSortButton, self.sortDirectionSelector, self.progressView, self.sortAmountSlider, self.sizeSelector, self.thumbnailLabel, self.sortAmountLabel, self.thumbnailBackgroundView]
-        for c in controls {
-            c.alpha = 0.0
-        }
-        
-        
         #if DEBUG
             let fourtaps = UITapGestureRecognizer(target: self, action: #selector(displayDebugView))
             fourtaps.numberOfTapsRequired = 4
@@ -61,11 +56,24 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
     
     }
     
-    var isFreeVersion : Bool {
-        get {
-            return AppConfig.shared.isFreeVersion
-        }
+    func setupParamControllerView() {
+        
+        self.paramController = self.storyboard?.instantiateViewController(withIdentifier: "sortParamUI") as! SortParamUIViewController
+        self.addChildViewController(self.paramController)
+        let containerSize = self.controlScrollView.bounds
+        var adaptedSize = self.paramController.view.bounds
+        adaptedSize.size.width = containerSize.size.width
+        adaptedSize.size.height = self.paramController.totalHeight
+        adaptedSize.origin = CGPoint.zero
+        self.paramController.view.frame = adaptedSize
+        
+        self.controlScrollView.addSubview(self.paramController.view)
+        self.controlScrollView.contentSize = adaptedSize.size
+        self.paramController.didMove(toParentViewController: self)
+        
+        
     }
+    
     
     func displayDebugView () {
         if let tv = self.storyboard?.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController {
@@ -87,8 +95,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
             self.backgroundImageView.image = defaultImage
         }
         
-        self.sortAmountSlider.value = Float(AppConfig.shared.sortAmount)
-        self.sortDirectionSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
 //        if let imv = UIView.animatedPixelsortedImageView(fromRect: CGRect(x:20,y:300,width:100,height: 120), steps:10) {
 //            imv.frame = CGRect(x: 100, y: 50, width: 100, height: 12)
@@ -140,13 +146,11 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         self.thumbnailView.image = image
         self.backgroundImageView.image = image
         self.thumbnailLabel.text = "…"
-        self.patternPreviewsSelector.collectionView?.reloadData()
+        self.paramController.updateUI(withImageSize: image.size)
         
         let fitSize = image.size.fit(maxPixels: self.thumbnailSize)
         self.constraintThumbnailWidth.constant = fitSize.width
         self.constraintThumbnailHeight.constant = fitSize.height
-        
-        self.setupSizeSelector()
         
         UIView.animate(withDuration: 1, animations: {
             self.view.layoutIfNeeded()
@@ -171,11 +175,8 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         DispatchQueue.global().async {
             let previews = SortingPreview().generatePreviews(with: image, progress:progressBlock)!
             
-            self.patternPreviewsSelector.items = previews
-            self.previewItems = previews
             
             DispatchQueue.main.async {
-                self.patternPreviewsSelector.collectionView?.reloadData()
                 self.selectedSorterIndex = 0
                 self.predictionView.image = previews.first?.image
                 self.showPredictionView()
@@ -185,18 +186,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-    @IBAction func sortAmountValueDidChange(_ sender: Any) {
-        self.setProgressView(hidden:  false)
-        AppConfig.shared.sortAmount = Double(self.sortAmountSlider.value)
-        Logger.log("sort amount did change: \(self.sortAmountSlider.value)")
-        if let image = self.selectedImage {
-            self.updatePreviews(withImage: image, completion: {
-                self.setProgressView(hidden: true)
-            })
-        }
-        
-    }
-    
     fileprivate func setProgressView(hidden: Bool, completion: (()->Void)? = nil) {
         self.view.isUserInteractionEnabled = hidden
         
@@ -204,15 +193,13 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         
         let endAlphaStartbutton:CGFloat = hidden ? 1 : 0
         let endAlphaProgressBar:CGFloat = hidden ? 0 : 1
+        
+        
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.startSortButton.alpha = endAlphaStartbutton
             self.progressView.alpha = endAlphaProgressBar
             
-            self.sortAmountSlider.alpha = endAlpha
-            self.sizeSelector.alpha = endAlpha
-            self.patternPreviewsSelector.view.alpha = endAlpha
-            self.sortDirectionSelector.alpha = endAlpha
-            self.sortAmountLabel.alpha = endAlpha
             self.selectImageButton.alpha = endAlpha
             
         }, completion: {
@@ -226,6 +213,10 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         })
     }
 
+    
+    func paramValueDidChange(toParam: SortParam) {
+        
+    }
     
     func didSelectItem(atIndex index: Int) {
         self.selectedSorterIndex = index
@@ -253,27 +244,8 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         picker.navigationBar.titleTextAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
         
     }
+   
     
-    @IBAction func didPressSizeSelector(_ sender: Any) {
-        let index = self.sizeSelector.selectedSegmentIndex
-        let selected = AppConfig.MaxSize.ALL_SIZES[index]
-        AppConfig.shared.maxPixels = selected
-        Logger.log("render size: \(selected)")
-    }
-    
-    @IBAction func didSelectSortDirection(_ sender: Any) {
-        self.setProgressView(hidden: false)
-        let index = self.sortDirectionSelector.selectedSegmentIndex
-        if let orientation = SortOrientation(rawValue: index) {
-            AppConfig.shared.sortOrientation = orientation
-            Logger.log("set sort orientation: \(orientation)")
-        }
-        if let image = self.selectedImage {
-            self.updatePreviews(withImage:image , completion: {
-                self.setProgressView(hidden: true)
-            })
-        }
-    }
     
     @IBAction func didPressSort(_ sender: Any) {
         
@@ -288,7 +260,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         let pattern = PatternClassic(withRoughness: 4)
         pattern.sortOrientation = AppConfig.shared.sortOrientation
         let sortAmount = AppConfig.shared.sortAmount
-        let sortParam = SortParam(motionAmount: 0, sortAmount: sortAmount, sorter: sorter, pattern: pattern)
+        let sortParam = SortParam(roughness: 0, sortAmount: sortAmount, sorter: sorter, pattern: pattern)
         
         self.setProgressView(hidden: false)
         self.progressView.progress = 0.01
@@ -314,8 +286,6 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
                 var item = self.previewItems[SELECTED_SORTER_INDEX]
                 item.image = output
                 self.previewItems[SELECTED_SORTER_INDEX] = item
-                self.patternPreviewsSelector.items = self.previewItems
-                self.patternPreviewsSelector.collectionView?.reloadData()
                 self.predictionView.image = output
                 self.showPredictionView()
                 Analytics.shared.logSort(withSortParam: sortParam)
@@ -351,27 +321,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-    fileprivate func setupSizeSelector() {
-        
-        guard let selectedImage = self.selectedImage else {
-            Logger.log("select image first")
-            return
-        }
-        
-        self.sizeSelector.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Silom", size: 12) as Any], for: .normal)
-        self.sizeSelector.removeAllSegments()
-        
-        self.sizeSelector.insertSegment(withTitle: AppConfig.MaxSize.px600.description, at: 0, animated: true)
-        
-        let MAX_IMAGE_SIZE = max(selectedImage.size.width, selectedImage.size.height)
-        for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
-            let mp = AppConfig.MaxSize.ALL_SIZES[i]
-            self.sizeSelector.insertSegment(withTitle: mp.description, at: i, animated: true)
-            self.sizeSelector.setEnabled(mp.pixels <= Int(MAX_IMAGE_SIZE), forSegmentAt: i)
-        }
-        
-        self.sizeSelector.selectedSegmentIndex = 0
-    }
+ 
     
     fileprivate func setupThumbnails () {
         self.thumbnailView.layer.masksToBounds = true
@@ -426,30 +376,7 @@ class SortConfigViewController: UIViewController, UIImagePickerControllerDelegat
         }
         
     }
-    
-    fileprivate func setupPatternSelector() {
-        self.patternPreviewsSelector = storyboard?.instantiateViewController(withIdentifier: "patternSelecter") as! HorizontalSelectorCollectionViewController
-        if let layout = self.patternPreviewsSelector.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            layout.minimumInteritemSpacing = 0
-            layout.minimumLineSpacing = 0
-            let ITEMS_PER_PAGE = CGFloat(3.0)
-            let WIDTH_SELECTOR = self.containerViewForPatternPreviews.frame.size.width
-            let HEIGHT_SELECTOR = self.containerViewForPatternPreviews.frame.size.height
-            let ITEM_SIZE = CGSize(width: WIDTH_SELECTOR/ITEMS_PER_PAGE, height: HEIGHT_SELECTOR/ITEMS_PER_PAGE)
-            layout.itemSize = ITEM_SIZE
-            layout.estimatedItemSize = ITEM_SIZE
-            layout.scrollDirection = .vertical
-        }
-        self.addChildViewController(self.patternPreviewsSelector)
-        self.patternPreviewsSelector.view.frame = CGRect(x: 0, y: 0, width: self.containerViewForPatternPreviews.frame.size.width, height: self.containerViewForPatternPreviews.frame.size.height)
-        self.containerViewForPatternPreviews.addSubview(self.patternPreviewsSelector.view)
-        self.patternPreviewsSelector.didMove(toParentViewController: self)
-        self.patternPreviewsSelector.didSelectItem = { index in
-            self.didSelectItem(atIndex: index)
-        }
-        
-    }
+   
     
     func showToastMessage(_ m:String, completion: (()->Void)? = nil) {
         

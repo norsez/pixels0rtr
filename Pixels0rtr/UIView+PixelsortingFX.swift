@@ -16,7 +16,7 @@ extension UIView {
         images.append(image)
         let pattern = PatternClassic()
         let sorter = SorterBrightness()
-        var sortParam = SortParam(motionAmount: 0, sortAmount: 0, sorter: sorter, pattern: pattern)
+        var sortParam = SortParam(roughness: 0, sortAmount: 0, sorter: sorter, pattern: pattern)
         sortParam.pattern.initialize(withWidth: Int(image.size.width), height: Int(image.size.height), sortParam: sortParam)
         
         for i in 0..<steps {
