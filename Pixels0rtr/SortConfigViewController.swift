@@ -29,10 +29,10 @@ SortParamUIViewControllerDelegate{
     
     var showingThumbnailView = true
     var paramController: SortParamUIViewController!
-    var previewItems = [HorizontalSelectItem]()
     var selectedImage: UIImage?
-    var selectedSorterIndex = 0
     let CORNER_RADIUS: CGFloat = 8
+    
+    let previewEngine = SortingPreview()
     
     var isFreeVersion : Bool {
         get {
@@ -59,6 +59,7 @@ SortParamUIViewControllerDelegate{
     func setupParamControllerView() {
         
         self.paramController = self.storyboard?.instantiateViewController(withIdentifier: "sortParamUI") as! SortParamUIViewController
+        self.paramController.delegate = self
         self.addChildViewController(self.paramController)
         let containerSize = self.controlScrollView.bounds
         var adaptedSize = self.paramController.view.bounds
@@ -166,31 +167,35 @@ SortParamUIViewControllerDelegate{
         
     }
     
+    fileprivate var isUpdatingPreviews = false
     fileprivate func updatePreviews (withImage image:UIImage, completion: @escaping ()->Void) {
+        
+        if isUpdatingPreviews {
+            return
+        }
+        
+        isUpdatingPreviews = true
         
         let progressBlock = { p in
             self.updatePregressInMainThread(p)
         }
         
         DispatchQueue.global().async {
-            let previews = SortingPreview().generatePreviews(with: image, progress:progressBlock)!
-            
+           self.previewEngine.generatePreviews(with: image, sortParam: self.paramController.currentParameters, progress:progressBlock)
             
             DispatchQueue.main.async {
-                self.selectedSorterIndex = 0
-                self.predictionView.image = previews.first?.image
                 self.showPredictionView()
-                
                 completion()
+                self.isUpdatingPreviews = false
             }
         }
     }
     
     fileprivate func setProgressView(hidden: Bool, completion: (()->Void)? = nil) {
         self.view.isUserInteractionEnabled = hidden
+        self.controlScrollView.isUserInteractionEnabled = hidden
         
         let endAlpha:CGFloat = hidden ? 1 : 0.15
-        
         let endAlphaStartbutton:CGFloat = hidden ? 1 : 0
         let endAlphaProgressBar:CGFloat = hidden ? 0 : 1
         
@@ -199,7 +204,7 @@ SortParamUIViewControllerDelegate{
         UIView.animate(withDuration: 0.25, animations: {
             self.startSortButton.alpha = endAlphaStartbutton
             self.progressView.alpha = endAlphaProgressBar
-            
+            self.controlScrollView.alpha = endAlpha
             self.selectImageButton.alpha = endAlpha
             
         }, completion: {
@@ -214,20 +219,22 @@ SortParamUIViewControllerDelegate{
     }
 
     
-    func paramValueDidChange(toParam: SortParam) {
+    func paramValueDidChange(toParam: SortParam, shouldUpdatePreviews: Bool) {
         
+        if shouldUpdatePreviews {
+            if let si = self.selectedImage {
+                self.setProgressView(hidden: false)
+                
+                self.updatePreviews(withImage: si, completion: {
+                    self.setProgressView(hidden: true)
+                    self.showPredictionView()
+                })
+            }
+        }else {
+            self.showPredictionView()
+        }
     }
     
-    func didSelectItem(atIndex index: Int) {
-        self.selectedSorterIndex = index
-        self.predictionView.image = self.previewItems[index].image
-
-        UIView.animate(withDuration: 0.05, animations: {
-          self.predictionView.alpha = 0
-        }, completion: { finished in
-          self.showPredictionView()
-        })
-    }
     
     @IBAction func didPressSelectImage(_ sender: Any) {
         Logger.log("select a new image…")
@@ -254,13 +261,8 @@ SortParamUIViewControllerDelegate{
             return
         }
         
-        let SELECTED_SORTER_INDEX = self.selectedSorterIndex
         
-        let sorter = PixelSorterFactory.ALL_SORTERS[SELECTED_SORTER_INDEX]
-        let pattern = PatternClassic(withRoughness: 4)
-        pattern.sortOrientation = AppConfig.shared.sortOrientation
-        let sortAmount = AppConfig.shared.sortAmount
-        let sortParam = SortParam(roughness: 0, sortAmount: sortAmount, sorter: sorter, pattern: pattern)
+        let sortParam = self.paramController.currentParameters
         
         self.setProgressView(hidden: false)
         self.progressView.progress = 0.01
@@ -283,10 +285,7 @@ SortParamUIViewControllerDelegate{
             
             DispatchQueue.main.async {
                 self.manageOutputImage(output)
-                var item = self.previewItems[SELECTED_SORTER_INDEX]
-                item.image = output
-                self.previewItems[SELECTED_SORTER_INDEX] = item
-                self.predictionView.image = output
+                self.previewEngine.updatePreviewImage(withImage: output, sortParam: self.paramController.currentParameters)
                 self.showPredictionView()
                 Analytics.shared.logSort(withSortParam: sortParam)
             }
@@ -347,10 +346,20 @@ SortParamUIViewControllerDelegate{
         guard let _ = self.selectedImage else {
             return
         }
+        
+        let sortParam = self.paramController.currentParameters
+        
+        guard let currentPreviewImage  = self.previewEngine.previewImage(withSortParam: sortParam) else {
+            Logger.log("no preview for \(sortParam)")
+            return
+        }
+        self.predictionView.image = currentPreviewImage
         Logger.log("show prediction view")
         self.thumbnailLabel.alpha = 0
-        let sorter = PixelSorterFactory.ALL_SORTERS[self.selectedSorterIndex]
-        self.thumbnailLabel.text = "low-res preview - \(sorter.name)"
+        
+        self.thumbnailLabel.text = "lo-res preview - \(self.previewEngine.title(ofSortParam: sortParam))"
+        
+        
         UIView.animate(withDuration: 0.5) {
             self.predictionView.alpha = 1
             self.thumbnailLabel.alpha = 1

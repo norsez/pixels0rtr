@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SortParamUIViewControllerDelegate {
-    func paramValueDidChange(toParam: SortParam)
+    func paramValueDidChange(toParam: SortParam, shouldUpdatePreviews: Bool)
 }
 
 class SortParamUIViewController: UIViewController {
@@ -20,6 +20,7 @@ class SortParamUIViewController: UIViewController {
     @IBOutlet var sortOrientationSelector: UISegmentedControl!
     @IBOutlet var patternContainerView: UIView!
     @IBOutlet var sorterContainerView: UIView!
+    @IBOutlet var xyLabel: UILabel!
     
     var delegate: SortParamUIViewControllerDelegate?
     
@@ -60,7 +61,7 @@ class SortParamUIViewController: UIViewController {
         self.sorterSelector.didMove(toParentViewController: self)
         self.sorterSelector.didSelectItem = { index in
             self.sorter = ALL_SORTERS[index]
-            self.delegate?.paramValueDidChange(toParam: self.currentParameters)
+            self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
         }
         
         
@@ -75,11 +76,54 @@ class SortParamUIViewController: UIViewController {
         self.patternSelector.didMove(toParentViewController: self)
         self.patternSelector.didSelectItem = { index in
             self.pattern = ALL_SORT_PATTERNS[index]
-            self.delegate?.paramValueDidChange(toParam: self.currentParameters)
+            self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
         }
         
+        let xyTap = UITapGestureRecognizer(target: self, action: #selector(didTapXYPad(_:)))
+        xyTap.numberOfTapsRequired = 1
+        xyTap.numberOfTouchesRequired = 1
+        let xyPan = UIPanGestureRecognizer(target: self, action: #selector(didPanXYPad(_:)))
+        xyPan.maximumNumberOfTouches = 1
+        xyPan.minimumNumberOfTouches = 1
+        self.xyPadView.addGestureRecognizer(xyTap)
+        self.xyPadView.addGestureRecognizer(xyPan)
+        
+        self.xyPadView.layer.cornerRadius = 6
+        self.xyPadView.clipsToBounds = true
+        
+//        #if DEBUG
+//            self.xyPadView.backgroundColor = UIColor.red
+//            self.xyPadView.layer.borderColor = UIColor.blue.cgColor
+//            self.xyPadView.layer.borderWidth = 1
+//        #endif
     }
     
+    func didTapXYPad(_ gr: UITapGestureRecognizer) {
+        if gr.state == .ended {
+            let point = gr.location(in: self.xyPadView)
+            self.setParamsWithXYPad(atPoint: point)
+        }
+    }
+    
+    func didPanXYPad(_ gr: UIPanGestureRecognizer) {
+        if gr.state == .changed {
+            let point = gr.location(in: self.xyPadView)
+            self.setParamsWithXYPad(atPoint: point)
+        }
+    }
+    
+    func setParamsWithXYPad(atPoint point: CGPoint) {
+        if self.xyPadView.bounds.contains(point) == false {
+            return
+        }
+        
+        let bounds = self.xyPadView.bounds
+        self.xyLabel.center = point
+        self.sortAmount = Double(point.x)/Double(bounds.width)
+        self.roughness = Double(point.y)/Double(bounds.height)
+        Logger.log("sort amt: \(self.sortAmount), \(self.roughness)")
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
+    }
     
     func setDisabled(_ disabled: Bool) {
         
@@ -98,21 +142,13 @@ class SortParamUIViewController: UIViewController {
         }
         
         self.sizeSelector.selectedSegmentIndex = 0
-        
-        
-        //
-        
-        
         self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
-    }
-    
-    
-    @IBAction func didPressSorterButton(_ sender: Any) {
-    }
-    
-    
-    @IBAction func didPressPatternButton(_ sender: Any) {
+        self.roughness = AppConfig.shared.roughnessAmount
+        self.sortAmount = AppConfig.shared.sortAmount
+        let xyLoc = CGPoint(x: CGFloat(self.sortAmount * Double(self.xyPadView.bounds.width)),
+                            y: CGFloat(self.roughness * Double(self.xyPadView.bounds.height)))
+        self.xyLabel.center = xyLoc
     }
     
     @IBAction func didSelectSize(_ sender: Any) {
@@ -120,7 +156,7 @@ class SortParamUIViewController: UIViewController {
         let selected = AppConfig.MaxSize.ALL_SIZES[index]
         AppConfig.shared.maxPixels = selected
         Logger.log("render size: \(selected)")
-        self.delegate?.paramValueDidChange(toParam: self.currentParameters)
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
     }
     
     @IBAction func didSelectSortOrientation(_ sender: Any) {
@@ -130,6 +166,6 @@ class SortParamUIViewController: UIViewController {
             AppConfig.shared.sortOrientation = orientation
             Logger.log("set sort orientation: \(orientation)")
         }
-        self.delegate?.paramValueDidChange(toParam: self.currentParameters)
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -196,7 +196,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="horizontalSelector" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -323,15 +323,23 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyI-8y-qmi">
-                                <rect key="frame" x="8" y="158" width="359" height="100"/>
+                                <rect key="frame" x="137.5" y="158" width="100" height="100"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6eJ-Gm-Yp6">
-                                        <rect key="frame" x="0.0" y="0.0" width="359" height="100"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1E-kJ-xmy">
+                                        <rect key="frame" x="41" y="40" width="21" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="30"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74136991279069764" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15055717054263565" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="6eJ-Gm-Yp6" secondAttribute="trailing" id="5aJ-aP-LML"/>
+                                    <constraint firstAttribute="width" constant="100" id="7AJ-e3-6G6"/>
                                     <constraint firstAttribute="height" constant="100" id="8dc-vt-9w6"/>
                                     <constraint firstItem="6eJ-Gm-Yp6" firstAttribute="leading" secondItem="pyI-8y-qmi" secondAttribute="leading" id="dDC-bX-CcQ"/>
                                     <constraint firstAttribute="bottom" secondItem="6eJ-Gm-Yp6" secondAttribute="bottom" id="i9B-wq-NFR"/>
@@ -343,17 +351,16 @@
                         <constraints>
                             <constraint firstItem="dCn-Ob-2BJ" firstAttribute="top" secondItem="2yI-tw-f87" secondAttribute="bottom" constant="8" id="7e5-rj-MBw"/>
                             <constraint firstItem="pyI-8y-qmi" firstAttribute="top" secondItem="ckJ-n2-iCE" secondAttribute="bottom" constant="8" id="9O1-jR-YQp"/>
+                            <constraint firstItem="pyI-8y-qmi" firstAttribute="centerX" secondItem="QwI-hW-C4t" secondAttribute="centerX" id="BkM-EZ-4OP"/>
                             <constraint firstAttribute="trailing" secondItem="ckJ-n2-iCE" secondAttribute="trailing" constant="8" id="FXx-jQ-tEv"/>
                             <constraint firstAttribute="trailing" secondItem="2yI-tw-f87" secondAttribute="trailing" constant="8" id="Fi7-PK-XCf"/>
                             <constraint firstItem="dCn-Ob-2BJ" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="Hif-vv-b7Z"/>
                             <constraint firstAttribute="trailing" secondItem="dCn-Ob-2BJ" secondAttribute="trailing" constant="8" id="NoM-HM-A10"/>
-                            <constraint firstItem="pyI-8y-qmi" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="OYd-cJ-uT2"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="top" secondItem="Wvf-bV-4OR" secondAttribute="bottom" constant="8" id="Ocf-QO-QRk"/>
                             <constraint firstAttribute="trailing" secondItem="Wvf-bV-4OR" secondAttribute="trailing" constant="8" id="Opp-R1-R6y"/>
                             <constraint firstItem="Wvf-bV-4OR" firstAttribute="top" secondItem="2Ve-7o-x5j" secondAttribute="bottom" constant="8" id="hgP-Hx-4wc"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="kAg-1b-GsN"/>
                             <constraint firstItem="2yI-tw-f87" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="bottom" constant="8" id="klj-5y-5X5"/>
-                            <constraint firstAttribute="trailing" secondItem="pyI-8y-qmi" secondAttribute="trailing" constant="8" id="qAt-9M-h7p"/>
                             <constraint firstItem="2yI-tw-f87" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="uet-Da-Bd0"/>
                             <constraint firstItem="Wvf-bV-4OR" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="yUn-gF-Dfn"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="height" secondItem="Wvf-bV-4OR" secondAttribute="height" id="zPa-31-cYh"/>
@@ -364,6 +371,7 @@
                         <outlet property="sizeSelector" destination="dCn-Ob-2BJ" id="Pa1-Mp-3dY"/>
                         <outlet property="sortOrientationSelector" destination="2yI-tw-f87" id="hYv-Pi-261"/>
                         <outlet property="sorterContainerView" destination="Wvf-bV-4OR" id="DFD-uH-Grd"/>
+                        <outlet property="xyLabel" destination="j1E-kJ-xmy" id="qD2-2S-Zmr"/>
                         <outlet property="xyPadImageView" destination="6eJ-Gm-Yp6" id="14E-7R-mRU"/>
                         <outlet property="xyPadView" destination="pyI-8y-qmi" id="WpR-sx-0Sk"/>
                     </connections>
@@ -563,7 +571,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

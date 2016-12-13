@@ -8,7 +8,7 @@
 
 import UIKit
 
-let ALL_SORT_PATTERNS: [SortPattern] = [PatternClassic(), PatternClassicFine()]
+let ALL_SORT_PATTERNS: [SortPattern] = [PatternClassic()]
 let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue(), SorterSaturation(), SorterCenterSorted(), SorterIntervals()]
 
 //MARK: AppConfig
@@ -58,7 +58,7 @@ class AppConfig: NSObject {
     }
     
     enum Config: String {
-        case Sorter, Pattern, SortAmount, RoughnessAmount, MaxSize, SortOrientation, isNotFirstLaunch
+        case Sorter, Pattern, SortAmount, RoughnessAmount, MaxSize, SortOrientation, isNotFirstLaunch, MotionAmount
     }
     
     var sortOrientation: SortOrientation {
@@ -95,6 +95,16 @@ class AppConfig: NSObject {
         }
         set (value) {
             UserDefaults.standard.setValue(value, forKey: Config.SortAmount.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    var roughnessAmount: Double {
+        get {
+            return UserDefaults.standard.double(forKey: Config.RoughnessAmount.rawValue)
+        }
+        set (value) {
+            UserDefaults.standard.setValue(value, forKey: Config.RoughnessAmount.rawValue)
             UserDefaults.standard.synchronize()
         }
     }
@@ -146,6 +156,7 @@ class AppConfig: NSObject {
             Config.Pattern.rawValue: "Classic",
             Config.SortAmount.rawValue: 0.5,
             Config.RoughnessAmount.rawValue: 0,
+            Config.MotionAmount.rawValue: 0,
             Config.MaxSize.rawValue: MaxSize.px600.rawValue,
             Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue,
             AppConfig.Key.FreeVersion: true

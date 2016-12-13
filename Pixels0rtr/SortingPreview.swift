@@ -11,43 +11,69 @@ import C4
 import CoreImage
 class SortingPreview: NSObject {
     let MAX_THUMB_SIZE = 150
-    var previews = [HorizontalSelectItem]()
+    var previews = [String:HorizontalSelectItem]()
     
-    func generatePreviews(with image: UIImage, progress: ((Float)->Void)? = nil) -> [HorizontalSelectItem]?{
+    
+    func title(ofSortParam sp: SortParam) -> String {
+        return "\(sp.sorter.name) - \(sp.pattern.name)"
+    }
+    
+    func previewImage(withSortParam sp: SortParam) -> UIImage?{
+        let title = self.title(ofSortParam: sp)
+        if let item = self.previews[title] {
+            return item.image
+        }else {
+            return nil
+        }
+    }
+    
+    func updatePreviewImage(withImage image: UIImage, sortParam sp: SortParam) {
+        let title = "\(sp.sorter.name) - \(sp.pattern.name)"
+        if let item = self.previews[title] {
+            var updatedItem = item
+            updatedItem.image = image
+            self.previews[title] = updatedItem
+        }else {
+            assert(false, "can't find preview item")
+        }
+    }
+    
+    func generatePreviews(with image: UIImage, sortParam sp: SortParam, progress: ((Float)->Void)? = nil) {
         
         guard let thumbnail = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
             Logger.log("failed creating thumbnail")
-            return nil
+            return
         }
         
         let blurredThumb = thumbnail
-        let pattern = PatternClassic()
-        pattern.sortOrientation = AppConfig.shared.sortOrientation
-        previews = [HorizontalSelectItem]()
-        let sortAmount = AppConfig.shared.sortAmount
-            
-        for s in PixelSorterFactory.ALL_SORTERS {
-//            guard let imageToSort = blurredThumb?.makeCopy() else {
-//                Logger.log("can't copy original blurred image")
-//                continue
-//            }
-            let imageToSort = blurredThumb
-            let param = SortParam(roughness: 0, sortAmount: sortAmount, sorter: s, pattern:pattern)
-            pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
-            
-            guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
-                if let p = progress {
-                    p(Float(v))
+        
+        previews = [String:HorizontalSelectItem]()
+        
+        
+        
+        for var pattern in ALL_SORT_PATTERNS {
+            for s in ALL_SORTERS {
+                let imageToSort = blurredThumb
+                
+                pattern.sortOrientation = AppConfig.shared.sortOrientation
+                
+                let param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern)
+                pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
+                
+                guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
+                    if let p = progress {
+                        p(Float(v))
+                    }
+                }) else {
+                    continue
                 }
-            }) else {
-                continue
+                
+                let title = self.title(ofSortParam: param)
+                let previewItem = HorizontalSelectItem(image: preview, title: title)
+                previews[title] = previewItem
+                
             }
-            
-            let previewItem = HorizontalSelectItem(image: preview, title: s.name)
-            previews.append(previewItem)
-            
         }
-        return self.previews
     }
     
     func imageToSort(withImage image: UIImage) -> UIImage?{

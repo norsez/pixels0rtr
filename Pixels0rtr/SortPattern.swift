@@ -140,17 +140,13 @@ class AbstractSortPattern: SortPattern{
 
 class PatternClassic : AbstractSortPattern {
     var resetRowIndexByCol: [Int] = []
-    var roughness: Int = 1
+    
     override var name: String {
         get {
             return "Classic"
         }
     }
-    
-    init(withRoughness r: Int = 1) {
-        super.init()
-        self.roughness = r
-    }
+   
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         resetRowIndexByCol = [Int]()
@@ -159,7 +155,8 @@ class PatternClassic : AbstractSortPattern {
         let _min = 25.0 * factor;
         
         var lastValue: Int = 0
-        
+        let roughness = 1 + Int(sortParam.roughnessAmount * 16)
+        Logger.log("roughness: \(roughness), sort amt: \(sortParam.sortAmount)")
         switch self.sortOrientation {
         case .vertical:
             for i in 0..<width {
@@ -197,14 +194,3 @@ class PatternClassic : AbstractSortPattern {
     }
 }
 
-class PatternClassicFine: PatternClassic {
-    init() {
-        super.init(withRoughness: 1)
-    }
-    
-    override var name: String {
-        get {
-            return "Fine"
-        }
-    }
-}
