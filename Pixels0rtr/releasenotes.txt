@@ -1,6 +1,10 @@
 release notes
 =============
 
+build 4
+- revamped UI with x-y pad to control pattern
+- size selector works
+
 build 3
 - change classic roughness default to 4
 

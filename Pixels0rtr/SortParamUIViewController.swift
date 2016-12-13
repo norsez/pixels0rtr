@@ -149,6 +149,9 @@ class SortParamUIViewController: UIViewController {
         let xyLoc = CGPoint(x: CGFloat(self.sortAmount * Double(self.xyPadView.bounds.width)),
                             y: CGFloat(self.roughness * Double(self.xyPadView.bounds.height)))
         self.xyLabel.center = xyLoc
+        
+        self.patternSelector.collectionView?.selectItem(at: IndexPath(row:0, section:0), animated: false, scrollPosition: .centeredHorizontally)
+        self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:0, section:0), animated: false, scrollPosition: .centeredHorizontally)
     }
     
     @IBAction func didSelectSize(_ sender: Any) {

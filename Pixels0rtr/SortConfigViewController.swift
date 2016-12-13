@@ -53,6 +53,11 @@ SortParamUIViewControllerDelegate{
             self.view.addGestureRecognizer(fourtaps)
         #endif
         
+        self.controlScrollView.alpha = 0
+        self.progressView.alpha = 0
+        self.startSortButton.alpha = 0
+        self.thumbnailView.alpha = 0
+        self.predictionView.alpha = 0
     
     }
     
@@ -206,7 +211,7 @@ SortParamUIViewControllerDelegate{
             self.progressView.alpha = endAlphaProgressBar
             self.controlScrollView.alpha = endAlpha
             self.selectImageButton.alpha = endAlpha
-            
+            self.predictionView.alpha = endAlpha
         }, completion: {
             finished in
             if finished {
@@ -297,9 +302,12 @@ SortParamUIViewControllerDelegate{
     func manageOutputImage(_ output:UIImage) {
         
         if AppConfig.shared.isFreeVersion && AppConfig.shared.maxPixels != .px600 {
-            
+            AppConfig.shared.maxPixels = .px600
+            let f = CGRect(x:self.controlScrollView.bounds.maxY,y: 0,width: 1, height: 1)
+            self.controlScrollView.scrollRectToVisible(f, animated: true)
             self.performSegue(withIdentifier: "showUnlock", sender: output)
             self.setProgressView(hidden: true, completion: {})
+            
         }else {
             
             UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
@@ -357,7 +365,7 @@ SortParamUIViewControllerDelegate{
         Logger.log("show prediction view")
         self.thumbnailLabel.alpha = 0
         
-        self.thumbnailLabel.text = "lo-res preview - \(self.previewEngine.title(ofSortParam: sortParam))"
+        self.thumbnailLabel.text = "lo-res preview: \(self.previewEngine.title(ofSortParam: sortParam))"
         
         
         UIView.animate(withDuration: 0.5) {

@@ -35,11 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setupAppearance() {
         let font = UIFont(name: "Silom", size: 14)
-        let fontColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.9)
+        let fontColor = APP_COLOR_FONT
         let textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
         UIBarButtonItem.appearance().setTitleTextAttributes(textAttributes, for: .normal)
         UINavigationBar.appearance().tintColor = fontColor
-        
+        UILabel.appearance().tintColor = APP_COLOR_FONT
+        UIButton.appearance().setTitleColor(APP_COLOR_FONT, for: .normal)
+        UILabel.appearance().textColor = APP_COLOR_FONT
+        UISegmentedControl.appearance().setTitleTextAttributes(textAttributes, for: .normal)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -78,11 +78,11 @@
                                     <action selector="didPressSelectImage:" destination="4e0-rS-Mih" eventType="touchUpInside" id="UtH-Xa-z1m"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prediction" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI8-cZ-tYN">
-                                <rect key="frame" x="199" y="251" width="85" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prediction" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI8-cZ-tYN">
+                                <rect key="frame" x="164" y="251" width="120" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="bjs-kG-fg8"/>
-                                    <constraint firstAttribute="height" constant="21" id="vQN-xl-ror"/>
+                                    <constraint firstAttribute="width" constant="120" id="bjs-kG-fg8"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="vQN-xl-ror"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="11"/>
                                 <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
@@ -196,7 +196,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="horizontalSelector" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -323,7 +323,7 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyI-8y-qmi">
-                                <rect key="frame" x="137.5" y="158" width="100" height="100"/>
+                                <rect key="frame" x="138" y="158" width="100" height="100"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6eJ-Gm-Yp6">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -571,7 +571,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

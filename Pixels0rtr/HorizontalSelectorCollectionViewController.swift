@@ -22,28 +22,20 @@ class HorizontalSelectCell: UICollectionViewCell {
     @IBOutlet weak var selectedBorderView: UIView!
     var initalizedUI = false
     
-//    
-//    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        
-//        if !self.initalizedUI {
-//            self.selectedBorderView.layer.cornerRadius = 4
-//            self.selectedBorderView.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.8).cgColor
-//            self.initalizedUI = true
-//        }
-//        
-//        self.selectedBorderView.isHidden = !self.isHighlighted
-//        self.imageView.alpha = self.isHighlighted ? 0.2 : 0.9
-//    }
-//    
-    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let bgView = UIView(frame: CGRect.zero)
+        bgView.backgroundColor = UIColor(white: 1, alpha: 0.15)
+        bgView.layer.cornerRadius = 5
+        self.selectedBackgroundView = bgView
+    }
 }
 
 class HorizontalSelectorCollectionViewController: UICollectionViewController {
     
     var items = [HorizontalSelectItem]()
     var didSelectItem: ((Int)->Void)?
+    var selectedIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,42 +78,8 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         if let c = self.didSelectItem {
             c(indexPath.row)
         }
-        
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         
     }
     
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
 }
