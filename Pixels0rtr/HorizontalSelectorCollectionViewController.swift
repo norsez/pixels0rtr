@@ -36,6 +36,7 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
     var items = [HorizontalSelectItem]()
     var didSelectItem: ((Int)->Void)?
     var selectedIndex: Int = 0
+    var selectedColor: UIColor?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +70,15 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         let item = self.items[indexPath.row]
         cell.imageView.image = item.image
         cell.textLabel.text = item.title
+        
+        if let color = self.selectedColor {
+            cell.selectedBackgroundView?.backgroundColor = color
+        }
+        
         return cell
     }
-
+    
+    
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

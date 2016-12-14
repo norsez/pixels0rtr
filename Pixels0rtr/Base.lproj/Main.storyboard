@@ -196,7 +196,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="horizontalSelector" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -290,8 +290,8 @@
                                     <constraint firstAttribute="height" constant="48" id="7hN-zp-Lai"/>
                                 </constraints>
                             </containerView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2yI-tw-f87">
-                                <rect key="frame" x="8" y="348" width="359" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2yI-tw-f87">
+                                <rect key="frame" x="8" y="396" width="359" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="G80-ax-yq8"/>
                                 </constraints>
@@ -304,24 +304,8 @@
                                     <action selector="didSelectSortOrientation:" destination="pxt-Ef-Gai" eventType="valueChanged" id="tK0-sf-fn8"/>
                                 </connections>
                             </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dCn-Ob-2BJ">
-                                <rect key="frame" x="8" y="384" width="359" height="29"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="ktR-ep-OQB"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="600p"/>
-                                    <segment title="1200p"/>
-                                    <segment title="2400p"/>
-                                    <segment title="Full"/>
-                                </segments>
-                                <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74815285860000003" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="didSelectSize:" destination="pxt-Ef-Gai" eventType="valueChanged" id="9xg-PM-VRO"/>
-                                </connections>
-                            </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyI-8y-qmi">
-                                <rect key="frame" x="88" y="140" width="200" height="200"/>
+                                <rect key="frame" x="88" y="164" width="200" height="200"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6eJ-Gm-Yp6">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -335,7 +319,7 @@
                                         <blurEffect style="dark"/>
                                     </visualEffectView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOC-lR-plL">
-                                        <rect key="frame" x="98" y="94.5" width="5.5" height="10"/>
+                                        <rect key="frame" x="97" y="95" width="6" height="10"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                         <color key="textColor" red="0.1758133778" green="0.52277688060000005" blue="0.53725492949999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -353,10 +337,10 @@
                                     <constraint firstAttribute="trailing" secondItem="UsS-oN-C0N" secondAttribute="trailing" id="3lb-h1-xB3"/>
                                     <constraint firstItem="GOC-lR-plL" firstAttribute="centerY" secondItem="pyI-8y-qmi" secondAttribute="centerY" id="3wB-rM-hkP"/>
                                     <constraint firstAttribute="trailing" secondItem="6eJ-Gm-Yp6" secondAttribute="trailing" id="5aJ-aP-LML"/>
-                                    <constraint firstAttribute="width" constant="200" id="7AJ-e3-6G6"/>
                                     <constraint firstAttribute="height" constant="200" id="8dc-vt-9w6"/>
                                     <constraint firstItem="UsS-oN-C0N" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="top" id="S2A-y0-5qR"/>
                                     <constraint firstAttribute="bottom" secondItem="UsS-oN-C0N" secondAttribute="bottom" id="Uaa-J6-3dJ"/>
+                                    <constraint firstAttribute="width" constant="200" id="cZ8-r7-adw"/>
                                     <constraint firstItem="6eJ-Gm-Yp6" firstAttribute="leading" secondItem="pyI-8y-qmi" secondAttribute="leading" id="dDC-bX-CcQ"/>
                                     <constraint firstAttribute="bottom" secondItem="6eJ-Gm-Yp6" secondAttribute="bottom" id="i9B-wq-NFR"/>
                                     <constraint firstItem="6eJ-Gm-Yp6" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="top" id="ilN-jE-Wgi"/>
@@ -364,29 +348,49 @@
                                     <constraint firstItem="GOC-lR-plL" firstAttribute="centerX" secondItem="pyI-8y-qmi" secondAttribute="centerX" id="xYf-SC-gFX"/>
                                 </constraints>
                             </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="req-Pv-bZL">
+                                <rect key="frame" x="24" y="432" width="327" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="8SY-Km-KMa"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="600p"/>
+                                    <segment title="1200p"/>
+                                    <segment title="2400p"/>
+                                    <segment title="Actual"/>
+                                </segments>
+                                <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.85319767441860461" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="didSelectSize:" destination="pxt-Ef-Gai" eventType="valueChanged" id="T1r-FI-WNp"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14798328488372092" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="dCn-Ob-2BJ" firstAttribute="top" secondItem="2yI-tw-f87" secondAttribute="bottom" constant="8" id="7e5-rj-MBw"/>
-                            <constraint firstItem="pyI-8y-qmi" firstAttribute="top" secondItem="ckJ-n2-iCE" secondAttribute="bottom" constant="8" id="9O1-jR-YQp"/>
+                            <constraint firstItem="pyI-8y-qmi" firstAttribute="top" secondItem="ckJ-n2-iCE" secondAttribute="bottom" constant="32" id="9O1-jR-YQp"/>
                             <constraint firstItem="pyI-8y-qmi" firstAttribute="centerX" secondItem="QwI-hW-C4t" secondAttribute="centerX" id="BkM-EZ-4OP"/>
                             <constraint firstAttribute="trailing" secondItem="ckJ-n2-iCE" secondAttribute="trailing" constant="8" id="FXx-jQ-tEv"/>
                             <constraint firstAttribute="trailing" secondItem="2yI-tw-f87" secondAttribute="trailing" constant="8" id="Fi7-PK-XCf"/>
-                            <constraint firstItem="dCn-Ob-2BJ" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="Hif-vv-b7Z"/>
-                            <constraint firstAttribute="trailing" secondItem="dCn-Ob-2BJ" secondAttribute="trailing" constant="8" id="NoM-HM-A10"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="top" secondItem="Wvf-bV-4OR" secondAttribute="bottom" constant="8" id="Ocf-QO-QRk"/>
                             <constraint firstAttribute="trailing" secondItem="Wvf-bV-4OR" secondAttribute="trailing" constant="8" id="Opp-R1-R6y"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="req-Pv-bZL" secondAttribute="trailing" constant="8" id="W76-Mg-pP7"/>
                             <constraint firstItem="Wvf-bV-4OR" firstAttribute="top" secondItem="2Ve-7o-x5j" secondAttribute="bottom" constant="8" id="hgP-Hx-4wc"/>
+                            <constraint firstItem="req-Pv-bZL" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leadingMargin" constant="8" id="i97-se-9UL"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="kAg-1b-GsN"/>
-                            <constraint firstItem="2yI-tw-f87" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="bottom" constant="8" id="klj-5y-5X5"/>
+                            <constraint firstItem="2yI-tw-f87" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="bottom" constant="32" id="klj-5y-5X5"/>
+                            <constraint firstItem="req-Pv-bZL" firstAttribute="top" secondItem="2yI-tw-f87" secondAttribute="bottom" constant="8" id="qRa-eK-Ikq"/>
                             <constraint firstItem="2yI-tw-f87" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="uet-Da-Bd0"/>
                             <constraint firstItem="Wvf-bV-4OR" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="yUn-gF-Dfn"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="height" secondItem="Wvf-bV-4OR" secondAttribute="height" id="zPa-31-cYh"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="constraightHeightXYPad" destination="8dc-vt-9w6" id="uUW-Ld-W51"/>
+                        <outlet property="constraintBottomXYPad" destination="klj-5y-5X5" id="Dcc-tr-D9C"/>
+                        <outlet property="constraintTopXYPad" destination="9O1-jR-YQp" id="BLX-Co-r1H"/>
+                        <outlet property="constraintWidthXYPad" destination="cZ8-r7-adw" id="OSI-xT-fdt"/>
                         <outlet property="patternContainerView" destination="ckJ-n2-iCE" id="Gdf-xx-cFw"/>
-                        <outlet property="sizeSelector" destination="dCn-Ob-2BJ" id="Pa1-Mp-3dY"/>
+                        <outlet property="sizeSelector" destination="req-Pv-bZL" id="2vd-Ea-EoD"/>
                         <outlet property="sortOrientationSelector" destination="2yI-tw-f87" id="hYv-Pi-261"/>
                         <outlet property="sorterContainerView" destination="Wvf-bV-4OR" id="DFD-uH-Grd"/>
                         <outlet property="xyLabel" destination="j1E-kJ-xmy" id="qD2-2S-Zmr"/>
@@ -589,7 +593,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

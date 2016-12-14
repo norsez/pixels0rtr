@@ -63,6 +63,7 @@ SortParamUIViewControllerDelegate{
     func setupParamControllerView() {
         
         self.paramController = self.storyboard?.instantiateViewController(withIdentifier: "sortParamUI") as! SortParamUIViewController
+        
         self.paramController.delegate = self
         self.addChildViewController(self.paramController)
         let containerSize = self.controlScrollView.bounds
@@ -76,6 +77,9 @@ SortParamUIViewControllerDelegate{
         self.controlScrollView.contentSize = adaptedSize.size
         self.paramController.didMove(toParentViewController: self)
         
+        #if DEBUG
+//            self.controlScrollView.backgroundColor
+        #endif
         
     }
     
@@ -97,7 +101,9 @@ SortParamUIViewControllerDelegate{
             self.setSelected(image: defaultImage)
             AppConfig.shared.isNotFirstLaunch = true
         }else {
-            self.backgroundImageView.image = defaultImage
+            if self.backgroundImageView.image == nil {
+                self.backgroundImageView.image = defaultImage
+            }
         }
         
         
@@ -308,8 +314,6 @@ SortParamUIViewControllerDelegate{
         
         if AppConfig.shared.isFreeVersion && AppConfig.shared.maxPixels != .px600 {
             AppConfig.shared.maxPixels = .px600
-            let f = CGRect(x:self.controlScrollView.bounds.maxY,y: 0,width: 1, height: 1)
-            self.controlScrollView.scrollRectToVisible(f, animated: true)
             self.performSegue(withIdentifier: "showUnlock", sender: output)
             self.setProgressView(hidden: true, completion: {})
             

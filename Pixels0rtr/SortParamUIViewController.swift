@@ -22,6 +22,11 @@ class SortParamUIViewController: UIViewController {
     @IBOutlet var sorterContainerView: UIView!
     @IBOutlet var xyLabel: UILabel!
     
+    
+    @IBOutlet var constraintBottomXYPad: NSLayoutConstraint!
+    @IBOutlet var constraintTopXYPad: NSLayoutConstraint!
+    @IBOutlet var constraintWidthXYPad: NSLayoutConstraint!
+    @IBOutlet var constraightHeightXYPad: NSLayoutConstraint!
     var delegate: SortParamUIViewControllerDelegate?
     
     var sorterSelector: HorizontalSelectorCollectionViewController!
@@ -29,7 +34,7 @@ class SortParamUIViewController: UIViewController {
     
     var totalHeight: CGFloat {
         get {
-            return self.sizeSelector.frame.maxY + 16
+            return self.sizeSelector.frame.maxY + 48
         }
     }
     
@@ -69,6 +74,7 @@ class SortParamUIViewController: UIViewController {
         }
         
         
+        
         patternSelector = self.storyboard?.instantiateViewController(withIdentifier: "horizontalSelector") as! HorizontalSelectorCollectionViewController
         patternSelector.items = ALL_SORT_PATTERNS.flatMap({ (ps) -> HorizontalSelectItem? in
             return HorizontalSelectItem(image: nil, title: ps.name)
@@ -83,6 +89,7 @@ class SortParamUIViewController: UIViewController {
             self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
         }
         
+        
         let xyTap = UITapGestureRecognizer(target: self, action: #selector(didTapXYPad(_:)))
         xyTap.numberOfTapsRequired = 1
         xyTap.numberOfTouchesRequired = 1
@@ -94,6 +101,7 @@ class SortParamUIViewController: UIViewController {
         
         self.xyPadView.layer.cornerRadius = 6
         self.xyPadView.clipsToBounds = true
+        
         
 //        #if DEBUG
 //            self.xyPadView.backgroundColor = UIColor.red
@@ -141,13 +149,9 @@ class SortParamUIViewController: UIViewController {
 
     func updateUI (withImageSize size:CGSize) {
         
-        self.sizeSelector.removeAllSegments()
-        self.sizeSelector.insertSegment(withTitle: AppConfig.MaxSize.px600.description, at: 0, animated: true)
-        
         let MAX_IMAGE_SIZE = max(size.width, size.height)
         for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
             let mp = AppConfig.MaxSize.ALL_SIZES[i]
-            self.sizeSelector.insertSegment(withTitle: mp.description, at: i, animated: true)
             self.sizeSelector.setEnabled(mp.pixels <= Int(MAX_IMAGE_SIZE), forSegmentAt: i)
         }
         
@@ -165,6 +169,7 @@ class SortParamUIViewController: UIViewController {
     }
     
     @IBAction func didSelectSize(_ sender: Any) {
+   
         let index = self.sizeSelector.selectedSegmentIndex
         let selected = AppConfig.MaxSize.ALL_SIZES[index]
         AppConfig.shared.maxPixels = selected

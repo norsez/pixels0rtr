@@ -9,8 +9,9 @@
 import UIKit
 
 class ScrollableContainerView: UIScrollView {
-    override func touchesShouldBegin(_ touches: Set<UITouch>, with event: UIEvent?, in view: UIView) -> Bool {
-        return true
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let result = super.hitTest(point, with: event)
+        return result
     }
-
 }
