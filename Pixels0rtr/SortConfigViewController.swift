@@ -56,8 +56,7 @@ SortParamUIViewControllerDelegate{
         self.controlScrollView.alpha = 0
         self.progressView.alpha = 0
         self.startSortButton.alpha = 0
-        self.thumbnailView.alpha = 0
-        self.predictionView.alpha = 0
+        
     
     }
     
@@ -165,6 +164,7 @@ SortParamUIViewControllerDelegate{
             
             self.updatePreviews(withImage: image, completion:{
                 self.setProgressView(hidden: true)
+                self.paramController.setXYPadBackgroundImage(image)
             })
         })
         
@@ -192,6 +192,7 @@ SortParamUIViewControllerDelegate{
                 self.showPredictionView()
                 completion()
                 self.isUpdatingPreviews = false
+                
             }
         }
     }
@@ -224,7 +225,7 @@ SortParamUIViewControllerDelegate{
     }
 
     
-    func paramValueDidChange(toParam: SortParam, shouldUpdatePreviews: Bool) {
+    func paramValueDidChange(toParam sp: SortParam, shouldUpdatePreviews: Bool) {
         
         if shouldUpdatePreviews {
             if let si = self.selectedImage {
@@ -237,6 +238,10 @@ SortParamUIViewControllerDelegate{
             }
         }else {
             self.showPredictionView()
+        }
+        
+        if let pimage = self.previewEngine.previewImage(withSortParam: sp) {
+            self.paramController.setXYPadBackgroundImage(pimage)
         }
     }
     
@@ -369,8 +374,8 @@ SortParamUIViewControllerDelegate{
         
         
         UIView.animate(withDuration: 0.5) {
-            self.predictionView.alpha = 1
-            self.thumbnailLabel.alpha = 1
+            self.predictionView.alpha = 0.85
+            self.thumbnailLabel.alpha = 0.85
         }
     }
     @objc fileprivate func hidePredictionView () {
@@ -389,7 +394,7 @@ SortParamUIViewControllerDelegate{
         self.thumbnailLabel.text = "Original \(sizeString)"
         UIView.animate(withDuration: 0.5) {
             self.predictionView.alpha = 0
-            self.thumbnailLabel.alpha = 1
+            self.thumbnailLabel.alpha = 0.85
         }
         
     }

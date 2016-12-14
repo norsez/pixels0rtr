@@ -51,7 +51,7 @@ class HorizontalSelectorCollectionViewController: UICollectionViewController {
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         flowLayout.scrollDirection = .horizontal
         self.collectionView?.collectionViewLayout = flowLayout
-        flowLayout.itemSize = CGSize(width: 120, height: 57)
+        flowLayout.itemSize = CGSize(width: 110, height: 44)
     }
 
 // MARK: UICollectionViewDataSource

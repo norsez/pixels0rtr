@@ -196,7 +196,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="horizontalSelector" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -214,16 +214,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="150" height="51"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J72-uJ-TMc">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="51"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J72-uJ-TMc">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="49"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h3h-JF-rao">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="51"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="27" y="16" width="96" height="20"/>
-                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="15"/>
+                                            <rect key="frame" x="37" y="18" width="77" height="16"/>
+                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -279,19 +279,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wvf-bV-4OR" userLabel="sorterContainer">
-                                <rect key="frame" x="8" y="28" width="359" height="57"/>
+                                <rect key="frame" x="8" y="28" width="359" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="57" id="EKE-rT-8AD"/>
+                                    <constraint firstAttribute="height" constant="48" id="EKE-rT-8AD"/>
                                 </constraints>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ckJ-n2-iCE" userLabel="patternContainer">
-                                <rect key="frame" x="8" y="93" width="359" height="57"/>
+                                <rect key="frame" x="8" y="84" width="359" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="57" id="7hN-zp-Lai"/>
+                                    <constraint firstAttribute="height" constant="48" id="7hN-zp-Lai"/>
                                 </constraints>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2yI-tw-f87">
-                                <rect key="frame" x="8" y="266" width="359" height="29"/>
+                                <rect key="frame" x="8" y="348" width="359" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="G80-ax-yq8"/>
                                 </constraints>
@@ -301,12 +301,11 @@
                                 </segments>
                                 <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74818313960000005" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <action selector="didSelectSortDirection:" destination="4e0-rS-Mih" eventType="valueChanged" id="uRc-SP-dqO"/>
                                     <action selector="didSelectSortOrientation:" destination="pxt-Ef-Gai" eventType="valueChanged" id="tK0-sf-fn8"/>
                                 </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dCn-Ob-2BJ">
-                                <rect key="frame" x="8" y="302" width="359" height="29"/>
+                                <rect key="frame" x="8" y="384" width="359" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="ktR-ep-OQB"/>
                                 </constraints>
@@ -318,18 +317,31 @@
                                 </segments>
                                 <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74815285860000003" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <action selector="didPressSizeSelector:" destination="4e0-rS-Mih" eventType="valueChanged" id="JJd-Cs-Rxj"/>
                                     <action selector="didSelectSize:" destination="pxt-Ef-Gai" eventType="valueChanged" id="9xg-PM-VRO"/>
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyI-8y-qmi">
-                                <rect key="frame" x="138" y="158" width="100" height="100"/>
+                                <rect key="frame" x="88" y="140" width="200" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6eJ-Gm-Yp6">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6eJ-Gm-Yp6">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                     </imageView>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UsS-oN-C0N">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="aVo-9L-Kja">
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <blurEffect style="dark"/>
+                                    </visualEffectView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOC-lR-plL">
+                                        <rect key="frame" x="98" y="94.5" width="5.5" height="10"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <color key="textColor" red="0.1758133778" green="0.52277688060000005" blue="0.53725492949999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1E-kJ-xmy">
-                                        <rect key="frame" x="41" y="40" width="21" height="21"/>
+                                        <rect key="frame" x="92.5" y="90.5" width="21" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="30"/>
                                         <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74136991279069764" colorSpace="calibratedRGB"/>
@@ -338,12 +350,18 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15055717054263565" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="UsS-oN-C0N" secondAttribute="trailing" id="3lb-h1-xB3"/>
+                                    <constraint firstItem="GOC-lR-plL" firstAttribute="centerY" secondItem="pyI-8y-qmi" secondAttribute="centerY" id="3wB-rM-hkP"/>
                                     <constraint firstAttribute="trailing" secondItem="6eJ-Gm-Yp6" secondAttribute="trailing" id="5aJ-aP-LML"/>
-                                    <constraint firstAttribute="width" constant="100" id="7AJ-e3-6G6"/>
-                                    <constraint firstAttribute="height" constant="100" id="8dc-vt-9w6"/>
+                                    <constraint firstAttribute="width" constant="200" id="7AJ-e3-6G6"/>
+                                    <constraint firstAttribute="height" constant="200" id="8dc-vt-9w6"/>
+                                    <constraint firstItem="UsS-oN-C0N" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="top" id="S2A-y0-5qR"/>
+                                    <constraint firstAttribute="bottom" secondItem="UsS-oN-C0N" secondAttribute="bottom" id="Uaa-J6-3dJ"/>
                                     <constraint firstItem="6eJ-Gm-Yp6" firstAttribute="leading" secondItem="pyI-8y-qmi" secondAttribute="leading" id="dDC-bX-CcQ"/>
                                     <constraint firstAttribute="bottom" secondItem="6eJ-Gm-Yp6" secondAttribute="bottom" id="i9B-wq-NFR"/>
                                     <constraint firstItem="6eJ-Gm-Yp6" firstAttribute="top" secondItem="pyI-8y-qmi" secondAttribute="top" id="ilN-jE-Wgi"/>
+                                    <constraint firstItem="UsS-oN-C0N" firstAttribute="leading" secondItem="pyI-8y-qmi" secondAttribute="leading" id="wQH-M9-cSA"/>
+                                    <constraint firstItem="GOC-lR-plL" firstAttribute="centerX" secondItem="pyI-8y-qmi" secondAttribute="centerX" id="xYf-SC-gFX"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -571,7 +589,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

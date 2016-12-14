@@ -55,9 +55,9 @@ class SortingPreview: NSObject {
             for s in ALL_SORTERS {
                 let imageToSort = blurredThumb
                 
-                pattern.sortOrientation = AppConfig.shared.sortOrientation
+                var param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern)
+                param.orientation = sp.orientation
                 
-                let param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern)
                 pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
                 
                 guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in

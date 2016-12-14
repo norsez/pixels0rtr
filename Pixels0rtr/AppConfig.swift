@@ -157,7 +157,7 @@ class AppConfig: NSObject {
             Config.Sorter.rawValue: "Brightness",
             Config.Pattern.rawValue: "Classic",
             Config.SortAmount.rawValue: 0.5,
-            Config.RoughnessAmount.rawValue: 0,
+            Config.RoughnessAmount.rawValue: 0.5,
             Config.MotionAmount.rawValue: 0,
             Config.MaxSize.rawValue: MaxSize.px600.rawValue,
             Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue,

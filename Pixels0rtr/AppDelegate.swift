@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UILabel.appearance().tintColor = APP_COLOR_FONT
         UIButton.appearance().setTitleColor(APP_COLOR_FONT, for: .normal)
         UILabel.appearance().textColor = APP_COLOR_FONT
-        UISegmentedControl.appearance().setTitleTextAttributes(textAttributes, for: .normal)
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

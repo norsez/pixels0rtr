@@ -70,6 +70,7 @@ struct SortParam {
     var sorter: PixelSorter
     var pattern: SortPattern
     var motionAmount: Double = 0
+    var orientation = SortOrientation.horizontal
     
     init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern) {
         self.roughnessAmount = roughness
@@ -193,7 +194,7 @@ class PixelSorting: NSObject {
             return nil
         }
         
-        let toSort = pattern.colorArrays(of: cgImage, size: image.size, progress: progress)
+        let toSort = pattern.colorArrays(of: cgImage, size: image.size, sortOrientation: sortParam.orientation, progress: progress)
         Logger.log("\(toSort.count) pieces to sort")
         
         return PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
@@ -211,7 +212,7 @@ class PixelSorting: NSObject {
         }
         
         Logger.log("finished sorting size \(size)")
-        let image = sortParam.pattern.image(with: sortedArrays, size: size, progress: progress )
+        let image = sortParam.pattern.image(with: sortedArrays, size: size, sortOrientation: sortParam.orientation, progress: progress )
         return image.uiimage
     }
     

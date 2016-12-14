@@ -26,11 +26,11 @@ enum SortOrientation: Int, CustomStringConvertible {
 
 protocol SortPattern {
     var name: String {get}
-    var sortOrientation: SortOrientation {get set}
+    
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
-    func colorArrays(of cgimage: CGImage, size: CGSize, progress: (Float)->Void) -> [[SortColor]]
-    func image(with colorArrays: [[SortColor]], size: CGSize, progress: (Float)->Void) -> Image
+    func colorArrays(of cgimage: CGImage, size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> [[SortColor]]
+    func image(with colorArrays: [[SortColor]], size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> Image
 }
 
 class AbstractSortPattern: SortPattern{
@@ -38,8 +38,6 @@ class AbstractSortPattern: SortPattern{
         
     }
 
-    var sortOrientation: SortOrientation = .horizontal
-    
     init() {
         
     }
@@ -53,10 +51,10 @@ class AbstractSortPattern: SortPattern{
         return false
     }
     
-    func image(with colorArrays: [[SortColor]], size: CGSize, progress: (Float)->Void) -> Image {
+    func image(with colorArrays: [[SortColor]], size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> Image {
         var pixels = [Pixel]()
         
-            switch self.sortOrientation {
+            switch sortOrientation {
             case .horizontal:
                 for index in 0..<colorArrays.count {
                     let parr = colorArrays[index].flatMap({ (sortColor) -> Pixel? in
@@ -79,7 +77,7 @@ class AbstractSortPattern: SortPattern{
         return Image(pixels: pixels, size: Size(size))
     }
         
-    func colorArrays(of cgimage: CGImage, size: CGSize, progress: (Float)->Void) -> [[SortColor]]{
+    func colorArrays(of cgimage: CGImage, size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> [[SortColor]]{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {
@@ -95,7 +93,7 @@ class AbstractSortPattern: SortPattern{
         let NUM_COMPS = 4 //know this from how bitmap object defines context
         let DATA_SIZE = Int(size.width)*Int(size.height) * NUM_COMPS
         
-        switch self.sortOrientation {
+        switch sortOrientation {
         case .horizontal:
             var rowData = [SortColor]()
             for idx in stride(from: 0, to: DATA_SIZE, by: NUM_COMPS) {
@@ -157,7 +155,7 @@ class PatternClassic : AbstractSortPattern {
         var lastValue: Int = 0
         let roughness = 1 + Int(sortParam.roughnessAmount * 16)
         Logger.log("roughness: \(roughness), sort amt: \(sortParam.sortAmount)")
-        switch self.sortOrientation {
+        switch sortParam.orientation {
         case .vertical:
             for i in 0..<width {
                 

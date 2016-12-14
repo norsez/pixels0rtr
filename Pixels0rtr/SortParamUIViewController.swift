@@ -40,7 +40,9 @@ class SortParamUIViewController: UIViewController {
     
     var currentParameters: SortParam {
         get{
-            return SortParam(roughness: self.roughness, sortAmount: self.sortAmount, sorter: self.sorter, pattern: self.pattern)
+            var sp = SortParam(roughness: self.roughness, sortAmount: self.sortAmount, sorter: self.sorter, pattern: self.pattern)
+            sp.orientation = SortOrientation(rawValue: self.sortOrientationSelector.selectedSegmentIndex)!
+            return sp
         }
     }
     
@@ -49,6 +51,8 @@ class SortParamUIViewController: UIViewController {
         var ctRect = self.sorterContainerView.bounds
         ctRect.origin = CGPoint.zero
         self.sizeSelector.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Silom", size: 12) as Any], for: .normal)
+        
+        self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
         sorterSelector = self.storyboard?.instantiateViewController(withIdentifier: "horizontalSelector") as! HorizontalSelectorCollectionViewController
         sorterSelector.items = ALL_SORTERS.flatMap({ (ps) -> HorizontalSelectItem? in
@@ -98,21 +102,27 @@ class SortParamUIViewController: UIViewController {
 //        #endif
     }
     
+    func setXYPadBackgroundImage(_ image: UIImage) {
+        self.xyPadImageView.image = image
+    }
+    
     func didTapXYPad(_ gr: UITapGestureRecognizer) {
         if gr.state == .ended {
             let point = gr.location(in: self.xyPadView)
-            self.setParamsWithXYPad(atPoint: point)
+            self.setParamsWithXYPad(atPoint: point, notifyDelegate: true)
         }
     }
     
     func didPanXYPad(_ gr: UIPanGestureRecognizer) {
+        let point = gr.location(in: self.xyPadView)
         if gr.state == .changed {
-            let point = gr.location(in: self.xyPadView)
             self.setParamsWithXYPad(atPoint: point)
+        }else if gr.state == .ended {
+            self.setParamsWithXYPad(atPoint: point, notifyDelegate: true)
         }
     }
     
-    func setParamsWithXYPad(atPoint point: CGPoint) {
+    func setParamsWithXYPad(atPoint point: CGPoint, notifyDelegate: Bool = false) {
         if self.xyPadView.bounds.contains(point) == false {
             return
         }
@@ -122,12 +132,12 @@ class SortParamUIViewController: UIViewController {
         self.sortAmount = Double(point.x)/Double(bounds.width)
         self.roughness = Double(point.y)/Double(bounds.height)
         Logger.log("sort amt: \(self.sortAmount), \(self.roughness)")
-        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
+        
+        if notifyDelegate {
+            self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
+        }
     }
     
-    func setDisabled(_ disabled: Bool) {
-        
-    }
 
     func updateUI (withImageSize size:CGSize) {
         
