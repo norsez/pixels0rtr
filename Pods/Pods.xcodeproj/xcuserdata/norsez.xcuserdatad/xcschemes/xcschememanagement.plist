@@ -4,12 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Bolts.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>C4.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>CargoBay.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,6 +37,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>4878C70B21CA37D7CB8A476BF986741B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>61AF977C23DFB1506EEC7FDC5AACAB7E</key>
 		<dict>
 			<key>primary</key>
@@ -42,7 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C147A8556F1068895BF83E2A429AC24A</key>
+		<key>A7194459630C9FB7C942669197FDE1A9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FA3D06D57B4205C516F2059838F1A2A5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

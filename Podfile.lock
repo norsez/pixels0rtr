@@ -1,4 +1,25 @@
 PODS:
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -6,18 +27,23 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - C4 (2.0.0)
+  - CargoBay (2.1.1):
+    - AFNetworking (~> 2.2)
   - FBSDKCoreKit (4.17.0):
     - Bolts (~> 1.7)
 
 DEPENDENCIES:
   - C4 (~> 2.0.0)
+  - CargoBay (~> 2.1.1)
   - FBSDKCoreKit (~> 4.17.0)
 
 SPEC CHECKSUMS:
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   C4: fdd95ad49af46865219b84b743fa956593fd898c
+  CargoBay: bc63f545588627238456fb56c3e7db8d42dd174a
   FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
 
-PODFILE CHECKSUM: d6ec8328dc285fe268f8a8f77abbb5274f544dd3
+PODFILE CHECKSUM: 466cc21c74590a7e8bb167d6f607139c281b0a84
 
 COCOAPODS: 1.1.0.beta.1

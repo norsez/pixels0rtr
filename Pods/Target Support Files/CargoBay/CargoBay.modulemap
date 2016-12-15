@@ -1,0 +1,6 @@
+framework module CargoBay {
+  umbrella header "CargoBay-umbrella.h"
+
+  export *
+  module * { export * }
+}

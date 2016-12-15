@@ -32,6 +32,7 @@
 		F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */; };
 		F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
+		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
 		F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */; };
@@ -70,6 +71,7 @@
 		F33BA4411DF5231A008304E4 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSelectorCollectionViewController.swift; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
+		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortParamUIViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				F3087B7E1DF6B56000376A98 /* Logger.swift */,
 				F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */,
 				F3D91AA31DFCE4C300D45413 /* Analytics.swift */,
+				F38047521E0159F6001B881A /* Store.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
 				F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */,
+				F38047531E0159F6001B881A /* Store.swift in Sources */,
 				F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */,
 				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
