@@ -33,9 +33,18 @@ PODS:
     - Bolts (~> 1.7)
 
 DEPENDENCIES:
-  - C4 (~> 2.0.0)
+  - C4 (from `https://github.com/C4Labs/C4iOS.git`)
   - CargoBay (~> 2.1.1)
   - FBSDKCoreKit (~> 4.17.0)
+
+EXTERNAL SOURCES:
+  C4:
+    :git: https://github.com/C4Labs/C4iOS.git
+
+CHECKOUT OPTIONS:
+  C4:
+    :commit: 883fe4796a11ad774536787927eb6b4412771aa7
+    :git: https://github.com/C4Labs/C4iOS.git
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -44,6 +53,6 @@ SPEC CHECKSUMS:
   CargoBay: bc63f545588627238456fb56c3e7db8d42dd174a
   FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
 
-PODFILE CHECKSUM: 466cc21c74590a7e8bb167d6f607139c281b0a84
+PODFILE CHECKSUM: 9fb5487cfe7ab2868c2e09107467c715f10bf3c2
 
-COCOAPODS: 1.1.0.beta.1
+COCOAPODS: 1.1.0.rc.2

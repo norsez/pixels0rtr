@@ -12,54 +12,94 @@ import C4
 //MARK: optimized color stub for HSB access
 class SortColor {
     
-    fileprivate static var colorCache = [String:SortColor]()
+    fileprivate static var colorCache = [Int:SortColor]()
     
-    var hue: Double = 0
-    var brightness: Double = 0
-    var saturation: Double = 0
-    var red: Double = 0
-    var green: Double = 0
-    var blue: Double = 0
-    var alpha: Double = 0
+    let bytesARBG :[UInt8]
+    var bytesAHSB :[UInt8] = [0,0,0,0]
+    
+    var red: UInt8 {
+        get {
+            return self.bytesARBG[1]
+        }
+    }
+    
+    var green: UInt8 {
+        get {
+            return self.bytesARBG[2]
+        }
+    }
+    
+    var blue: UInt8 {
+        get {
+            return self.bytesARBG[3]
+        }
+    }
+    
+    var alpha: UInt8 {
+        get {
+            return self.bytesARBG[0]
+        }
+    }
+    
+    var hue: UInt8 {
+        get {
+            return self.bytesAHSB[1]
+        }
+    }
+    var saturation: UInt8 {
+        get {
+            return self.bytesAHSB[2]
+        }
+    }
+    
+    var brightness: UInt8 {
+        get {
+            return self.bytesAHSB[3]
+        }
+    }
+    
     init(withRed red:UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
         
-        let key = "\(red)-\(green)-\(blue)-\(alpha)"
+        bytesARBG = [alpha, red, green, blue]
+        let key = integer(withBytes: bytesARBG)!
         if let cached = SortColor.colorCache[key] {
-            self.hue = cached.hue
-            self.brightness = cached.brightness
-            self.saturation = cached.saturation
-            self.alpha = cached.alpha
-            self.red = cached.red
-            self.green = cached.green
-            self.blue = cached.blue
+            self.bytesAHSB = cached.bytesAHSB
         }else{
             
-            self.red = Double(red)/255.0
-            self.green = Double(green)/255.0
-            self.blue = Double(blue)/255.0
-            self.alpha = Double(alpha)/255.0
-            
-            let c = UIColor(red: CGFloat(self.red),
-                            green: CGFloat(self.green),
-                            blue: CGFloat(self.blue),
-                            alpha: CGFloat(self.alpha))
+            let c = UIColor(red: CGFloat(Float(red)/255.0),
+                            green: CGFloat(Float(green)/255.0),
+                            blue: CGFloat(Float(blue)/255.0),
+                            alpha: CGFloat(Float(alpha)/255.0))
             
             var h:CGFloat = 0
             var s:CGFloat = 0
             var b:CGFloat = 0
             var a:CGFloat = 0
             c.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-            self.hue = Double(h)
-            self.brightness = Double(b)
-            self.saturation = Double(s)
-            self.alpha = Double(a)
+            self.bytesAHSB = [UInt8(a * 255.0), UInt8(h * 255.0),UInt8(s * 255.0),UInt8(b * 255.0)]
+            
+            SortColor.colorCache[key] = self
         }
     }
 
     var C4Color: Color {
         get {
-            return Color(red: red, green: green, blue: blue, alpha: alpha)
+            return Color(red: Double(self.bytesARBG[1])/255.0,
+                         green: Double(self.bytesARBG[2])/255.0,
+                         blue: Double(self.bytesARBG[3])/255.0,
+                         alpha: Double(self.bytesARBG[0])/255.0)
         }
+    }
+    
+    fileprivate func integer(withBytes bytes: [UInt8]) -> Int? {
+        if bytes.count == 4 {
+            let bigEndianValue = bytes.withUnsafeBufferPointer {
+                ($0.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 })
+                }.pointee
+            let value = Int(UInt32(bigEndian: bigEndianValue))
+            return value
+        }
+        return nil
     }
 }
 
@@ -120,7 +160,7 @@ class SorterBrightness: PixelSorter {
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         
-        return color.brightness
+        return Double(color.brightness)
     }
 }
 
@@ -133,7 +173,7 @@ class SorterHue: PixelSorter {
     }
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
-        return color.hue
+        return Double(color.hue)
     }
 }
 
@@ -146,7 +186,7 @@ class SorterSaturation: PixelSorter {
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         
-        return color.saturation
+        return Double(color.saturation)
     }
 }
 
@@ -164,7 +204,7 @@ class SorterCenterSorted: PixelSorter {
         }else if (index > 1 - t) {
             return (index * Double(totalColors)) + 2805.0
         }
-        return color.brightness * 255
+        return Double(color.brightness) * 255.0
     }
 }
 
@@ -181,7 +221,7 @@ class SorterIntervals: PixelSorter {
             return index * Double(totalColors)
         }
         
-        return map(color.brightness, min: 0, max: 1, toMin: thres * Double(totalColors), toMax: Double(totalColors))
+        return map(Double(color.brightness), min: 0, max: 255, toMin: thres * Double(totalColors), toMax: Double(totalColors))
     }
 }
 //MARK: quick sort
