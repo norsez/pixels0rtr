@@ -218,7 +218,6 @@ SortParamUIViewControllerDelegate{
             self.progressView.alpha = endAlphaProgressBar
             self.controlScrollView.alpha = endAlpha
             self.selectImageButton.alpha = endAlpha
-            self.predictionView.alpha = endAlpha
         }, completion: {
             finished in
             if finished {
@@ -452,11 +451,9 @@ SortParamUIViewControllerDelegate{
     
     
     //MARK: progress bar
-    
-    
     func updatePregressInMainThread(_ progress:Float) {
         DispatchQueue.main.async {
-            self.progressView.progress = Float(progress)
+            self.progressView.progress = progress
         }
     }
     
