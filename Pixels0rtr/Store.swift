@@ -74,6 +74,7 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     func startPurchase(withCompletion completion: @escaping (PurchaseResult)->Bool) {
     
         if isPurchasing {
+            Logger.log("Already purchasing. Ignored.")
             return
         }
         

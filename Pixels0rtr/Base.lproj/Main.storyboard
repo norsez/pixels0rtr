@@ -222,7 +222,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="37.5" y="18.5" width="76.5" height="15.5"/>
+                                            <rect key="frame" x="37.5" y="18" width="76.5" height="15.5"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -451,57 +451,40 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlock Pixels0rtr" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R4E-uT-MFa">
-                                            <rect key="frame" x="104" y="224" width="167" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xwv-5j-VLt">
+                                            <rect key="frame" x="16" y="55" width="343" height="100"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="GA4-Xi-oxf"/>
-                                                <constraint firstAttribute="height" constant="21" id="pfP-Ae-7OJ"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="EEV-4U-q9i"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="18"/>
-                                            <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Higher resolution output" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QC6-xF-89l">
-                                            <rect key="frame" x="32" y="261" width="287" height="36"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="276" id="Ee2-jw-pnb"/>
-                                                <constraint firstAttribute="height" constant="36" id="tLy-Ug-fXv"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
-                                            <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Save any pixelsorting output includiing the one above ;-)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xwv-5j-VLt">
-                                            <rect key="frame" x="32" y="305" width="319" height="42"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="42" id="8Iv-sX-mAg"/>
-                                            </constraints>
+                                            <string key="text">This free version limits output images to 600x600 pixels. Unlock "High Definition" feature to save the output any size up to the original.</string>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AxO-0A-eoR">
-                                            <rect key="frame" x="32" y="16" width="319" height="200"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="200" id="MA8-Nc-vgJ"/>
-                                            </constraints>
+                                            <rect key="frame" x="16" y="417.5" width="351" height="221.5"/>
                                         </scrollView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d6-WF-vu5">
-                                            <rect key="frame" x="46" y="383" width="283" height="30"/>
+                                            <rect key="frame" x="75" y="171" width="226" height="30"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="283" id="FT4-qd-Cck"/>
-                                                <constraint firstAttribute="height" constant="30" id="QlI-ba-pEO"/>
+                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="Dja-ZV-J7b"/>
+                                                <constraint firstAttribute="height" constant="30" id="FGD-iM-dck"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="36"/>
                                             <state key="normal" title="Unlock Now">
                                                 <color key="titleColor" red="0.0" green="1" blue="0.18643208610000001" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
+                                            <connections>
+                                                <action selector="didPressUnlock:" destination="Xtw-0o-D3d" eventType="touchUpInside" id="8ZV-rj-Ahc"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sW4-El-BzZ">
-                                            <rect key="frame" x="145" y="445" width="85" height="30"/>
+                                            <rect key="frame" x="145" y="355.5" width="85" height="30"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46" id="XNc-oe-qTs"/>
-                                                <constraint firstAttribute="height" constant="30" id="y9E-hX-4T9"/>
+                                                <constraint firstAttribute="height" constant="30" id="52O-Es-lTM"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="gKe-2C-l8v"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="hXr-zT-pIB"/>
+                                                <constraint firstAttribute="width" constant="85" id="hij-st-Yxk"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="16"/>
                                             <state key="normal" title="May later">
@@ -511,24 +494,73 @@
                                                 <action selector="didPressCancel:" destination="Xtw-0o-D3d" eventType="touchUpInside" id="STm-vQ-tqf"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlock High Definition" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R4E-uT-MFa">
+                                            <rect key="frame" x="82" y="16" width="212" height="23"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="212" id="lBr-ST-jua"/>
+                                                <constraint firstAttribute="height" constant="23" id="xFJ-q4-fGk"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="18"/>
+                                            <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6i-tg-hMs">
+                                            <rect key="frame" x="109" y="293.5" width="156" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="8UN-as-vTw"/>
+                                                <constraint firstAttribute="width" constant="156" id="Rq7-kE-1tT"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="30"/>
+                                            <state key="normal" title="Restore">
+                                                <color key="titleColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="didPressUnlock:" destination="Xtw-0o-D3d" eventType="touchUpInside" id="wJL-fO-V3R"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or if you have previously purchased, choose restore below" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoX-K2-lGH">
+                                            <rect key="frame" x="48" y="249" width="279" height="28.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="Bjh-zS-XaP"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="11"/>
+                                            <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="checking price…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RuF-Ni-WN8">
+                                            <rect key="frame" x="134" y="209" width="108.5" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="eFq-Gz-fyB"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="vXf-rC-ZIK"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="QC6-xF-89l" firstAttribute="top" secondItem="R4E-uT-MFa" secondAttribute="bottom" constant="16" id="4O8-ye-w61"/>
-                                        <constraint firstItem="1d6-WF-vu5" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="4YO-tM-Iko"/>
-                                        <constraint firstItem="Xwv-5j-VLt" firstAttribute="top" secondItem="QC6-xF-89l" secondAttribute="bottom" constant="8" id="BcS-5m-oKc"/>
-                                        <constraint firstItem="QC6-xF-89l" firstAttribute="trailing" secondItem="AxO-0A-eoR" secondAttribute="trailing" constant="-32" id="EtP-w0-uyb"/>
-                                        <constraint firstItem="Xwv-5j-VLt" firstAttribute="leading" secondItem="AxO-0A-eoR" secondAttribute="leading" id="KqD-W6-JB7"/>
-                                        <constraint firstItem="AxO-0A-eoR" firstAttribute="top" secondItem="peT-uB-INu" secondAttribute="top" constant="16" id="PW4-d6-DH6"/>
-                                        <constraint firstItem="sW4-El-BzZ" firstAttribute="top" secondItem="1d6-WF-vu5" secondAttribute="bottom" constant="32" id="QXr-K5-28J"/>
-                                        <constraint firstItem="sW4-El-BzZ" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="Y8D-aL-BPN"/>
-                                        <constraint firstItem="Xwv-5j-VLt" firstAttribute="trailing" secondItem="AxO-0A-eoR" secondAttribute="trailing" id="cfk-gg-TuZ"/>
-                                        <constraint firstItem="R4E-uT-MFa" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="eEw-tq-c5w"/>
-                                        <constraint firstItem="AxO-0A-eoR" firstAttribute="leading" secondItem="peT-uB-INu" secondAttribute="leading" constant="32" id="jKu-he-m5i"/>
-                                        <constraint firstItem="QC6-xF-89l" firstAttribute="leading" secondItem="AxO-0A-eoR" secondAttribute="leading" id="jkk-0c-JT7"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="sW4-El-BzZ" secondAttribute="bottom" constant="32" id="lR3-7g-OCl"/>
-                                        <constraint firstAttribute="trailing" secondItem="Xwv-5j-VLt" secondAttribute="trailingMargin" constant="32" id="qAe-5o-2RN"/>
-                                        <constraint firstItem="R4E-uT-MFa" firstAttribute="top" secondItem="AxO-0A-eoR" secondAttribute="bottom" constant="8" id="rrG-Xt-Sba"/>
-                                        <constraint firstItem="1d6-WF-vu5" firstAttribute="top" secondItem="Xwv-5j-VLt" secondAttribute="bottom" constant="36" id="xpS-ab-cRQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="AxO-0A-eoR" secondAttribute="trailing" constant="8" id="3iG-rs-FyF"/>
+                                        <constraint firstItem="RuF-Ni-WN8" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="4YF-2h-iEV"/>
+                                        <constraint firstItem="CoX-K2-lGH" firstAttribute="leading" secondItem="peT-uB-INu" secondAttribute="leading" constant="48" id="EOE-AO-p6d"/>
+                                        <constraint firstItem="1d6-WF-vu5" firstAttribute="top" secondItem="Xwv-5j-VLt" secondAttribute="bottom" constant="16" id="FMe-p8-3JE"/>
+                                        <constraint firstItem="AxO-0A-eoR" firstAttribute="top" secondItem="sW4-El-BzZ" secondAttribute="bottom" constant="32" id="HuO-AZ-EDp"/>
+                                        <constraint firstItem="R4E-uT-MFa" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="K8O-o7-pPi"/>
+                                        <constraint firstItem="1d6-WF-vu5" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="Rvj-17-GlT"/>
+                                        <constraint firstItem="R4E-uT-MFa" firstAttribute="top" secondItem="peT-uB-INu" secondAttribute="top" constant="16" id="ZRD-uz-Oj9"/>
+                                        <constraint firstItem="CoX-K2-lGH" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="ZbQ-P9-IcF"/>
+                                        <constraint firstItem="AxO-0A-eoR" firstAttribute="leading" secondItem="peT-uB-INu" secondAttribute="leading" constant="16" id="bAd-tJ-iSz"/>
+                                        <constraint firstItem="sW4-El-BzZ" firstAttribute="top" secondItem="a6i-tg-hMs" secondAttribute="bottom" constant="32" id="bfe-LB-Lb7"/>
+                                        <constraint firstAttribute="bottom" secondItem="AxO-0A-eoR" secondAttribute="bottom" constant="8" id="eyh-Bb-XIr"/>
+                                        <constraint firstItem="Xwv-5j-VLt" firstAttribute="top" secondItem="R4E-uT-MFa" secondAttribute="bottom" constant="16" id="gL7-eq-lCW"/>
+                                        <constraint firstItem="Xwv-5j-VLt" firstAttribute="leading" secondItem="peT-uB-INu" secondAttribute="leading" constant="16" id="kwl-Nj-eqf"/>
+                                        <constraint firstItem="CoX-K2-lGH" firstAttribute="top" secondItem="1d6-WF-vu5" secondAttribute="bottom" constant="48" id="nKE-rQ-eit"/>
+                                        <constraint firstItem="a6i-tg-hMs" firstAttribute="top" secondItem="CoX-K2-lGH" secondAttribute="bottom" constant="16" id="qbJ-Xs-Qx3"/>
+                                        <constraint firstItem="RuF-Ni-WN8" firstAttribute="top" secondItem="1d6-WF-vu5" secondAttribute="bottom" constant="8" id="qc6-UZ-0o3"/>
+                                        <constraint firstItem="sW4-El-BzZ" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="qfr-UN-8E9"/>
+                                        <constraint firstItem="sW4-El-BzZ" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="r0f-c3-Jst"/>
+                                        <constraint firstAttribute="trailing" secondItem="Xwv-5j-VLt" secondAttribute="trailing" constant="16" id="srs-qQ-yNd"/>
+                                        <constraint firstItem="a6i-tg-hMs" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="t9Z-Xz-s2e"/>
+                                        <constraint firstAttribute="trailing" secondItem="CoX-K2-lGH" secondAttribute="trailing" constant="48" id="wyo-tz-Zis"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="dark"/>
@@ -536,20 +568,20 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4Jt-7l-vPy" firstAttribute="top" secondItem="xUP-Ux-baF" secondAttribute="bottom" id="9H2-qy-gmW"/>
-                            <constraint firstItem="bdE-gr-d6h" firstAttribute="top" secondItem="4Jt-7l-vPy" secondAttribute="bottom" id="D6o-8Y-CJL"/>
-                            <constraint firstAttribute="trailing" secondItem="4ce-Wf-dis" secondAttribute="trailing" id="FTU-3Y-7G1"/>
-                            <constraint firstItem="4Jt-7l-vPy" firstAttribute="leading" secondItem="DQu-d5-d6r" secondAttribute="leading" id="WC6-yT-otr"/>
-                            <constraint firstItem="bdE-gr-d6h" firstAttribute="top" secondItem="4ce-Wf-dis" secondAttribute="bottom" id="ah5-td-8ml"/>
-                            <constraint firstItem="4ce-Wf-dis" firstAttribute="leading" secondItem="DQu-d5-d6r" secondAttribute="leading" id="hfw-U1-zRT"/>
-                            <constraint firstItem="4ce-Wf-dis" firstAttribute="top" secondItem="xUP-Ux-baF" secondAttribute="bottom" id="v2D-Ih-KnC"/>
-                            <constraint firstAttribute="trailing" secondItem="4Jt-7l-vPy" secondAttribute="trailing" id="vZ6-Fu-ofn"/>
+                            <constraint firstItem="4ce-Wf-dis" firstAttribute="top" secondItem="xUP-Ux-baF" secondAttribute="bottom" id="8Fq-kr-ceK"/>
+                            <constraint firstItem="4ce-Wf-dis" firstAttribute="leading" secondItem="DQu-d5-d6r" secondAttribute="leading" id="JeT-Vd-cOq"/>
+                            <constraint firstAttribute="trailing" secondItem="4Jt-7l-vPy" secondAttribute="trailing" id="Lvi-nj-lMQ"/>
+                            <constraint firstItem="bdE-gr-d6h" firstAttribute="top" secondItem="4ce-Wf-dis" secondAttribute="bottom" id="dL4-tK-Veh"/>
+                            <constraint firstItem="bdE-gr-d6h" firstAttribute="top" secondItem="4Jt-7l-vPy" secondAttribute="bottom" id="hIK-HQ-B86"/>
+                            <constraint firstItem="4Jt-7l-vPy" firstAttribute="leading" secondItem="DQu-d5-d6r" secondAttribute="leading" id="jtQ-TW-aUu"/>
+                            <constraint firstAttribute="trailing" secondItem="4ce-Wf-dis" secondAttribute="trailing" id="tzr-g2-TOl"/>
+                            <constraint firstItem="4Jt-7l-vPy" firstAttribute="top" secondItem="xUP-Ux-baF" secondAttribute="bottom" id="xus-Cd-uA5"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backgroundImageView" destination="4Jt-7l-vPy" id="iGz-sY-A8V"/>
-                        <outlet property="bullet1" destination="QC6-xF-89l" id="K0G-Ci-M5Y"/>
                         <outlet property="bullet2" destination="Xwv-5j-VLt" id="oPs-Fl-ZdG"/>
+                        <outlet property="priceLabel" destination="RuF-Ni-WN8" id="09v-GD-pI2"/>
                         <outlet property="scrollView" destination="AxO-0A-eoR" id="5Oi-og-ETq"/>
                         <outlet property="titleText" destination="R4E-uT-MFa" id="T4x-Aw-JLE"/>
                         <outlet property="unlockButton" destination="1d6-WF-vu5" id="td4-SS-aal"/>
@@ -557,7 +589,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IQc-2X-k7D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="633" y="-736"/>
+            <point key="canvasLocation" x="632.79999999999995" y="-736.28185907046486"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -674,6 +706,14 @@
                                     <action selector="didChangeFreePaid:" destination="8OZ-zr-ebF" eventType="valueChanged" id="Kho-hu-WaB"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mfZ-xx-TwY">
+                                <rect key="frame" x="13" y="327" width="126" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="See unlock screen"/>
+                                <connections>
+                                    <segue destination="Xtw-0o-D3d" kind="show" id="F3A-bz-g1s"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -694,4 +734,7 @@
             <point key="canvasLocation" x="-1186.4000000000001" y="-129.08545727136433"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="F3A-bz-g1s"/>
+    </inferredMetricsTieBreakers>
 </document>

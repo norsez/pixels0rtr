@@ -19,7 +19,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         super.viewDidLoad()
         self.scrollView.backgroundColor = UIColor.black
         self.scrollView.delegate = self
-        
+        self.navigationController?.isNavigationBarHidden = false
         self.freePaidSegmentedControl.selectedSegmentIndex = AppConfig.shared.isFreeVersion ? 0 : 1
         
         

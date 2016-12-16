@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         setupAppearance()
-        Store.shared.initialize(withCompletion: { success in })
+        Store.shared.initialize(withCompletion: { success in
+            Logger.log("store initialized.")
+        })
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
