@@ -84,7 +84,7 @@ extension UIImage {
         let width = size.width
         let height = size.height
         let bitsPerComponent = cgImage.bitsPerComponent
-        let bytesPerRow = Int( 4 * width)
+        let bytesPerRow = cgImage.bitsPerComponent * Int(width)
         let colorSpace = cgImage.colorSpace!
         let bitmapInfo = cgImage.bitmapInfo
         
