@@ -24,22 +24,23 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         
         
 
-//        guard let image = UIImage.loadJPEG(with: "small") else {
-//            print("cant' find default image")
-//            return
-//        }
-//        let size = image.size.aspectFit(size: CGSize(width: 2000, height: 2000))
-//        
-//        guard let enlargedImage = image.resize(size) else {
-//            print("can't enlarge")
-//            return
-//        }
-//        
-//        
-//        self.imageView.image = enlargedImage
-//        
-//        self.view.addSubview(self.imageView)
+        guard let image = UIImage.loadJPEG(with: "defaultImage") else {
+            print("cant' find default image")
+            return
+        }
         
+        guard var cgImage = image.cgImage else {
+            return
+        }
+        let focusRect = CGRect(x:500, y:100, width: 10, height: image.size.height)
+        cgImage = cgImage.cropping(to: focusRect)!
+        
+        let resultImage = UIImage(cgImage: cgImage)
+        var f = self.imageView.frame
+        f.size = resultImage.size
+        self.imageView.image = resultImage
+        self.imageView.frame = f
+        print (f)
     }
     
     @IBAction func didChangeFreePaid(_ sender: Any) {
