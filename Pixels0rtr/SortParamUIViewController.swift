@@ -32,6 +32,8 @@ class SortParamUIViewController: UIViewController {
     var sorterSelector: HorizontalSelectorCollectionViewController!
     var patternSelector: HorizontalSelectorCollectionViewController!
     
+    var currentSizeOrder: [AppConfig.MaxSize] = []
+    
     var totalHeight: CGFloat {
         get {
             return self.sizeSelector.frame.maxY + 48
@@ -149,13 +151,28 @@ class SortParamUIViewController: UIViewController {
 
     func updateUI (withImageSize size:CGSize) {
         
-//        let MAX_IMAGE_SIZE = max(size.width, size.height)
-//        for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
-//            let mp = AppConfig.MaxSize.ALL_SIZES[i]
-//            self.sizeSelector.setEnabled(mp.pixels <= Int(MAX_IMAGE_SIZE), forSegmentAt: i)
-//        }
+        self.sizeSelector.removeAllSegments()
+        self.currentSizeOrder = []
+        let toPopulate = AppConfig.MaxSize.ALL_SIZES
         
-        self.sizeSelector.selectedSegmentIndex = 0
+        for i in 0..<toPopulate.count {
+            let s = toPopulate[i]
+            self.sizeSelector.insertSegment(withTitle: "\(s.pixels)p", at: i, animated: false)
+            self.currentSizeOrder.append(s)
+        }
+        
+        var actualIndex = -1
+        for i in 0..<toPopulate.count {
+            let s = toPopulate[i]
+            if s.pixels > Int(max(size.width, size.height)) {
+                self.sizeSelector.insertSegment(withTitle: "Actual", at: i, animated: true)
+                self.currentSizeOrder.insert(.pxTrueSize, at: i)
+                actualIndex = i
+                break
+            }
+        }
+        
+        self.sizeSelector.selectedSegmentIndex = actualIndex
         self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
         self.roughness = AppConfig.shared.roughnessAmount
@@ -171,7 +188,8 @@ class SortParamUIViewController: UIViewController {
     @IBAction func didSelectSize(_ sender: Any) {
    
         let index = self.sizeSelector.selectedSegmentIndex
-        let selected = AppConfig.MaxSize.ALL_SIZES[index]
+        
+        let selected = self.currentSizeOrder[index]
         AppConfig.shared.maxPixels = selected
         Logger.log("render size: \(selected)")
         self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)

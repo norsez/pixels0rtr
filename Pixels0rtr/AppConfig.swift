@@ -15,12 +15,14 @@ let APP_FONT = UIFont(name: "Silom", size: 12)
 
 //MARK: AppConfig
 class AppConfig: NSObject {
+    
     struct Key {
         static let FreeVersion = "FreeVersion"
     }
     
     enum MaxSize: Int, CustomStringConvertible {
-        case px600, px1200, px2400, pxTrueSize
+        case px600, px1200, px2400, px3600, pxTrueSize
+        
         var pixels: Int {
             get {
                 switch self {
@@ -30,8 +32,10 @@ class AppConfig: NSObject {
                     return 1200
                 case .px2400:
                     return 2400
+                case .px3600:
+                    return 3600
                 case .pxTrueSize:
-                    return 2401
+                    return 0
                 }
             }
         }
@@ -44,9 +48,18 @@ class AppConfig: NSObject {
                 }
             }
         }
+        static func allsortedSizes(withCustomPixelSize pixels: Int) -> [MaxSize] {
+            var all = ALL_SIZES
+            for i in 0..<all.count {
+                let s = ALL_SIZES[i]
+                if s.pixels > pixels {
+                    all.insert(.pxTrueSize, at: i)
+                }
+            }
+            return all
+        }
         
-        
-      static let ALL_SIZES: [MaxSize] = [.px600, .px1200, .px2400, .pxTrueSize]
+      static let ALL_SIZES: [MaxSize] = [.px600, .px1200, .px2400, .px3600]
         
         static func maxSize(fromPixels numPixels:Int) -> MaxSize? {
             for ms in ALL_SIZES {
