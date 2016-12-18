@@ -287,7 +287,7 @@ SortParamUIViewControllerDelegate{
             var imageToSort = image
             let selectedSize = AppConfig.shared.maxPixels.pixels
             if (selectedSize != 0) {
-               imageToSort = imageToSort.resize(byMaxPixels: selectedSize)!
+                imageToSort = imageToSort.resize(imageToSort.size.aspectFit(size: CGSize(width: selectedSize, height:selectedSize)))!
             }
             
             sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParam)
@@ -308,6 +308,7 @@ SortParamUIViewControllerDelegate{
         }
         
     }
+    
     
     func manageOutputImage(_ output:UIImage) {
         

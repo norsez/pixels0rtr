@@ -33,17 +33,19 @@ class UnlockViewController: UIViewController, UIScrollViewDelegate {
             self.imageView?.layer.masksToBounds = true
             self.imageView?.layer.cornerRadius = 5
             self.imageView?.clipsToBounds = true
-            
+            self.scrollView.backgroundColor = UIColor.red
             self.scrollView.layer.cornerRadius = 8
-            
-            self.scrollView.addSubview(self.imageView!)
             self.scrollView.contentSize = img.size
+            self.scrollView.addSubview(self.imageView!)
+            
             let zoomFactor = (self.scrollView?.bounds.size.width)!/(image?.size.width)!
             self.scrollView.minimumZoomScale = zoomFactor
             self.scrollView.maximumZoomScale = 4
-            self.scrollView.setZoomScale(zoomFactor, animated: false)
+            self.scrollView.setZoomScale(4, animated: false)
             
         }
+        
+        //self.priceLabel.text = Store.shared.priceStringForHighDefinition
     }
     
     override func viewDidAppear(_ animated: Bool) {

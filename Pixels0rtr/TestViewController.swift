@@ -23,41 +23,22 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         self.freePaidSegmentedControl.selectedSegmentIndex = AppConfig.shared.isFreeVersion ? 0 : 1
         
         
-//
-//        guard let image = UIImage.loadJPEG(with: "defaultImage") else {
+
+//        guard let image = UIImage.loadJPEG(with: "small") else {
 //            print("cant' find default image")
 //            return
 //        }
+//        let size = image.size.aspectFit(size: CGSize(width: 2000, height: 2000))
 //        
-//        guard let image600 = image.resize(byMaxPixels: 600) else {
-//            print("can't get 600p")
-//            return
-//        }
-//        
-//        let sorter = SorterBrightness()
-//        let pattern = PatternClassic()
-//        let sp = SortParam(motionAmount: 0, sortAmount: 0.5, sorter: sorter, pattern: pattern)
-//        pattern.initialize(withWidth: 600, height: 600, sortParam: sp)
-//        
-//        
-//        
-//        
-//        guard let imageResult = PixelSorting.sorted(image: image600, sortParam: sp, progress: {p in print(p)}) else {
-//            print("can't get image result ")
-//            return
-//        }
-//        
-//        guard let enlargedImage = imageResult.resize(image.size) else {
+//        guard let enlargedImage = image.resize(size) else {
 //            print("can't enlarge")
 //            return
 //        }
 //        
-//        self.imageView.image = enlargedImage
-//        self.scrollView.contentSize = enlargedImage.size
-//        self.scrollView.minimumZoomScale = 1
-//        self.scrollView.maximumZoomScale = 5
-//        self.scrollView.setZoomScale(1, animated: false)
 //        
+//        self.imageView.image = enlargedImage
+//        
+//        self.view.addSubview(self.imageView)
         
     }
     

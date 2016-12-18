@@ -34,7 +34,7 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
         }
         
         
-        //self.validateProductIds(withCompletion: completion)
+        
         CargoBay.sharedManager().setPaymentQueueUpdatedTransactionsBlock { (queue, anyStuff) in
             
             guard let stuff = anyStuff else {
@@ -96,6 +96,17 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
         SKPaymentQueue.default().add(payment)
     }
     
+    var priceStringForHighDefinition: String {
+        
+        if self.productPaidIsValidated {
+            if let p = self.products?.first {
+                return self.stringPrice(ofProduct: p )!
+            }
+        }
+        
+        return "Problem. Try again later."
+    }
+    
     fileprivate func stringPrice(ofProduct product: SKProduct) -> String? {
         let df = NumberFormatter()
         df.formatterBehavior = .behavior10_4
@@ -119,6 +130,7 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
         for tx in transactions {
             if tx.transactionState == .failed {
                 let _ = pc(.failed)
+                SKPaymentQueue.default().finishTransaction(tx)
             }else if tx.transactionState == .purchasing {
                 if pc(.purchased) {
                     self.makeAppPaidVersion(withTransaction: tx)

@@ -9,6 +9,13 @@
 import UIKit
 
 extension CGSize {
+    
+    func aspectFit(size: CGSize) -> CGSize {
+        let isPortrait = self.width < self.height
+        let factor = isPortrait ? size.height / self.height : size.width / self.width
+        return CGSize(width: self.width * factor, height: self.height * factor)
+    }
+    
     func fit(maxPixels: Int) -> CGSize {
         if Int(self.width) <= maxPixels &&
             Int(self.height) <= maxPixels {
@@ -69,7 +76,7 @@ extension UIImage {
 //    }
     
     func resize(_ size: CGSize) -> UIImage? {
-        guard let cgImage = self.cgImage else {
+        guard let cgImage = self.cgImage?.copy() else {
             Logger.log("can't make a copy of CGImage")
             return nil
         }
@@ -77,7 +84,7 @@ extension UIImage {
         let width = size.width
         let height = size.height
         let bitsPerComponent = cgImage.bitsPerComponent
-        let bytesPerRow = max(cgImage.bytesPerRow, 8192)
+        let bytesPerRow = Int( 4 * width)
         let colorSpace = cgImage.colorSpace!
         let bitmapInfo = cgImage.bitmapInfo
         
@@ -89,8 +96,6 @@ extension UIImage {
         
         context.interpolationQuality = CGInterpolationQuality.high
         context.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
-        
-        
         
         let scaledImage = context.makeImage().flatMap { UIImage(cgImage: $0) }
         return scaledImage

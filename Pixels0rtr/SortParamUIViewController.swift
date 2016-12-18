@@ -149,11 +149,11 @@ class SortParamUIViewController: UIViewController {
 
     func updateUI (withImageSize size:CGSize) {
         
-        let MAX_IMAGE_SIZE = max(size.width, size.height)
-        for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
-            let mp = AppConfig.MaxSize.ALL_SIZES[i]
-            self.sizeSelector.setEnabled(mp.pixels <= Int(MAX_IMAGE_SIZE), forSegmentAt: i)
-        }
+//        let MAX_IMAGE_SIZE = max(size.width, size.height)
+//        for i in 1..<AppConfig.MaxSize.ALL_SIZES.count {
+//            let mp = AppConfig.MaxSize.ALL_SIZES[i]
+//            self.sizeSelector.setEnabled(mp.pixels <= Int(MAX_IMAGE_SIZE), forSegmentAt: i)
+//        }
         
         self.sizeSelector.selectedSegmentIndex = 0
         self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
