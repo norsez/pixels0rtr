@@ -19,24 +19,7 @@ class Bitmap {
             return CGColorSpaceCreateDeviceRGB()
         }
     }
-//    
-//    init(withWidth width:CGFloat, height: CGFloat) {
-//        self.width = Int(width)
-//        self.height = Int(height)
-//        let bitmapBytesPerRow = width * 4
-//        
-//        // Use the generic RGB color space.
-//        let colorSpace = CGColorSpaceCreateDeviceRGB()
-//        
-//        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
-//        
-//        // Create the bitmap context. We want pre-multiplied ARGB, 8-bits
-//        // per component. Regardless of what the source image format is
-//        // (CMYK, Grayscale, and so on) it will be converted over to the format
-//        // specified here by CGBitmapContextCreate.
-//        context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: Int(bitmapBytesPerRow), space: colorSpace, bitmapInfo: bitmapInfo.rawValue)!
-//    }
-//        
+    
     init(img: CGImage) {
         
         // Set image width, height

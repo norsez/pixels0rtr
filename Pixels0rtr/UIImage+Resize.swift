@@ -62,19 +62,6 @@ extension UIImage {
         
     }
     
-//    func resize(_ size:CGSize) -> UIImage? {
-//        
-//        let hasAlpha = false
-//        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-//        
-//        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-//        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
-//        
-//        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        return scaledImage
-//    }
-    
     func resize(_ size: CGSize) -> UIImage? {
         guard let cgImage = self.cgImage?.copy() else {
             Logger.log("can't make a copy of CGImage")
@@ -100,5 +87,6 @@ extension UIImage {
         let scaledImage = context.makeImage().flatMap { UIImage(cgImage: $0) }
         return scaledImage
     }
+    
 }
 

@@ -44,10 +44,9 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
     }
     
     @IBAction func didChangeFreePaid(_ sender: Any) {
-        
         AppConfig.shared.isFreeVersion = self.freePaidSegmentedControl.selectedSegmentIndex == 0
-        
     }
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }

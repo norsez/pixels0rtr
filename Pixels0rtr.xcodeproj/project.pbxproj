@@ -31,6 +31,7 @@
 		F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F33BA4411DF5231A008304E4 /* defaultImage.jpg */; };
 		F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */; };
 		F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */; };
+		F34575941E069F66001A110F /* StripBitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34575931E069F66001A110F /* StripBitmap.swift */; };
 		F37A7F161E04CB94000C1B95 /* small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F37A7F151E04CB94000C1B95 /* small.jpg */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
@@ -71,6 +72,7 @@
 		F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortConfigViewController.swift; sourceTree = "<group>"; };
 		F33BA4411DF5231A008304E4 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSelectorCollectionViewController.swift; sourceTree = "<group>"; };
+		F34575931E069F66001A110F /* StripBitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripBitmap.swift; sourceTree = "<group>"; };
 		F37A7F151E04CB94000C1B95 /* small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = small.jpg; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */,
 				F37F382E1DF63177001A97CE /* Image+Utils.swift */,
 				F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */,
+				F34575931E069F66001A110F /* StripBitmap.swift */,
 				F3087B6E1DEEDCD900376A98 /* SortPattern.swift */,
 				F3087B721DEEE77800376A98 /* MathUtils.swift */,
 				F33BA43C1DF51719008304E4 /* SortingPreview.swift */,
@@ -220,7 +223,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Bluedot;
 				TargetAttributes = {
 					F336FB631DEEBE3000FB3817 = {
@@ -327,6 +330,7 @@
 				F3087B7B1DF6605500376A98 /* TestViewController.swift in Sources */,
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
+				F34575941E069F66001A110F /* StripBitmap.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
 				F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */,
 				F38047531E0159F6001B881A /* Store.swift in Sources */,
@@ -390,6 +394,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -439,6 +444,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -467,6 +473,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF798397AB3D92881E845C48 /* Pods-Pixels0rtr.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
@@ -481,6 +488,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;

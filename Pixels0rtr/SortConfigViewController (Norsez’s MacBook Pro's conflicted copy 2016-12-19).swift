@@ -312,7 +312,8 @@ SortParamUIViewControllerDelegate{
     
     func manageOutputImage(_ output:UIImage) {
         
-        if AppConfig.shared.isFreeVersion && max(output.size.width,output.size.height) > 600 {
+        if AppConfig.shared.isFreeVersion && AppConfig.shared.maxPixels != .px600 {
+            AppConfig.shared.maxPixels = .px600
             self.performSegue(withIdentifier: "showUnlock", sender: output)
             self.setProgressView(hidden: true, completion: {})
             

@@ -58,10 +58,22 @@ class SortColor {
         }
     }
     
+    static func intializeColorTable(withCompletion completion: ()->Void) {
+        for _a in 255..<256 {
+            for _r in 0..<256 {
+                for _b in 0..<256 {
+                    for _g in 0..<256 {
+                        let _ = SortColor(withRed: UInt8(_r), green: UInt8(_g), blue: UInt8(_b), alpha: UInt8(_a))
+                    }
+                }
+            }
+        }
+    }
+    
     init(withRed red:UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
         
         bytesARBG = [alpha, red, green, blue]
-        let key = integer(withBytes: bytesARBG)!
+        let key = SortColor.integer(withBytes: bytesARBG)!
         if let cached = SortColor.colorCache[key] {
             self.bytesAHSB = cached.bytesAHSB
         }else{
@@ -91,7 +103,13 @@ class SortColor {
         }
     }
     
-    fileprivate func integer(withBytes bytes: [UInt8]) -> Int? {
+    var C4Pixel: Pixel {
+        get {
+            return Pixel(Int(self.red), Int(self.green), Int(self.blue), Int(self.alpha))
+        }
+    }
+    
+    fileprivate static func integer(withBytes bytes: [UInt8]) -> Int? {
         if bytes.count == 4 {
             let bigEndianValue = bytes.withUnsafeBufferPointer {
                 ($0.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 })
@@ -111,12 +129,14 @@ struct SortParam {
     var pattern: SortPattern
     var motionAmount: Double = 0
     var orientation = SortOrientation.horizontal
+    var maxPixels: AppConfig.MaxSize = .px600
     
-    init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern) {
+    init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize) {
         self.roughnessAmount = roughness
         self.sortAmount = sortAmount
         self.sorter = sorter
         self.pattern = pattern
+        self.maxPixels = maxPixels
     }
 }
 
@@ -224,8 +244,32 @@ class SorterIntervals: PixelSorter {
         return map(Double(color.brightness), min: 0, max: 255, toMin: thres * Double(totalColors), toMax: Double(totalColors))
     }
 }
+
+
+//#MARK: sort0
+extension CGImage {
+    func sorted(withParam: SortParam) -> CGImage? {
+        return nil
+    }
+}
+
 //MARK: quick sort
 class PixelSorting: NSObject {
+    
+    
+    static func sorted0(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage?{
+        
+        let NUM_TO_SORT = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
+        let stripBitmap = StripBitmap(withCGSize: image.size, orientation: sortParam.orientation)
+        for indexToSort in 0..<NUM_TO_SORT {
+            let strip = image.imageStrip(atIndex: indexToSort, orientation: sortParam.orientation)
+            if let sortedStrip = strip?.sorted(withParam: sortParam) {
+                stripBitmap.draw(strip: sortedStrip, index: indexToSort)
+            }
+        }
+        let resultImage = stripBitmap.makeImage()
+        return resultImage
+    }
     
     static func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
         let pattern = sortParam.pattern
@@ -235,7 +279,7 @@ class PixelSorting: NSObject {
         }
         
         let toSort = pattern.colorArrays(of: cgImage, size: image.size, sortOrientation: sortParam.orientation, progress: progress)
-        Logger.log("\(toSort.count) pieces to sort")
+        Logger.log("\(toSort.count) pieces to sort from \(SortColor.colorCache.count) colors")
         
         return PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
     }

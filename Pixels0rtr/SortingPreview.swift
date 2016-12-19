@@ -55,7 +55,7 @@ class SortingPreview: NSObject {
             for s in ALL_SORTERS {
                 let imageToSort = blurredThumb
                 
-                var param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern)
+                var param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern, maxPixels:.px600)
                 param.orientation = sp.orientation
                 
                 pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)

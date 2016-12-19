@@ -58,8 +58,7 @@ class AbstractSortPattern: SortPattern{
             case .horizontal:
                 for index in 0..<colorArrays.count {
                     let parr = colorArrays[index].flatMap({ (sortColor) -> Pixel? in
-                        let c = sortColor.C4Color
-                        return Pixel(c)
+                        return sortColor.C4Pixel
                     })
                     pixels.append(contentsOf: parr)
                     progress(Float(index)/Float(colorArrays.count))
@@ -67,7 +66,7 @@ class AbstractSortPattern: SortPattern{
             default:
                 for row in 0..<Int(size.height) {
                     for colarr in colorArrays {
-                        pixels.append(Pixel(colarr[row].C4Color))
+                        pixels.append(colarr[row].C4Pixel)
                     }
                     progress(Float(row)/Float(size.height))
                 }

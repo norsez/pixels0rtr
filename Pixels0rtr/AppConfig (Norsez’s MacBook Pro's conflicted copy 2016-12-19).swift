@@ -15,14 +15,12 @@ let APP_FONT = UIFont(name: "Silom", size: 12)
 
 //MARK: AppConfig
 class AppConfig: NSObject {
-    
     struct Key {
         static let FreeVersion = "FreeVersion"
     }
     
     enum MaxSize: Int, CustomStringConvertible {
-        case px600, px1200, px2400, px3600, pxTrueSize
-        
+        case px600, px1200, px2400, pxTrueSize
         var pixels: Int {
             get {
                 switch self {
@@ -32,10 +30,8 @@ class AppConfig: NSObject {
                     return 1200
                 case .px2400:
                     return 2400
-                case .px3600:
-                    return 3600
                 case .pxTrueSize:
-                    return 0
+                    return 2401
                 }
             }
         }
@@ -48,18 +44,9 @@ class AppConfig: NSObject {
                 }
             }
         }
-        static func allsortedSizes(withCustomPixelSize pixels: Int) -> [MaxSize] {
-            var all = ALL_SIZES
-            for i in 0..<all.count {
-                let s = ALL_SIZES[i]
-                if s.pixels > pixels {
-                    all.insert(.pxTrueSize, at: i)
-                }
-            }
-            return all
-        }
         
-      static let ALL_SIZES: [MaxSize] = [.px600, .px1200, .px2400, .px3600]
+        
+      static let ALL_SIZES: [MaxSize] = [.px600, .px1200, .px2400, .pxTrueSize]
         
         static func maxSize(fromPixels numPixels:Int) -> MaxSize? {
             for ms in ALL_SIZES {
@@ -91,6 +78,7 @@ class AppConfig: NSObject {
             UserDefaults.standard.synchronize()
         }
     }
+    
     
     var _maxPixels: MaxSize {
         get {
@@ -135,9 +123,7 @@ class AppConfig: NSObject {
             let sp = SortParam(roughness: uf.double(forKey: Config.RoughnessAmount.rawValue),
                                sortAmount: uf.double(forKey: Config.SortAmount.rawValue),
                             sorter: pixelSorter,
-                            pattern: sortPattern,
-                            maxPixels: .px600
-                            )
+                            pattern: sortPattern)
             return sp
         }
     }

@@ -47,7 +47,8 @@ class SortParamUIViewController: UIViewController {
     
     var currentParameters: SortParam {
         get{
-            var sp = SortParam(roughness: self.roughness, sortAmount: self.sortAmount, sorter: self.sorter, pattern: self.pattern)
+            let maxPixels = self.currentSizeOrder[self.sizeSelector.selectedSegmentIndex]
+            var sp = SortParam(roughness: self.roughness, sortAmount: self.sortAmount, sorter: self.sorter, pattern: self.pattern, maxPixels: maxPixels)
             sp.orientation = SortOrientation(rawValue: self.sortOrientationSelector.selectedSegmentIndex)!
             return sp
         }
@@ -161,18 +162,24 @@ class SortParamUIViewController: UIViewController {
             self.currentSizeOrder.append(s)
         }
         
-        var actualIndex = -1
+        var largerThanPreset = true
         for i in 0..<toPopulate.count {
             let s = toPopulate[i]
             if s.pixels > Int(max(size.width, size.height)) {
                 self.sizeSelector.insertSegment(withTitle: "Actual", at: i, animated: true)
                 self.currentSizeOrder.insert(.pxTrueSize, at: i)
-                actualIndex = i
+                largerThanPreset = false
                 break
             }
         }
         
-        self.sizeSelector.selectedSegmentIndex = actualIndex
+        if largerThanPreset {
+            self.sizeSelector.insertSegment(withTitle: "Actual", at: self.currentSizeOrder.count, animated: true)
+            self.currentSizeOrder.append(.pxTrueSize)
+        }
+        self.sizeSelector.selectedSegmentIndex = 0
+        
+        
         self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
         self.roughness = AppConfig.shared.roughnessAmount
@@ -186,11 +193,8 @@ class SortParamUIViewController: UIViewController {
     }
     
     @IBAction func didSelectSize(_ sender: Any) {
-   
         let index = self.sizeSelector.selectedSegmentIndex
-        
         let selected = self.currentSizeOrder[index]
-        AppConfig.shared.maxPixels = selected
         Logger.log("render size: \(selected)")
         self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
     }

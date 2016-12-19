@@ -17,8 +17,7 @@ class Analytics: NSObject {
             ["pattern": sp.pattern.name,
              "sorter": sp.sorter.name,
              "sortAmount": "\(sp.sortAmount * 100)",
-             "roughnessAmount": "\(sp.roughnessAmount * 100)",
-             "size": AppConfig.shared.maxPixels.description
+             "roughnessAmount": "\(sp.roughnessAmount * 100)"
              ])
     }
     
