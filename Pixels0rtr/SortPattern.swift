@@ -72,7 +72,7 @@ class AbstractSortPattern: SortPattern{
                 }
             }
         
-        Logger.log("built image of size \(size)")
+//        Logger.log("built image of size \(size)")
         return Image(pixels: pixels, size: Size(size))
     }
         
