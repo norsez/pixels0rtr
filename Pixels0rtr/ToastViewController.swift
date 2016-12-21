@@ -13,7 +13,7 @@ class ToastViewController: UIViewController {
     @IBOutlet weak var constraintVerticalDistance: NSLayoutConstraint!
     @IBOutlet weak var textLabel: UILabel!
     
-    let INTERNAL_ANIMATION: TimeInterval = 1
+    let INTERNAL_ANIMATION: TimeInterval = 0.25
     let INTERNAL_ANIMATION_WAIT: TimeInterval = 1
     
     func setText(_ text:String){
