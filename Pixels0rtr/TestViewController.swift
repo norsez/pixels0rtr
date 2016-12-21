@@ -14,6 +14,8 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     
+    var toast: ToastViewController?
+    
     @IBOutlet var freePaidSegmentedControl: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,5 +51,26 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
+    }
+    
+    
+    @IBAction func didPressTestToast(_ sender: Any) {
+        
+        self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
+        
+        self.toast?.showToast(withText: "let's see if this works?", onViewController: self)
+        
+    }
+    @IBAction func didPressTestBiy(_ sender: Any) {
+        AppConfig.shared.isFreeVersion = true
+        Store.shared.initialize { (result) in
+            if result {
+                Store.shared.startPurchase  () 
+            }else {
+                Logger.log("can't get product def")
+                
+            }
+        }
+        
     }
 }

@@ -35,6 +35,7 @@
 		F37A7F161E04CB94000C1B95 /* small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F37A7F151E04CB94000C1B95 /* small.jpg */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
+		F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3963A941E0A342700E5214E /* ToastViewController.swift */; };
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
 		F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */; };
@@ -76,6 +77,7 @@
 		F37A7F151E04CB94000C1B95 /* small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = small.jpg; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		F3963A941E0A342700E5214E /* ToastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortParamUIViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */,
 				F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */,
 				F3375B561DFFE2CD00AF0742 /* ScrollableContainerView.swift */,
+				F3963A941E0A342700E5214E /* ToastViewController.swift */,
 				F336FB6B1DEEBE3000FB3817 /* Main.storyboard */,
 				F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */,
 				F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */,
@@ -337,6 +340,7 @@
 				F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */,
 				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
+				F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,

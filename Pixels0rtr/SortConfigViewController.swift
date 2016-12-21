@@ -33,6 +33,10 @@ SortParamUIViewControllerDelegate{
     let CORNER_RADIUS: CGFloat = 8
     
     let previewEngine = SortingPreview()
+    var unsavedImage: UIImage?
+    var saveUnsavedImageOnAppear = false
+    
+    var toast: ToastViewController?
     
     var isFreeVersion : Bool {
         get {
@@ -57,6 +61,7 @@ SortParamUIViewControllerDelegate{
         self.progressView.alpha = 0
         self.startSortButton.alpha = 0
         
+        NotificationCenter.default.addObserver(self, selector: #selector(storeDidPurchase), name: .onStoreDidPurchase, object: nil)
         
     }
     
@@ -83,6 +88,15 @@ SortParamUIViewControllerDelegate{
         
     }
     
+    func showToast(withText text: String) {
+        if self.toast == nil {
+            self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
+        }
+        
+        self.toast?.showToast(withText: text, onViewController: self)
+        
+    }
+    
     
     func displayDebugView () {
         if let tv = self.storyboard?.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController {
@@ -103,6 +117,7 @@ SortParamUIViewControllerDelegate{
         }else {
             if self.backgroundImageView.image == nil {
                 self.backgroundImageView.image = defaultImage
+                self.showToast(withText: "Tap \"Image…\" button to select an image")
             }
         }
         
@@ -128,6 +143,12 @@ SortParamUIViewControllerDelegate{
         //        f.origin = CGPoint(x:59, y:222)
         //        imv.frame = f
         //        self.view.addSubview(imv)
+        
+        if self.saveUnsavedImageOnAppear {
+            if let image = self.unsavedImage {
+                manageOutputImage(image)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -315,6 +336,7 @@ SortParamUIViewControllerDelegate{
         if AppConfig.shared.isFreeVersion && max(output.size.width,output.size.height) > 600 {
             self.performSegue(withIdentifier: "showUnlock", sender: output)
             self.setProgressView(hidden: true, completion: {})
+            self.unsavedImage = output
             
         }else {
             
@@ -458,6 +480,14 @@ SortParamUIViewControllerDelegate{
         }
     }
     
+    @objc fileprivate func storeDidPurchase () {
+        if let image = self.unsavedImage {
+            self.saveUnsavedImageOnAppear = true
+
+        }else {
+            self.showToastMessage("Thank you! Now you save your work in high definition!")
+        }
+    }
     
     //MARK: image picker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

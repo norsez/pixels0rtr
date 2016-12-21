@@ -10,6 +10,11 @@ import UIKit
 import StoreKit
 import CargoBay
 
+extension Notification.Name {
+    static let onStoreDidPurchase = Notification.Name("onStoreDidPurchase")
+    static let onStoreDidFailPurchase = Notification.Name("onStoreDidFailPurchase")
+}
+
 
 class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     
@@ -21,7 +26,7 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     fileprivate var productRequest: SKProductsRequest?
     fileprivate var products: [SKProduct]?
     fileprivate var validateProductIdsCompletion: ((Bool)->Void)?
-    fileprivate var purchaseCompletion:((PurchaseResult)->Bool)? //executer returns true if transaction is ready to be finished.
+    
     
     var productPaidIsValidated = false
     var isPurchasing = false
@@ -71,7 +76,7 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     
 
     
-    func startPurchase(withCompletion completion: @escaping (PurchaseResult)->Bool) {
+    func startPurchase() {
     
         if isPurchasing {
             Logger.log("Already purchasing. Ignored.")
@@ -82,13 +87,11 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
         
         if self.productPaidIsValidated == false {
             Logger.log("product not validated. abort.")
-            let _ = completion(.failed)
         }
     
-        self.purchaseCompletion = completion
+        
         guard let product = self.products?.first else {
             Logger.log("product not found. abort.")
-            let _ = completion(.failed)
             return
         }
         
@@ -117,39 +120,33 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     
     //#MARK: payment queue delegate
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        isPurchasing = false
         
         if AppConfig.shared.isFreeVersion == false {
             return
         }
         
-        guard let pc = self.purchaseCompletion else {
-            Logger.log("no completion block for purchase waiting")
-            return
-        }
-        
         for tx in transactions {
             if tx.transactionState == .failed {
-                let _ = pc(.failed)
+                NotificationCenter.default.post(name: .onStoreDidFailPurchase, object: nil)
                 SKPaymentQueue.default().finishTransaction(tx)
-            }else if tx.transactionState == .purchasing {
-                if pc(.purchased) {
-                    self.makeAppPaidVersion(withTransaction: tx)
-                    SKPaymentQueue.default().finishTransaction(tx)
-                }
+            }else if tx.transactionState == .purchased {
+                self.makeAppPaidVersion(withTransaction: tx)
+                SKPaymentQueue.default().finishTransaction(tx)
             }else if tx.transactionState == .restored {
-                if pc(.restored) {
-                    self.makeAppPaidVersion(withTransaction: tx)
-                    SKPaymentQueue.default().finishTransaction(tx)
-                }
+                self.makeAppPaidVersion(withTransaction: tx)
+                SKPaymentQueue.default().finishTransaction(tx)
+            }else if tx.transactionState == .purchasing ||  tx.transactionState == .deferred {
+                Logger.log("please wait… purchasing or deferred")
             }else {
                 Logger.log("unhandled state:\(tx.transactionState) for \(tx.payment.productIdentifier)")
             }
-            
         }
     }
     
     func makeAppPaidVersion (withTransaction tx: SKPaymentTransaction) {
         AppConfig.shared.isFreeVersion = false
+        NotificationCenter.default.post(name: .onStoreDidPurchase, object: nil)
     }
     
     //#MARK: - singleton

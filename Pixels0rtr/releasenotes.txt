@@ -1,6 +1,9 @@
 release notes
 =============
 
+build 8
+- in-app purchase to unlock high def
+
 build 4
 - revamped UI with x-y pad to control pattern
 - size selector works
