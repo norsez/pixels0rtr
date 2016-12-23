@@ -28,10 +28,11 @@
 		F3375B7D1DFFEC0800AF0742 /* VerticalSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */; };
 		F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */; };
 		F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43C1DF51719008304E4 /* SortingPreview.swift */; };
-		F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F33BA4411DF5231A008304E4 /* defaultImage.jpg */; };
+		F33BA4421DF5231A008304E4 /* defaultImage_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */; };
 		F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */; };
 		F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */; };
 		F34575941E069F66001A110F /* StripBitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34575931E069F66001A110F /* StripBitmap.swift */; };
+		F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */; };
 		F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36078251E0CE27100769EB6 /* XYPadModel.swift */; };
 		F37A7F161E04CB94000C1B95 /* small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F37A7F151E04CB94000C1B95 /* small.jpg */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
@@ -72,9 +73,10 @@
 		F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Profiling.swift"; sourceTree = "<group>"; };
 		F33BA43C1DF51719008304E4 /* SortingPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortingPreview.swift; sourceTree = "<group>"; };
 		F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortConfigViewController.swift; sourceTree = "<group>"; };
-		F33BA4411DF5231A008304E4 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
+		F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage_1.jpg; sourceTree = "<group>"; };
 		F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSelectorCollectionViewController.swift; sourceTree = "<group>"; };
 		F34575931E069F66001A110F /* StripBitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripBitmap.swift; sourceTree = "<group>"; };
+		F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F36078251E0CE27100769EB6 /* XYPadModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYPadModel.swift; sourceTree = "<group>"; };
 		F37A7F151E04CB94000C1B95 /* small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = small.jpg; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
@@ -194,7 +196,8 @@
 			children = (
 				F37A7F151E04CB94000C1B95 /* small.jpg */,
 				F3087B7C1DF69B6300376A98 /* Silom.ttf */,
-				F33BA4411DF5231A008304E4 /* defaultImage.jpg */,
+				F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */,
+				F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -269,10 +272,11 @@
 			files = (
 				F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */,
 				F37A7F161E04CB94000C1B95 /* small.jpg in Resources */,
+				F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */,
 				F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */,
 				F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */,
 				F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */,
-				F33BA4421DF5231A008304E4 /* defaultImage.jpg in Resources */,
+				F33BA4421DF5231A008304E4 /* defaultImage_1.jpg in Resources */,
 				F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */,
 				F3087B7D1DF69BFB00376A98 /* Silom.ttf in Resources */,
 			);
