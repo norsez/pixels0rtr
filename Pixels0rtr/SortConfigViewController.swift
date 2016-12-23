@@ -395,11 +395,11 @@ SortParamUIViewControllerDelegate{
         Logger.log("show prediction view")
         self.thumbnailLabel.alpha = 0
         
-        self.thumbnailLabel.text = "lo-res preview: \(self.previewEngine.title(ofSortParam: sortParam))"
+        self.thumbnailLabel.text = "lo-res: \(self.previewEngine.title(ofSortParam: sortParam))"
         
         
         UIView.animate(withDuration: 0.5) {
-            self.predictionView.alpha = 0.85
+            self.predictionView.alpha = 1
             self.thumbnailLabel.alpha = 0.85
         }
     }

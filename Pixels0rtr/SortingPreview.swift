@@ -12,10 +12,25 @@ import CoreImage
 class SortingPreview: NSObject {
     let MAX_THUMB_SIZE = 150
     var previews = [String:HorizontalSelectItem]()
+    var valueFormatter: NumberFormatter
     
+    override init() {
+        
+        self.valueFormatter = NumberFormatter()
+        self.valueFormatter.numberStyle = .decimal
+        self.valueFormatter.maximumIntegerDigits = 1
+        self.valueFormatter.minimumFractionDigits = 1
+        self.valueFormatter.minimumFractionDigits = 2
+        self.valueFormatter.maximumFractionDigits = 2
+        
+    }
     
     func title(ofSortParam sp: SortParam) -> String {
-        return "\(sp.sorter.name) - \(sp.pattern.name)"
+        
+        let sa = self.valueFormatter.string(from: NSNumber(value:sp.sortAmount))!
+        let ra = self.valueFormatter.string(from: NSNumber(value:sp.roughnessAmount))!
+        
+        return "\(sp.sorter.name) - \(sp.pattern.name) [\(sa),\(ra)]"
     }
     
     func previewImage(withSortParam sp: SortParam) -> UIImage?{
@@ -28,7 +43,7 @@ class SortingPreview: NSObject {
     }
     
     func updatePreviewImage(withImage image: UIImage, sortParam sp: SortParam) {
-        let title = "\(sp.sorter.name) - \(sp.pattern.name)"
+        let title = self.title(ofSortParam: sp)
         if let item = self.previews[title] {
             var updatedItem = item
             updatedItem.image = image

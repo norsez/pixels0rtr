@@ -220,7 +220,7 @@ class PatternClean: PatternClassic {
     
     fileprivate override var maximumPhaseReset: Int {
         get {
-            return 3
+            return 4
         }
     }
     
@@ -231,7 +231,7 @@ class PatternClean: PatternClassic {
     }
     
     override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
-        if sortParam.roughnessAmount < 0.1 {
+        if sortParam.roughnessAmount < 0.025 {
             return false
         }else {
             return super.resetSubsortBlock(withIndex: index, sortIndex: sortIndex, sortParam: sortParam)

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -79,9 +79,8 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prediction" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI8-cZ-tYN">
-                                <rect key="frame" x="164" y="251" width="120" height="21"/>
+                                <rect key="frame" x="84" y="251" width="200" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="bjs-kG-fg8"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="vQN-xl-ror"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="11"/>
@@ -141,6 +140,7 @@
                             <constraint firstItem="fI8-cZ-tYN" firstAttribute="bottom" secondItem="QnE-Yb-9mC" secondAttribute="bottom" id="Htc-fx-oz9"/>
                             <constraint firstItem="i3d-y6-roO" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="ItF-c8-ayq"/>
                             <constraint firstItem="Xc2-rL-UGg" firstAttribute="width" secondItem="QnE-Yb-9mC" secondAttribute="width" id="JFQ-Kv-PQd"/>
+                            <constraint firstItem="fI8-cZ-tYN" firstAttribute="width" secondItem="Xc2-rL-UGg" secondAttribute="width" id="Jx1-yK-m8A"/>
                             <constraint firstItem="pPL-DD-06u" firstAttribute="leading" secondItem="Nt0-v6-RxG" secondAttribute="leadingMargin" id="Lzv-bz-gfK"/>
                             <constraint firstItem="Xc2-rL-UGg" firstAttribute="top" secondItem="QnE-Yb-9mC" secondAttribute="top" id="Oig-nH-eWO"/>
                             <constraint firstItem="yqx-MR-LXO" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="Tq0-5n-saV"/>
@@ -222,7 +222,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="37" y="18" width="77" height="16"/>
+                                            <rect key="frame" x="39.5" y="19" width="72.5" height="14"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -452,7 +452,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xwv-5j-VLt">
-                                            <rect key="frame" x="48" y="55" width="279" height="178"/>
+                                            <rect key="frame" x="48" y="55" width="279" height="151"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="EEV-4U-q9i"/>
                                             </constraints>
@@ -624,10 +624,10 @@ Cg
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AxO-0A-eoR">
-                                            <rect key="frame" x="16" y="495.5" width="343" height="143.5"/>
+                                            <rect key="frame" x="16" y="466" width="343" height="173"/>
                                         </scrollView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d6-WF-vu5">
-                                            <rect key="frame" x="75" y="249" width="226" height="30"/>
+                                            <rect key="frame" x="89.5" y="222" width="197" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="Dja-ZV-J7b"/>
                                                 <constraint firstAttribute="height" constant="30" id="FGD-iM-dck"/>
@@ -641,7 +641,7 @@ Cg
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sW4-El-BzZ">
-                                            <rect key="frame" x="145" y="433.5" width="85" height="30"/>
+                                            <rect key="frame" x="145" y="404" width="85" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="52O-Es-lTM"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="gKe-2C-l8v"/>
@@ -667,7 +667,7 @@ Cg
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6i-tg-hMs">
-                                            <rect key="frame" x="109" y="371.5" width="156" height="30"/>
+                                            <rect key="frame" x="109" y="342" width="156" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="8UN-as-vTw"/>
                                                 <constraint firstAttribute="width" constant="156" id="Rq7-kE-1tT"/>
@@ -681,7 +681,7 @@ Cg
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or if you have previously purchased, choose restore below" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoX-K2-lGH">
-                                            <rect key="frame" x="48" y="327" width="279" height="28.5"/>
+                                            <rect key="frame" x="48" y="300" width="279" height="26"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="Bjh-zS-XaP"/>
                                             </constraints>
@@ -690,7 +690,7 @@ Cg
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="checking price…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RuF-Ni-WN8">
-                                            <rect key="frame" x="133" y="287" width="109" height="21"/>
+                                            <rect key="frame" x="142.5" y="260" width="90.5" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="eFq-Gz-fyB"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="vXf-rC-ZIK"/>
@@ -998,6 +998,6 @@ Cg
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="F3A-bz-g1s"/>
+        <segue reference="VEU-QX-4aL"/>
     </inferredMetricsTieBreakers>
 </document>
