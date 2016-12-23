@@ -196,7 +196,7 @@
         <scene sceneID="NLk-uE-fNT">
             <objects>
                 <collectionViewController storyboardIdentifier="horizontalSelector" id="3bA-n9-Skc" customClass="HorizontalSelectorCollectionViewController" customModule="Pixels0rtr" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="H8M-PY-w4l">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="H8M-PY-w4l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -624,7 +624,7 @@ Cg
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AxO-0A-eoR">
-                                            <rect key="frame" x="16" y="495.5" width="351" height="143.5"/>
+                                            <rect key="frame" x="16" y="495.5" width="343" height="143.5"/>
                                         </scrollView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d6-WF-vu5">
                                             <rect key="frame" x="75" y="249" width="226" height="30"/>
@@ -701,7 +701,7 @@ Cg
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="AxO-0A-eoR" secondAttribute="trailing" constant="8" id="3iG-rs-FyF"/>
+                                        <constraint firstAttribute="trailing" secondItem="AxO-0A-eoR" secondAttribute="trailing" constant="16" id="3iG-rs-FyF"/>
                                         <constraint firstItem="RuF-Ni-WN8" firstAttribute="centerX" secondItem="peT-uB-INu" secondAttribute="centerX" id="4YF-2h-iEV"/>
                                         <constraint firstItem="CoX-K2-lGH" firstAttribute="leading" secondItem="peT-uB-INu" secondAttribute="leading" constant="48" id="EOE-AO-p6d"/>
                                         <constraint firstItem="1d6-WF-vu5" firstAttribute="top" secondItem="Xwv-5j-VLt" secondAttribute="bottom" constant="16" id="FMe-p8-3JE"/>
@@ -872,7 +872,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

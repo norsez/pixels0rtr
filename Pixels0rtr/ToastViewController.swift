@@ -32,12 +32,28 @@ class ToastViewController: UIViewController {
         self.removeFromParentViewController()
     }
     
-    func showToast(withText text: String, onViewController viewController: UIViewController) {
+    func showToast(withPixelSortingStats stats: PixelSortingStats, onViewController vc: UIViewController, completion: (()->Void)? = nil) {
+        var message = ""
+        let nf = NumberFormatter()
+        nf.numberStyle = .decimal
+        if let str = nf.string(from: NSNumber(value:stats.numberOfPixels)) {
+            message.append("\(str) pixels sorted\n")
+        }
+        let mins = Int(stats.elapsedTime / 60.0)
+        let seconds = Int(Int(stats.elapsedTime) % 60)
+        var strmin = mins > 0 ? "\(mins) mins " : ""
+        strmin.append("\(seconds) secs")
+        message.append("Done in \(strmin)")
+        
+        self.showToast(withText: message, onViewController: vc, completion: completion)
+    }
+    
+    func showToast(withText text: String, onViewController viewController: UIViewController, completion: (()->Void)? = nil) {
         
         //add to the viewController to set everything up
         self.view.alpha = 0
         self.show(onViewController: viewController)
-        self.setText(text)
+        self.textLabel.text = text
         self.constraintVerticalDistance.constant = -100
         self.view.layoutIfNeeded()
         self.constraintVerticalDistance.constant = 0
@@ -57,6 +73,9 @@ class ToastViewController: UIViewController {
                 finished in
                 if finished {
                     self.hide(fromViewController: viewController)
+                    if let c = completion {
+                        c()
+                    }
                 }
             })
         })

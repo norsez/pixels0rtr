@@ -64,7 +64,7 @@ class SortingPreview: NSObject {
                     if let p = progress {
                         p(Float(v))
                     }
-                }) else {
+                }).output else {
                     continue
                 }
                 

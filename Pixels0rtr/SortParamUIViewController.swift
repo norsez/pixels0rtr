@@ -12,7 +12,7 @@ protocol SortParamUIViewControllerDelegate {
     func paramValueDidChange(toParam: SortParam, shouldUpdatePreviews: Bool)
 }
 
-class SortParamUIViewController: UIViewController {
+class SortParamUIViewController: UIViewController, XYPadDelegate {
 
     @IBOutlet weak var xyPadImageView: UIImageView!
     @IBOutlet weak var xyPadView: UIView!
@@ -39,7 +39,7 @@ class SortParamUIViewController: UIViewController {
             return self.sizeSelector.frame.maxY + 48
         }
     }
-    
+    var xyPadModel: XYPadModel!
     var roughness: Double = 0
     var sortAmount: Double = 0
     var sorter: PixelSorter = SorterBrightness()
@@ -93,17 +93,10 @@ class SortParamUIViewController: UIViewController {
         }
         
         
-        let xyTap = UITapGestureRecognizer(target: self, action: #selector(didTapXYPad(_:)))
-        xyTap.numberOfTapsRequired = 1
-        xyTap.numberOfTouchesRequired = 1
-        let xyPan = UIPanGestureRecognizer(target: self, action: #selector(didPanXYPad(_:)))
-        xyPan.maximumNumberOfTouches = 1
-        xyPan.minimumNumberOfTouches = 1
-        self.xyPadView.addGestureRecognizer(xyTap)
-        self.xyPadView.addGestureRecognizer(xyPan)
-        
         self.xyPadView.layer.cornerRadius = 6
         self.xyPadView.clipsToBounds = true
+        self.xyPadModel = XYPadModel(withXYPadView: self.xyPadView, initialValue: XYValue(x:0.5, y:0.5))
+        self.xyPadModel.delegate = self
         
         
 //        #if DEBUG
@@ -117,36 +110,30 @@ class SortParamUIViewController: UIViewController {
         self.xyPadImageView.image = image
     }
     
-    func didTapXYPad(_ gr: UITapGestureRecognizer) {
-        if gr.state == .ended {
-            let point = gr.location(in: self.xyPadView)
-            self.setParamsWithXYPad(atPoint: point, notifyDelegate: true)
-        }
-    }
-    
-    func didPanXYPad(_ gr: UIPanGestureRecognizer) {
-        let point = gr.location(in: self.xyPadView)
-        if gr.state == .changed {
-            self.setParamsWithXYPad(atPoint: point)
-        }else if gr.state == .ended {
-            self.setParamsWithXYPad(atPoint: point, notifyDelegate: true)
-        }
-    }
-    
-    func setParamsWithXYPad(atPoint point: CGPoint, notifyDelegate: Bool = false) {
-        if self.xyPadView.bounds.contains(point) == false {
-            return
-        }
+    func xyPad(_ view: UIView, didPanValue v: XYValue) {
+        self.setParamsWithXYPad(atPoint: v)
         
+    }
+    
+    func xyPad(_ view: UIView, didTapValue v: XYValue) {
+        self.setParamsWithXYPad(atPoint: v)
+    }
+    
+    func xyPad(_ view: UIView, changePanValue v: XYValue) {
         let bounds = self.xyPadView.bounds
-        self.xyLabel.center = point
-        self.sortAmount = Double(point.x)/Double(bounds.width)
-        self.roughness = Double(point.y)/Double(bounds.height)
+        self.xyLabel.center = CGPoint(x: v.x * bounds.width, y: v.y * bounds.height )
+    }
+    
+    func setParamsWithXYPad(atPoint v: CGPoint) {
+        let bounds = self.xyPadView.bounds
+        self.xyLabel.center = CGPoint(x: v.x * bounds.width, y: v.y * bounds.height )
+        
+        self.sortAmount = Double(v.x)
+        self.roughness = Double(v.y)
         Logger.log("sort amt: \(self.sortAmount), \(self.roughness)")
         
-        if notifyDelegate {
-            self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
-        }
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
+        
     }
     
 

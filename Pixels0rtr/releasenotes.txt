@@ -1,5 +1,7 @@
 release notes
 =============
+build 9
+- add XY Pad's' fine grain control
 
 build 8
 - in-app purchase to unlock high def

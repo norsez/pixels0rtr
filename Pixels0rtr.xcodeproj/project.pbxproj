@@ -32,6 +32,7 @@
 		F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */; };
 		F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */; };
 		F34575941E069F66001A110F /* StripBitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34575931E069F66001A110F /* StripBitmap.swift */; };
+		F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36078251E0CE27100769EB6 /* XYPadModel.swift */; };
 		F37A7F161E04CB94000C1B95 /* small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F37A7F151E04CB94000C1B95 /* small.jpg */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
@@ -74,6 +75,7 @@
 		F33BA4411DF5231A008304E4 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSelectorCollectionViewController.swift; sourceTree = "<group>"; };
 		F34575931E069F66001A110F /* StripBitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripBitmap.swift; sourceTree = "<group>"; };
+		F36078251E0CE27100769EB6 /* XYPadModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYPadModel.swift; sourceTree = "<group>"; };
 		F37A7F151E04CB94000C1B95 /* small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = small.jpg; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */,
 				F3D91AA71DFE693900D45413 /* UnlockViewController.swift */,
 				F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */,
+				F36078251E0CE27100769EB6 /* XYPadModel.swift */,
 				F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */,
 				F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */,
 				F3087B761DF114BA00376A98 /* ImageSelecterViewController.swift */,
@@ -343,6 +346,7 @@
 				F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
+				F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
 				F3375B7D1DFFEC0800AF0742 /* VerticalSelectorViewController.swift in Sources */,
 				F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */,

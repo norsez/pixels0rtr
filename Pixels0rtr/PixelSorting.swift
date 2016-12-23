@@ -58,6 +58,10 @@ class SortColor {
         }
     }
     
+    static func clearCache() {
+        self.colorCache.removeAll()
+    }
+    
     static func intializeColorTable(withCompletion completion: ()->Void) {
         for _a in 255..<256 {
             for _r in 0..<256 {
@@ -259,11 +263,19 @@ extension CGImage {
     }
 }
 
+
+//MARK: PixelSorting Stats
+struct PixelSortingStats {
+    var elapsedTime: TimeInterval
+    var numberOfPixels: Int
+    
+}
 //MARK: quick sort
 class PixelSorting: NSObject {
     
-    
-    static func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage?{
+    static func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> (output:UIImage?, stats: PixelSortingStats){
+        
+        let startTime = Date()
         
         let NUM_TO_SORT = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
         let stripBitmap = StripBitmap(withCGSize: image.size, orientation: sortParam.orientation)
@@ -275,7 +287,12 @@ class PixelSorting: NSObject {
             progress(Float(indexToSort)/Float(NUM_TO_SORT))
         }
         let resultImage = stripBitmap.makeImage()
-        return resultImage
+        
+        let elapsedTime = Date().timeIntervalSince(startTime)
+        let numPixels = Int(image.size.width * image.size.height)
+        let stats = PixelSortingStats(elapsedTime: elapsedTime, numberOfPixels: numPixels)
+        
+        return (output: resultImage, stats:stats)
     }
     
     static func sorted0(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {

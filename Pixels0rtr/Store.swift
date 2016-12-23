@@ -129,17 +129,18 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
         for tx in transactions {
             if tx.transactionState == .failed {
                 NotificationCenter.default.post(name: .onStoreDidFailPurchase, object: nil)
-                SKPaymentQueue.default().finishTransaction(tx)
             }else if tx.transactionState == .purchased {
                 self.makeAppPaidVersion(withTransaction: tx)
-                SKPaymentQueue.default().finishTransaction(tx)
             }else if tx.transactionState == .restored {
                 self.makeAppPaidVersion(withTransaction: tx)
-                SKPaymentQueue.default().finishTransaction(tx)
             }else if tx.transactionState == .purchasing ||  tx.transactionState == .deferred {
                 Logger.log("please wait… purchasing or deferred")
             }else {
                 Logger.log("unhandled state:\(tx.transactionState) for \(tx.payment.productIdentifier)")
+            }
+            
+            if tx.transactionState != .purchasing {
+                SKPaymentQueue.default().finishTransaction(tx)
             }
         }
     }

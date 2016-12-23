@@ -160,7 +160,7 @@ class PatternClassic : AbstractSortPattern {
         let MAX_R = Int(Double(sortParam.orientation == .horizontal ? height : width)/24.0)
         let roughness = MIN_R + Int(Double(MAX_R) * c_roughness)
         
-        Logger.log(" -- roughness: \(c_roughness) \(roughness), sort amt: \(c_sortAmount)")
+        Logger.log(" -- roughness:  \(roughness), sort amt: \(_min)-\(_max)")
         
         switch sortParam.orientation {
         case .vertical:

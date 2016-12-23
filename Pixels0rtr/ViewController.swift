@@ -89,7 +89,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
                 DispatchQueue.main.async {
                     self.progressView.progress = Float(p)
                 }
-            }) else {
+            }).output else {
                 print ("can't get sorted image")
                 return
             }

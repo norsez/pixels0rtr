@@ -48,6 +48,7 @@ SortParamUIViewControllerDelegate{
         super.viewDidLoad()
         self.setupThumbnails()
         self.setupParamControllerView()
+        self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
         
         self.consoleTextView.alpha = 0.3
         self.thumbnailLabel.text = "…"
@@ -89,12 +90,7 @@ SortParamUIViewControllerDelegate{
     }
     
     func showToast(withText text: String) {
-        if self.toast == nil {
-            self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
-        }
-        
         self.toast?.showToast(withText: text, onViewController: self)
-        
     }
     
     
@@ -117,7 +113,6 @@ SortParamUIViewControllerDelegate{
         }else {
             if self.backgroundImageView.image == nil {
                 self.backgroundImageView.image = defaultImage
-                self.showToast(withText: "Tap \"Image…\" button to select an image")
             }
         }
         
@@ -312,14 +307,16 @@ SortParamUIViewControllerDelegate{
             }
             
             sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParam)
-            
-            guard let output = PixelSorting.sorted(image: imageToSort, sortParam: sortParam, progress: progressBlock) else {
+            let sortedResult = PixelSorting.sorted(image: imageToSort, sortParam: sortParam, progress: progressBlock)
+            guard let output = sortedResult.output else {
                 Logger.log("Sorting failed.")
                 return
             }
             
             
             DispatchQueue.main.async {
+                self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self)
+                
                 self.manageOutputImage(output)
                 self.previewEngine.updatePreviewImage(withImage: output, sortParam: self.paramController.currentParameters)
                 self.showPredictionView()
@@ -481,9 +478,8 @@ SortParamUIViewControllerDelegate{
     }
     
     @objc fileprivate func storeDidPurchase () {
-        if let image = self.unsavedImage {
+        if let _ = self.unsavedImage {
             self.saveUnsavedImageOnAppear = true
-
         }else {
             self.showToastMessage("Thank you! Now you save your work in high definition!")
         }
@@ -499,5 +495,10 @@ SortParamUIViewControllerDelegate{
             Logger.log("original size: \(img.size)")
             self.setSelected(image: img)
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        SortColor.clearCache()
     }
 }
