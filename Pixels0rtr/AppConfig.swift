@@ -8,7 +8,7 @@
 
 import UIKit
 
-let ALL_SORT_PATTERNS: [SortPattern] = [PatternClassic()]
+let ALL_SORT_PATTERNS: [SortPattern] = [PatternClassic(), PatternClean()]
 let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue(), SorterSaturation(), SorterCenterSorted(), SorterIntervals()]
 let APP_COLOR_FONT = UIColor(red: 0, green: 1, blue: 0, alpha: 0.85)
 let APP_FONT = UIFont(name: "Silom", size: 12)

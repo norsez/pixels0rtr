@@ -372,7 +372,7 @@ class PixelSorting: NSObject {
         var results = [[SortColor]]()
         var curCol = [SortColor]()
         for i in 0..<colors.count {
-            if pattern.resetSubsortBlock(withIndex: i, sortIndex: sortIndex) {
+            if pattern.resetSubsortBlock(withIndex: i, sortIndex: sortIndex, sortParam: sortParam) {
                 results.append(curCol)
                 curCol = [colors[i]]
             }else {

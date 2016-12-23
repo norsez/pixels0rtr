@@ -245,10 +245,11 @@ SortParamUIViewControllerDelegate{
         })
     }
     
+    var lastParam: SortParam?
     
     func paramValueDidChange(toParam sp: SortParam, shouldUpdatePreviews: Bool) {
         
-        if shouldUpdatePreviews {
+        if  shouldUpdatePreviews {
             if let si = self.selectedImage {
                 self.setProgressView(hidden: false)
                 
@@ -264,6 +265,8 @@ SortParamUIViewControllerDelegate{
         if let pimage = self.previewEngine.previewImage(withSortParam: sp) {
             self.paramController.setXYPadBackgroundImage(pimage)
         }
+        
+        lastParam = sp
     }
     
     

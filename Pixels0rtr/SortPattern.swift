@@ -28,7 +28,7 @@ protocol SortPattern {
     var name: String {get}
     
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
-    func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool
+    func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool
     func colorArrays(of cgimage: CGImage, size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> [[SortColor]]
     func image(with colorArrays: [[SortColor]], size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> Image
 }
@@ -47,7 +47,7 @@ class AbstractSortPattern: SortPattern{
         }
     }
     
-    internal func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool {
+    internal func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
         return false
     }
     
@@ -144,6 +144,17 @@ class PatternClassic : AbstractSortPattern {
         }
     }
    
+    fileprivate var maximumPhaseReset: Int {
+        get {
+            return 25
+        }
+    }
+    
+    fileprivate var largestSortWidth: Int {
+        get {
+            return 24
+        }
+    }
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         resetRowIndexByCol = [Int]()
@@ -152,12 +163,12 @@ class PatternClassic : AbstractSortPattern {
         let c_roughness = pow(sortParam.roughnessAmount, 1.25)
         let factor = 1.0/(c_sortAmount + 0.00001);
         let _max = 1.1 * factor;
-        let _min = 25.0 * factor;
+        let _min = Double(self.maximumPhaseReset) * factor;
         
         var lastValue: Int = 0
         
         let MIN_R = 1
-        let MAX_R = Int(Double(sortParam.orientation == .horizontal ? height : width)/24.0)
+        let MAX_R = Int(Double(sortParam.orientation == .horizontal ? height : width)/Double(self.largestSortWidth))
         let roughness = MIN_R + Int(Double(MAX_R) * c_roughness)
         
         Logger.log(" -- roughness:  \(roughness), sort amt: \(_min)-\(_max)")
@@ -194,8 +205,36 @@ class PatternClassic : AbstractSortPattern {
         
     }
     
-    override func resetSubsortBlock(withIndex index: Int, sortIndex: Int) -> Bool {
+    override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
         return index % resetRowIndexByCol[sortIndex] == 0;
     }
 }
 
+class PatternClean: PatternClassic {
+    
+    override var name: String {
+        get {
+            return "Clean"
+        }
+    }
+    
+    fileprivate override var maximumPhaseReset: Int {
+        get {
+            return 3
+        }
+    }
+    
+    fileprivate override var largestSortWidth: Int {
+        get {
+            return 2
+        }
+    }
+    
+    override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
+        if sortParam.roughnessAmount < 0.1 {
+            return false
+        }else {
+            return super.resetSubsortBlock(withIndex: index, sortIndex: sortIndex, sortParam: sortParam)
+        }
+    }
+}

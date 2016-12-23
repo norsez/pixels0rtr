@@ -51,7 +51,7 @@ class SortingPreview: NSObject {
         
         
         
-        for var pattern in ALL_SORT_PATTERNS {
+        for pattern in ALL_SORT_PATTERNS {
             for s in ALL_SORTERS {
                 let imageToSort = blurredThumb
                 

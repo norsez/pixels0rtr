@@ -82,6 +82,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         patternSelector.items = ALL_SORT_PATTERNS.flatMap({ (ps) -> HorizontalSelectItem? in
             return HorizontalSelectItem(image: nil, title: ps.name)
         })
+        
         self.addChildViewController(patternSelector)
         self.patternSelector.view.translatesAutoresizingMaskIntoConstraints = false
         self.patternContainerView.addSubview(patternSelector.view)

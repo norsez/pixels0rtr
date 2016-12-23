@@ -1,6 +1,7 @@
 release notes
 =============
 build 9
+- add clean pattern
 - add XY Pad's' fine grain control
 
 build 8
