@@ -63,9 +63,7 @@ class SortingPreview: NSObject {
         let blurredThumb = thumbnail
         
         previews = [String:HorizontalSelectItem]()
-        
-        
-        
+                
         for pattern in ALL_SORT_PATTERNS {
             for s in ALL_SORTERS {
                 let imageToSort = blurredThumb

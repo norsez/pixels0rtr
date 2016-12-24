@@ -1,5 +1,12 @@
 release notes
 =============
+build 11
+- fix sort,pattern selector after select a new image
+
+build 10
+- fix previews
+- new default image - the Zhuangzi Butterfly
+
 build 9
 - add clean pattern
 - add XY Pad's' fine grain control

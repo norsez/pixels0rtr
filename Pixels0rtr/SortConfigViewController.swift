@@ -179,6 +179,8 @@ SortParamUIViewControllerDelegate{
         self.constraintThumbnailWidth.constant = fitSize.width
         self.constraintThumbnailHeight.constant = fitSize.height
         
+        
+        
         UIView.animate(withDuration: 1, animations: {
             self.view.layoutIfNeeded()
         }, completion: {
@@ -187,6 +189,7 @@ SortParamUIViewControllerDelegate{
             self.updatePreviews(withImage: image, completion:{
                 self.setProgressView(hidden: true)
                 self.paramController.setXYPadBackgroundImage(image)
+                self.showPredictionView()
             })
         })
         

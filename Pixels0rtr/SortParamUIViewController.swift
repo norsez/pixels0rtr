@@ -178,6 +178,8 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         
         self.patternSelector.collectionView?.selectItem(at: IndexPath(row:0, section:0), animated: false, scrollPosition: .centeredHorizontally)
         self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:0, section:0), animated: false, scrollPosition: .centeredHorizontally)
+        self.sorter = ALL_SORTERS[0]
+        self.pattern = ALL_SORT_PATTERNS[0]
     }
     
     @IBAction func didSelectSize(_ sender: Any) {
