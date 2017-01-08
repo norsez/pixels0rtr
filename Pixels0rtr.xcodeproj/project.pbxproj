@@ -34,7 +34,6 @@
 		F34575941E069F66001A110F /* StripBitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34575931E069F66001A110F /* StripBitmap.swift */; };
 		F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */; };
 		F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36078251E0CE27100769EB6 /* XYPadModel.swift */; };
-		F37A7F161E04CB94000C1B95 /* small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F37A7F151E04CB94000C1B95 /* small.jpg */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
 		F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3963A941E0A342700E5214E /* ToastViewController.swift */; };
@@ -78,7 +77,6 @@
 		F34575931E069F66001A110F /* StripBitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripBitmap.swift; sourceTree = "<group>"; };
 		F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F36078251E0CE27100769EB6 /* XYPadModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYPadModel.swift; sourceTree = "<group>"; };
-		F37A7F151E04CB94000C1B95 /* small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = small.jpg; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		F3963A941E0A342700E5214E /* ToastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
@@ -194,7 +192,6 @@
 		F33BA4401DF522F5008304E4 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				F37A7F151E04CB94000C1B95 /* small.jpg */,
 				F3087B7C1DF69B6300376A98 /* Silom.ttf */,
 				F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */,
 				F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */,
@@ -271,7 +268,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */,
-				F37A7F161E04CB94000C1B95 /* small.jpg in Resources */,
 				F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */,
 				F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */,
 				F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */,
@@ -489,6 +485,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.pixels0rtr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -504,6 +501,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.pixels0rtr;
 				PRODUCT_NAME = "$(TARGET_NAME)";

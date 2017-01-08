@@ -167,7 +167,8 @@ SortParamUIViewControllerDelegate{
     func setSelected(image loadedImage: UIImage) {
         self.setProgressView(hidden: false)
         self.hidePredictionView()
-        let image = UIImage(cgImage: loadedImage.cgImage!, scale: 1, orientation: .up)
+        
+        let image = loadedImage.fixedOrientation()
         
         self.selectedImage = image
         self.thumbnailView.image = image
@@ -186,40 +187,11 @@ SortParamUIViewControllerDelegate{
         }, completion: {
             finished in
             
-            self.updatePreviews(withImage: image, completion:{
-                self.setProgressView(hidden: true)
-                self.paramController.setXYPadBackgroundImage(image)
-                self.showPredictionView()
-            })
+            self.paramValueDidChange(toParam: self.paramController.currentParameters)
         })
         
         Analytics.shared.logSelectImage(withActualSize: loadedImage.size)
         
-    }
-    
-    fileprivate var isUpdatingPreviews = false
-    fileprivate func updatePreviews (withImage image:UIImage, completion: @escaping ()->Void) {
-        
-        if isUpdatingPreviews {
-            return
-        }
-        
-        isUpdatingPreviews = true
-        
-        let progressBlock = { p in
-            self.updatePregressInMainThread(p)
-        }
-        
-        DispatchQueue.global().async {
-            self.previewEngine.generatePreviews(with: image, sortParam: self.paramController.currentParameters, progress:progressBlock)
-            
-            DispatchQueue.main.async {
-                self.showPredictionView()
-                completion()
-                self.isUpdatingPreviews = false
-                
-            }
-        }
     }
     
     fileprivate func setProgressView(hidden: Bool, completion: (()->Void)? = nil) {
@@ -248,28 +220,19 @@ SortParamUIViewControllerDelegate{
         })
     }
     
-    var lastParam: SortParam?
-    
-    func paramValueDidChange(toParam sp: SortParam, shouldUpdatePreviews: Bool) {
-        
-        if  shouldUpdatePreviews {
-            if let si = self.selectedImage {
-                self.setProgressView(hidden: false)
-                
-                self.updatePreviews(withImage: si, completion: {
-                    self.setProgressView(hidden: true)
-                    self.showPredictionView()
-                })
-            }
-        }else {
+    func paramValueDidChange(toParam sp: SortParam) {
+        if let image = self.selectedImage {
+            self.setProgressView(hidden: false)
+        self.previewEngine.updatePreview(forImage: image, withSortParam: sp, progress: { (v) in
+            self.updatePregressInMainThread(v)
+        }, completion: { (previewImage) in
+            self.setProgressView(hidden: true)
             self.showPredictionView()
+            if let pv = previewImage {
+                self.paramController.setXYPadBackgroundImage(pv)
+            }
+        })
         }
-        
-        if let pimage = self.previewEngine.previewImage(withSortParam: sp) {
-            self.paramController.setXYPadBackgroundImage(pimage)
-        }
-        
-        lastParam = sp
     }
     
     
@@ -321,12 +284,13 @@ SortParamUIViewControllerDelegate{
             
             
             DispatchQueue.main.async {
-                self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self)
-                
-                self.manageOutputImage(output)
-                self.previewEngine.updatePreviewImage(withImage: output, sortParam: self.paramController.currentParameters)
-                self.showPredictionView()
-                Analytics.shared.logSort(withSortParam: sortParam)
+                self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self) {
+                    
+                    self.manageOutputImage(output)
+                    self.previewEngine.updatePreviewImage(withImage: output, forSortParam: self.paramController.currentParameters)
+                    self.showPredictionView()
+                    Analytics.shared.logSort(withSortParam: sortParam)
+                }
             }
             
         }

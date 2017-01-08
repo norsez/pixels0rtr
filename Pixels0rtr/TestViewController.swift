@@ -19,13 +19,19 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
     @IBOutlet var freePaidSegmentedControl: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+    }
+    
+    func test1() {
         self.scrollView.backgroundColor = UIColor.black
         self.scrollView.delegate = self
         self.navigationController?.isNavigationBarHidden = false
         self.freePaidSegmentedControl.selectedSegmentIndex = AppConfig.shared.isFreeVersion ? 0 : 1
         
         
-
+        
         guard let image = UIImage.loadJPEG(with: "defaultImage") else {
             print("cant' find default image")
             return

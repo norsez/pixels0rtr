@@ -72,7 +72,7 @@ class AbstractSortPattern: SortPattern{
                 }
             }
         
-//        Logger.log("built image of size \(size)")
+        //Logger.log("built image of size \(size)")
         return Image(pixels: pixels, size: Size(size))
     }
         
@@ -207,6 +207,53 @@ class PatternClassic : AbstractSortPattern {
     
     override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
         return index % resetRowIndexByCol[sortIndex] == 0;
+    }
+}
+
+class PatternOffset: AbstractSortPattern {
+    
+    var table = [[Bool]]()
+    
+    override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
+        super.initialize(withWidth: width, height: height, sortParam: sortParam)
+        var sumDist: Int = 0
+        let roughFactor = Int(Double(height) * 0.5)
+        let roughness = Int(sortParam.roughnessAmount * Double(roughFactor)) + roughFactor
+        let amountFactor = Int(Double(width) / 32.0)
+        let amount = 1 + Int(Double(amountFactor) * sortParam.sortAmount)
+        
+        let columnRoughness = 1 + Int(sortParam.roughnessAmount * 24);
+        Logger.log("column roughness = \(columnRoughness)")
+        self.table = [[Bool]]()
+        for _ in 0..<height {
+            var colValues = Array(repeating: false, count: width)
+            for col in 0..<width {
+                
+                if col % columnRoughness != 0 {
+                    colValues[col] = colValues[col-1]
+                    continue
+                }
+                
+                if (sumDist > roughness) {
+                    sumDist = 0;
+                    colValues[col] = true;
+                }else {
+                    sumDist = sumDist + amount;
+                    colValues[col] = false;
+                }
+            }
+            table.append(colValues)
+        }
+    }
+    
+    override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
+        return table[index][sortIndex]
+    }
+    
+    override var name: String {
+        get{
+            return "Offset"
+        }
     }
 }
 

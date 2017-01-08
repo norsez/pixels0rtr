@@ -122,9 +122,6 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         isPurchasing = false
         
-        if AppConfig.shared.isFreeVersion == false {
-            return
-        }
         
         for tx in transactions {
             if tx.transactionState == .failed {

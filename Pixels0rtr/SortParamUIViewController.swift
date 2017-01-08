@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SortParamUIViewControllerDelegate {
-    func paramValueDidChange(toParam: SortParam, shouldUpdatePreviews: Bool)
+    func paramValueDidChange(toParam: SortParam)
 }
 
 class SortParamUIViewController: UIViewController, XYPadDelegate {
@@ -73,7 +73,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         self.sorterSelector.didMove(toParentViewController: self)
         self.sorterSelector.didSelectItem = { index in
             self.sorter = ALL_SORTERS[index]
-            self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
+            self.delegate?.paramValueDidChange(toParam: self.currentParameters)
         }
         
         
@@ -90,7 +90,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         self.patternSelector.didMove(toParentViewController: self)
         self.patternSelector.didSelectItem = { index in
             self.pattern = ALL_SORT_PATTERNS[index]
-            self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
+            self.delegate?.paramValueDidChange(toParam: self.currentParameters)
         }
         
         
@@ -133,7 +133,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         self.roughness = Double(v.y)
         Logger.log("sort amt: \(self.sortAmount), \(self.roughness)")
         
-        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters)
         
     }
     
@@ -168,6 +168,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         self.sizeSelector.selectedSegmentIndex = 0
         
         
+        
         self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         
         self.roughness = AppConfig.shared.roughnessAmount
@@ -186,7 +187,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         let index = self.sizeSelector.selectedSegmentIndex
         let selected = self.currentSizeOrder[index]
         Logger.log("render size: \(selected)")
-        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: false)
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters)
     }
     
     @IBAction func didSelectSortOrientation(_ sender: Any) {
@@ -196,6 +197,6 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
             AppConfig.shared.sortOrientation = orientation
             Logger.log("set sort orientation: \(orientation)")
         }
-        self.delegate?.paramValueDidChange(toParam: self.currentParameters, shouldUpdatePreviews: true)
+        self.delegate?.paramValueDidChange(toParam: self.currentParameters)
     }
 }

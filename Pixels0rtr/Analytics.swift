@@ -45,7 +45,21 @@ class Analytics: NSObject {
         )
     }
     
+    func logScreen(_ screenName: String) {
+        if !enabled {
+            return
+        }
+        
+        FBSDKAppEvents.logEvent("screen", parameters: ["name": screenName])
+    }
     
+    func logButton(_ buttonName: String) {
+        if !enabled {
+            return
+        }
+        
+        FBSDKAppEvents.logEvent("button", parameters: ["name": buttonName])
+    }
     
     //#MARK: - singleton
     static let shared: Analytics = {

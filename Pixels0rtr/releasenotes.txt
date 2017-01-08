@@ -1,5 +1,21 @@
 release notes
 =============
+build 16
+- add CMYK sort
+- create preview just in time
+
+
+build 15
+- fix wrong bitmap scaling
+
+build 14
+- fix store kit keeps asking to enter password
+
+build 13
+- fix orientation of loaded image
+- log purchase
+- make target iOS9 compatibility
+
 build 11
 - fix sort,pattern selector after select a new image
 

@@ -9,6 +9,33 @@
 import UIKit
 import C4
 
+//MARK: CMYK color model
+class CMYK {
+    var magenta, black, cyan, yellow: Float
+    
+    init(withARGB argb: [UInt8]) {
+        //convert to CMY
+        cyan = 1 - (Float(argb[1]) / 255)
+        magenta = 1 - (Float(argb[2]) / 255)
+        yellow = 1 - (Float(argb[3]) / 255)
+        //convert to CMYK
+        black = 1;
+        if cyan < black {
+            black = cyan
+        }
+        if (magenta < black) { black = magenta }
+        if (yellow < black) { black = yellow }
+        cyan = ( cyan - black ) / ( 1 - black );
+        magenta = ( magenta - black ) / ( 1 - black );
+        yellow = ( yellow - black ) / ( 1 - black );
+        //convert to value between 0 and 100
+        cyan = cyan * 100;
+        magenta = magenta * 100;
+        yellow = yellow * 100;
+        black = black * 100;
+    }
+}
+
 //MARK: optimized color stub for HSB access
 class SortColor {
     
@@ -16,6 +43,10 @@ class SortColor {
     
     let bytesARBG :[UInt8]
     var bytesAHSB :[UInt8] = [0,0,0,0]
+    lazy var CMYKValues: CMYK = {
+        let result = CMYK(withARGB: self.bytesARBG)
+        return result
+    }()
     
     var red: UInt8 {
         get {
@@ -189,6 +220,55 @@ class SorterBrightness: PixelSorter {
 }
 
 //MARK: hue sorter
+class SorterMagenta: PixelSorter {
+    var name: String {
+        get {
+            return "Magenta"
+        }
+    }
+    
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
+        return Double(color.CMYKValues.magenta)
+    }
+}
+
+class SorterCyan: PixelSorter {
+    var name: String {
+        get {
+            return "Cyan"
+        }
+    }
+    
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
+        return Double(color.CMYKValues.cyan)
+    }
+}
+
+class SorterYellow: PixelSorter {
+    var name: String {
+        get {
+            return "Yellow"
+        }
+    }
+    
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
+        return Double(color.CMYKValues.yellow)
+    }
+}
+
+class SorterBlack: PixelSorter {
+    var name: String {
+        get {
+            return "Black"
+        }
+    }
+    
+    func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
+        return Double(color.CMYKValues.black)
+    }
+}
+
+
 class SorterHue: PixelSorter {
     var name: String {
         get {
@@ -287,7 +367,7 @@ class PixelSorting: NSObject {
             progress(Float(indexToSort)/Float(NUM_TO_SORT))
         }
         let resultImage = stripBitmap.makeImage()
-        
+        assert(resultImage!.size.width == image.size.width)
         let elapsedTime = Date().timeIntervalSince(startTime)
         let numPixels = Int(image.size.width * image.size.height)
         let stats = PixelSortingStats(elapsedTime: elapsedTime, numberOfPixels: numPixels)
@@ -303,9 +383,10 @@ class PixelSorting: NSObject {
         }
         
         let toSort = pattern.colorArrays(of: cgImage, size: image.size, sortOrientation: sortParam.orientation, progress: progress)
-        Logger.log("\(toSort.count) pieces to sort from \(SortColor.colorCache.count) colors")
+        //Logger.log("\(toSort.count) pieces to sort from \(SortColor.colorCache.count) colors")
         
-        return PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
+        let sortedResult = PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
+        return sortedResult
     }
     
     static func sortedStrip(withColorArrays colorArrays: [[SortColor]], sortIndex:Int, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {

@@ -15,7 +15,7 @@ class StripBitmap: NSObject {
     let orientation: SortOrientation
     init(withCGSize size: CGSize, orientation: SortOrientation) {
         self.size = size
-        UIGraphicsBeginImageContextWithOptions(size, true, 0)
+        UIGraphicsBeginImageContextWithOptions(size, true, 1)
         self.context = UIGraphicsGetCurrentContext()!
         self.orientation = orientation
     }

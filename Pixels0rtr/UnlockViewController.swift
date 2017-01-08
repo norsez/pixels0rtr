@@ -90,6 +90,7 @@ class UnlockViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        Analytics.shared.logScreen("Unlock")
         self.scrollView.setZoomScale(self.scrollView.minimumZoomScale, animated: true)
     }
     
@@ -103,12 +104,14 @@ class UnlockViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func didPressCancel(_ sender: Any) {
+        Analytics.shared.logButton("cancelUnlock")
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func didPressUnlock(_ sender: Any) {
         self.restoreButton.isEnabled = false
         self.unlockButton.isEnabled = false
+        Analytics.shared.logButton("Unlock Purchase")
         Store.shared.startPurchase ()
         self.toast?.showToast(withText: "Contacting iTunes…", onViewController: self)
     }

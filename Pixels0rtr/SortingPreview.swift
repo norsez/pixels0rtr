@@ -33,6 +33,10 @@ class SortingPreview: NSObject {
         return "\(sp.sorter.name) - \(sp.pattern.name) [\(sa),\(ra)]"
     }
     
+    func clearPreviews() {
+        self.previews.removeAll()
+    }
+    
     func previewImage(withSortParam sp: SortParam) -> UIImage?{
         let title = self.title(ofSortParam: sp)
         if let item = self.previews[title] {
@@ -42,7 +46,38 @@ class SortingPreview: NSObject {
         }
     }
     
-    func updatePreviewImage(withImage image: UIImage, sortParam sp: SortParam) {
+    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
+        guard let imageToSort = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
+            Logger.log("failed creating thumbnail")
+            return
+        }
+        
+        sp.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sp)
+        
+        guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: sp, progress: { (v) in
+            if let p = progress {
+                p(Float(v))
+            }
+            
+        }).output else {
+            if let c = completion {
+                c(nil)
+            }
+            return
+        }
+        
+        let title = self.title(ofSortParam: sp)
+        let previewItem = HorizontalSelectItem(image: preview, title: title)
+        previews[title] = previewItem
+        if let c = completion {
+            c(preview)
+        }
+    }
+    
+    /**
+     replace a preview in cache with the input image
+     */
+    func updatePreviewImage(withImage image: UIImage, forSortParam sp: SortParam) {
         let title = self.title(ofSortParam: sp)
         if let item = self.previews[title] {
             var updatedItem = item
@@ -53,6 +88,9 @@ class SortingPreview: NSObject {
         }
     }
     
+    /**
+     generate previews for all available pattern and sort type
+     */
     func generatePreviews(with image: UIImage, sortParam sp: SortParam, progress: ((Float)->Void)? = nil) {
         
         guard let thumbnail = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
