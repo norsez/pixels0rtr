@@ -225,29 +225,18 @@ class PatternOffset: AbstractSortPattern {
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         super.initialize(withWidth: width, height: height, sortParam: sortParam)
-        
-        //amount is how less frequently sort gets a reset block
-        let NUM_PIXELS = width * height
-        let NUM_TILES = 256
-        let MAX_RESET_TIMES = Double(NUM_PIXELS) / Double(NUM_TILES)
-        let NUM_RESET = 64 + Int(MAX_RESET_TIMES * sortParam.sortAmount);
-        var pixelsPerReset = Int(Double(NUM_PIXELS) / Double(NUM_RESET));
-        
-        //scale pixels per reset to resolution to get the same effect for every maxpixels. the base design is for 1600p
-        let BASE_1600 = 1600
-        if min(width, height) < BASE_1600 {
-            pixelsPerReset = scalePxForBase1600(value: pixelsPerReset)
-        }
-        
-        
-        let MAX_ROUGH_DOTS = 1 + Int(25 * sortParam.roughnessAmount);
-        var dots_per_rough = Int(Double(height) / Double(MAX_ROUGH_DOTS));
-        if min(width,height) < BASE_1600 {
-            dots_per_rough = scalePxForBase1600(value: dots_per_rough)
-        }
-        
         let scanLines = sortParam.orientation == .vertical ? width : height
         let dotsPerScanLine = sortParam.orientation == .vertical ? height : width
+        
+        //amount is how less frequently sort gets a reset block
+        let MAX_RESET_FACTOR = Double(scanLines) * 0.5
+        let pixelsPerReset = 1 + Int(sortParam.sortAmount * MAX_RESET_FACTOR)
+        
+        
+        let MAX_ROUGH_DOTS = Double(dotsPerScanLine) * 0.0156
+        let dots_per_rough = 2 + Int(sortParam.roughnessAmount * MAX_ROUGH_DOTS)
+        
+        
         Logger.log("cols per rough:\(dots_per_rough), pixelsPerReset: \(pixelsPerReset)")
         
         var sumDist: Int = 0
@@ -259,8 +248,8 @@ class PatternOffset: AbstractSortPattern {
             self.table.append(colValues)
         }
         
-        for row in 0..<scanLines {
-            for col in 0..<dotsPerScanLine {
+        for scan in 0..<scanLines {
+            for dot in 0..<dotsPerScanLine {
                 
                 let mustReset = sumDist > pixelsPerReset
                 
@@ -272,13 +261,13 @@ class PatternOffset: AbstractSortPattern {
                 }
                
                 if (mustReset) {
-                    table[row][col] = true
+                    table[scan][dot] = true
                 }else {
-                    if (col % dots_per_rough != 0 && row > 0) {
-                        table[row][col] = table[prevRowWithReset][col]
-                        prevRowWithReset = row
+                    if (dot % dots_per_rough != 0 && scan > 0) {
+                        table[scan][dot] = table[prevRowWithReset][dot]
+                        prevRowWithReset = scan
                     }else  {
-                        table[row][col] = false
+                        table[scan][dot] = false
                     }
                 }
             }

@@ -250,6 +250,8 @@ SortParamUIViewControllerDelegate{
         let fontColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.9)
         picker.navigationBar.titleTextAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
         
+        self.controlScrollView.flashScrollIndicators()
+        
     }
     
     
