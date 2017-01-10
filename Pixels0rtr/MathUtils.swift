@@ -19,7 +19,9 @@ func fRandom(min: Double, max: Double) -> Double {
     return fMap(value: Double(r), fromMin: 0, fromMax: Double(CEIL), toMin: min, toMax: max)
 }
 
-
+func expScale(value: Double, scaleFactor: Double) -> Double{
+    return 1 - pow(value, scaleFactor)
+}
 
 extension UIImage {
     static func loadJPEG(with name:String) -> UIImage? {

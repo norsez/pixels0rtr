@@ -167,7 +167,7 @@ SortParamUIViewControllerDelegate{
     func setSelected(image loadedImage: UIImage) {
         self.setProgressView(hidden: false)
         self.hidePredictionView()
-        
+        self.previewEngine.clearPreviews()
         let image = loadedImage.fixedOrientation()
         
         self.selectedImage = image
@@ -223,15 +223,15 @@ SortParamUIViewControllerDelegate{
     func paramValueDidChange(toParam sp: SortParam) {
         if let image = self.selectedImage {
             self.setProgressView(hidden: false)
-        self.previewEngine.updatePreview(forImage: image, withSortParam: sp, progress: { (v) in
-            self.updatePregressInMainThread(v)
-        }, completion: { (previewImage) in
-            self.setProgressView(hidden: true)
-            self.showPredictionView()
-            if let pv = previewImage {
-                self.paramController.setXYPadBackgroundImage(pv)
-            }
-        })
+            self.previewEngine.updatePreview(forImage: image, withSortParam: sp, progress: { (v) in
+                self.updatePregressInMainThread(v)
+            }, completion: { (previewImage) in
+                self.setProgressView(hidden: true)
+                self.showPredictionView()
+                if let pv = previewImage {
+                    self.paramController.setXYPadBackgroundImage(pv)
+                }
+            })
         }
     }
     

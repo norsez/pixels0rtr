@@ -63,12 +63,12 @@ class UnlockViewController: UIViewController, UIScrollViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(storeDidFail), name: .onStoreDidFailPurchase, object: nil)
         
         
-        #if DEBUG
-            let tap4 = UITapGestureRecognizer(target: self, action: #selector(testAnimation))
-            tap4.numberOfTapsRequired = 4
-            self.bullet2.addGestureRecognizer(tap4)
-            self.bullet2.isUserInteractionEnabled = true
-        #endif
+//        #if DEBUG
+//            let tap4 = UITapGestureRecognizer(target: self, action: #selector(testAnimation))
+//            tap4.numberOfTapsRequired = 4
+//            self.bullet2.addGestureRecognizer(tap4)
+//            self.bullet2.isUserInteractionEnabled = true
+//        #endif
     }
     
     @objc fileprivate func storeDidFail() {

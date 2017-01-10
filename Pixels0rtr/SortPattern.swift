@@ -9,6 +9,7 @@
 import UIKit
 import C4
 
+
 enum SortOrientation: Int, CustomStringConvertible {
     case horizontal, vertical
     
@@ -23,6 +24,8 @@ enum SortOrientation: Int, CustomStringConvertible {
         }
     }
 }
+
+
 
 protocol SortPattern {
     var name: String {get}
@@ -214,40 +217,77 @@ class PatternOffset: AbstractSortPattern {
     
     var table = [[Bool]]()
     
+    func scalePxForBase1600(value: Int) -> Int {
+        let normalized =  fMap(value: Double(value), fromMin: 2, fromMax: 1600, toMin: 0, toMax: 1)
+        let scaledValue = pow(normalized, 2)
+        return max(Int(scaledValue * 1600), 2)
+    }
+    
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         super.initialize(withWidth: width, height: height, sortParam: sortParam)
-        var sumDist: Int = 0
-        let roughFactor = Int(Double(height) * 0.5)
-        let roughness = Int(sortParam.roughnessAmount * Double(roughFactor)) + roughFactor
-        let amountFactor = Int(Double(width) / 32.0)
-        let amount = 1 + Int(Double(amountFactor) * sortParam.sortAmount)
         
-        let columnRoughness = 1 + Int(sortParam.roughnessAmount * 24);
-        Logger.log("column roughness = \(columnRoughness)")
+        //amount is how less frequently sort gets a reset block
+        let NUM_PIXELS = width * height
+        let NUM_TILES = 256
+        let MAX_RESET_TIMES = Double(NUM_PIXELS) / Double(NUM_TILES)
+        let NUM_RESET = 64 + Int(MAX_RESET_TIMES * sortParam.sortAmount);
+        var pixelsPerReset = Int(Double(NUM_PIXELS) / Double(NUM_RESET));
+        
+        //scale pixels per reset to resolution to get the same effect for every maxpixels. the base design is for 1600p
+        let BASE_1600 = 1600
+        if min(width, height) < BASE_1600 {
+            pixelsPerReset = scalePxForBase1600(value: pixelsPerReset)
+        }
+        
+        
+        let MAX_ROUGH_DOTS = 1 + Int(25 * sortParam.roughnessAmount);
+        var dots_per_rough = Int(Double(height) / Double(MAX_ROUGH_DOTS));
+        if min(width,height) < BASE_1600 {
+            dots_per_rough = scalePxForBase1600(value: dots_per_rough)
+        }
+        
+        let scanLines = sortParam.orientation == .vertical ? width : height
+        let dotsPerScanLine = sortParam.orientation == .vertical ? height : width
+        Logger.log("cols per rough:\(dots_per_rough), pixelsPerReset: \(pixelsPerReset)")
+        
+        var sumDist: Int = 0
+        var prevRowWithReset = 0
+        
         self.table = [[Bool]]()
-        for _ in 0..<height {
-            var colValues = Array(repeating: false, count: width)
-            for col in 0..<width {
+        for _ in 0..<scanLines {
+            let colValues = Array(repeating: false, count: dotsPerScanLine)
+            self.table.append(colValues)
+        }
+        
+        for row in 0..<scanLines {
+            for col in 0..<dotsPerScanLine {
                 
-                if col % columnRoughness != 0 {
-                    colValues[col] = colValues[col-1]
-                    continue
-                }
+                let mustReset = sumDist > pixelsPerReset
                 
-                if (sumDist > roughness) {
-                    sumDist = 0;
-                    colValues[col] = true;
+                if mustReset {
+                    sumDist = 0
+                    
                 }else {
-                    sumDist = sumDist + amount;
-                    colValues[col] = false;
+                    sumDist = sumDist + 1
+                }
+               
+                if (mustReset) {
+                    table[row][col] = true
+                }else {
+                    if (col % dots_per_rough != 0 && row > 0) {
+                        table[row][col] = table[prevRowWithReset][col]
+                        prevRowWithReset = row
+                    }else  {
+                        table[row][col] = false
+                    }
                 }
             }
-            table.append(colValues)
+            
         }
     }
     
     override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
-        return table[index][sortIndex]
+        return table[sortIndex][index]
     }
     
     override var name: String {

@@ -29,8 +29,9 @@ class SortingPreview: NSObject {
         
         let sa = self.valueFormatter.string(from: NSNumber(value:sp.sortAmount))!
         let ra = self.valueFormatter.string(from: NSNumber(value:sp.roughnessAmount))!
+        let oa = sp.orientation.description
         
-        return "\(sp.sorter.name) - \(sp.pattern.name) [\(sa),\(ra)]"
+        return "\(sp.sorter.name) - \(sp.pattern.name) [\(sa),\(ra)] - \(oa)"
     }
     
     func clearPreviews() {
@@ -47,6 +48,13 @@ class SortingPreview: NSObject {
     }
     
     func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
+        
+        if let existing = self.previewImage(withSortParam: sp),
+            let c = completion {
+            c(existing)
+            return
+        }
+        
         guard let imageToSort = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
             Logger.log("failed creating thumbnail")
             return
