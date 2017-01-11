@@ -229,11 +229,14 @@ class PatternOffset: AbstractSortPattern {
         let dotsPerScanLine = sortParam.orientation == .vertical ? height : width
         
         //amount is how less frequently sort gets a reset block
-        let MAX_RESET_FACTOR = Double(scanLines) * 0.5
+        let RESET_K_1600p = 0.5
+        let resetFactor:Double = RESET_K_1600p * Double(scanLines) / 1600.0
+        let MAX_RESET_FACTOR = Double(scanLines) * resetFactor
         let pixelsPerReset = 1 + Int(sortParam.sortAmount * MAX_RESET_FACTOR)
         
-        
-        let MAX_ROUGH_DOTS = Double(dotsPerScanLine) * 0.0156
+        let ROUGH_K_1600p = 0.0156
+        let roughFactor: Double = ROUGH_K_1600p * Double(scanLines) / 1600.0
+        let MAX_ROUGH_DOTS = Double(dotsPerScanLine) * roughFactor
         let dots_per_rough = 2 + Int(sortParam.roughnessAmount * MAX_ROUGH_DOTS)
         
         

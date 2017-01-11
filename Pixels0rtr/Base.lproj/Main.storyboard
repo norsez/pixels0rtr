@@ -64,7 +64,7 @@
                                 <rect key="frame" x="88" y="72" width="200" height="200"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3d-y6-roO">
-                                <rect key="frame" x="129.5" y="280" width="117" height="30"/>
+                                <rect key="frame" x="117.5" y="280" width="141" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="73V-BL-S1R"/>
                                     <constraint firstAttribute="height" constant="30" id="d6C-b0-qxw"/>
@@ -87,7 +87,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qac-f8-Htg">
-                                <rect key="frame" x="153.5" y="613" width="68" height="30"/>
+                                <rect key="frame" x="147" y="613" width="81" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="eJc-hm-mYr"/>
                                 </constraints>
@@ -221,7 +221,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="37.5" y="18.5" width="76.5" height="15.5"/>
+                                            <rect key="frame" x="37.5" y="18" width="76.5" height="15.5"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -401,7 +401,9 @@
                             <constraint firstAttribute="trailing" secondItem="ckJ-n2-iCE" secondAttribute="trailing" constant="8" id="FXx-jQ-tEv"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="top" secondItem="Wvf-bV-4OR" secondAttribute="bottom" constant="8" id="Ocf-QO-QRk"/>
                             <constraint firstAttribute="trailing" secondItem="Wvf-bV-4OR" secondAttribute="trailing" constant="8" id="Opp-R1-R6y"/>
+                            <constraint firstItem="yDd-Tz-tgK" firstAttribute="top" relation="greaterThanOrEqual" secondItem="req-Pv-bZL" secondAttribute="bottom" id="PtB-e5-QbP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="req-Pv-bZL" secondAttribute="trailing" constant="8" id="W76-Mg-pP7"/>
+                            <constraint firstItem="yDd-Tz-tgK" firstAttribute="top" relation="lessThanOrEqual" secondItem="req-Pv-bZL" secondAttribute="bottom" constant="175" id="X0X-5Y-7AD"/>
                             <constraint firstItem="Wvf-bV-4OR" firstAttribute="top" secondItem="2Ve-7o-x5j" secondAttribute="bottom" constant="8" id="hgP-Hx-4wc"/>
                             <constraint firstItem="req-Pv-bZL" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leadingMargin" constant="8" id="i97-se-9UL"/>
                             <constraint firstItem="ckJ-n2-iCE" firstAttribute="leading" secondItem="QwI-hW-C4t" secondAttribute="leading" constant="8" id="kAg-1b-GsN"/>
@@ -871,7 +873,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MHz-Iw-WJc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ii9-JA-ert">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Ii9-JA-ert">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
