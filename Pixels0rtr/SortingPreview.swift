@@ -9,6 +9,15 @@
 import UIKit
 import C4
 import CoreImage
+
+struct PreviewParam {
+    let image: UIImage
+    let sortParam: SortParam
+    let originX: Double //0..1
+    let originY: Double //0..1
+    let previewSize: Int
+}
+
 class SortingPreview: NSObject {
     let MAX_THUMB_SIZE = 150
     var previews = [String:HorizontalSelectItem]()
@@ -36,6 +45,37 @@ class SortingPreview: NSObject {
     
     func clearPreviews() {
         self.previews.removeAll()
+    }
+    
+    func createPreview(withParam pp: PreviewParam, progress: ((Float)->Void)?, completion:@escaping (UIImage?)->Void) {
+        
+        var correctSizeImage = pp.image
+        if pp.sortParam.maxPixels != .pxTrueSize {
+            if let csi = correctSizeImage.resize(byMaxPixels: pp.sortParam.maxPixels.pixels) {
+                correctSizeImage = csi
+            }else {
+                completion(nil)
+                Logger.log("can't generate image for size \(pp.sortParam.maxPixels)")
+                return
+            }
+        }
+        
+        let cropRect = CGRect(x: pp.originX * Double(correctSizeImage.size.width),
+                              y: pp.originX * Double(correctSizeImage.size.height),
+                              width: Double(pp.previewSize),
+                              height: Double(pp.previewSize)
+                              );
+        
+        guard let croppedCGImage = correctSizeImage.cgImage?.cropping(to: cropRect) else {
+            completion(nil)
+            Logger.log("can't crop image to create preview")
+            return
+        }
+        
+        let croppedImage = UIImage(cgImage: croppedCGImage)
+        
+        self.updatePreview(forImage: croppedImage, withSortParam: pp.sortParam, progress: progress, completion: completion)
+        
     }
     
     func previewImage(withSortParam sp: SortParam) -> UIImage?{
@@ -135,30 +175,30 @@ class SortingPreview: NSObject {
         }
     }
     
-    func imageToSort(withImage image: UIImage) -> UIImage?{
-        guard let beginImage = CIImage(image:image) else {
-            Logger.log("Can't get CIImage")
-            return nil
-        }
-        
-        guard let filter = CIFilter(name: "CIPixellate") else {
-            Logger.log("can't get pixellate filter")
-            return nil
-        }
-        
-        filter.setValue(beginImage, forKey: kCIInputImageKey)
-        //filter.setValue(CIVector(x:image.size.width * 0.9, y:image.size.height * 0.9), forKey: kCIInputCenterKey)
-        filter.setValue(Double(beginImage.extent.width)  * 0.05, forKey: kCIInputScaleKey)
-        guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
-            Logger.log("can't get filter output")
-            return nil
-        }
-        
-        let context = CIContext(options: nil)
-        let imageRef = context.createCGImage(filter.outputImage!, from: outputImage.extent)
-        let result = UIImage(cgImage: imageRef!)
-        return result
-    }
+//    func imageToSort(withImage image: UIImage) -> UIImage?{
+//        guard let beginImage = CIImage(image:image) else {
+//            Logger.log("Can't get CIImage")
+//            return nil
+//        }
+//        
+//        guard let filter = CIFilter(name: "CIPixellate") else {
+//            Logger.log("can't get pixellate filter")
+//            return nil
+//        }
+//        
+//        filter.setValue(beginImage, forKey: kCIInputImageKey)
+//        //filter.setValue(CIVector(x:image.size.width * 0.9, y:image.size.height * 0.9), forKey: kCIInputCenterKey)
+//        filter.setValue(Double(beginImage.extent.width)  * 0.05, forKey: kCIInputScaleKey)
+//        guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
+//            Logger.log("can't get filter output")
+//            return nil
+//        }
+//        
+//        let context = CIContext(options: nil)
+//        let imageRef = context.createCGImage(filter.outputImage!, from: outputImage.extent)
+//        let result = UIImage(cgImage: imageRef!)
+//        return result
+//    }
     
     
 }

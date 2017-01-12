@@ -40,6 +40,7 @@
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
 		F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */; };
+		F3D28CF81E27661700565E71 /* SortLoupeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D28CF71E27661700565E71 /* SortLoupeView.swift */; };
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
 		F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */; };
 		F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA71DFE693900D45413 /* UnlockViewController.swift */; };
@@ -83,6 +84,7 @@
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortParamUIViewController.swift; sourceTree = "<group>"; };
+		F3D28CF71E27661700565E71 /* SortLoupeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortLoupeView.swift; sourceTree = "<group>"; };
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = releasenotes.txt; sourceTree = "<group>"; };
 		F3D91AA71DFE693900D45413 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				F33BA4401DF522F5008304E4 /* images */,
 				F336FB7B1DEECB3000FB3817 /* model */,
 				F336FB671DEEBE3000FB3817 /* AppDelegate.swift */,
+				F3D28CF71E27661700565E71 /* SortLoupeView.swift */,
 				F336FB691DEEBE3000FB3817 /* ViewController.swift */,
 				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
 				F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */,
@@ -335,6 +338,7 @@
 			files = (
 				F3087B7B1DF6605500376A98 /* TestViewController.swift in Sources */,
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
+				F3D28CF81E27661700565E71 /* SortLoupeView.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F34575941E069F66001A110F /* StripBitmap.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
