@@ -70,7 +70,7 @@ SortParamUIViewControllerDelegate{
         
         self.paramController = self.storyboard?.instantiateViewController(withIdentifier: "sortParamUI") as! SortParamUIViewController
         
-        self.paramController.delegate = self
+        self.paramController.delegates.append( self )
         self.addChildViewController(self.paramController)
         let containerSize = self.controlScrollView.bounds
         var adaptedSize = self.paramController.view.bounds
