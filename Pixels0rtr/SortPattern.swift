@@ -231,14 +231,17 @@ class PatternStripe: AbstractSortPattern {
         return r
         
     }
+    var maxDotsToReset: Int {
+        return 64
+    }
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         super.initialize(withWidth: width, height: height, sortParam: sortParam)
         let scanLines = sortParam.orientation == .vertical ? width : height
         let dotsPerScanLine = sortParam.orientation == .vertical ? height : width
         
-        let MAX_DOTS_TO_RESET = 64.0;
-        let numDotsToReset = 2 + Int(sortParam.sortAmount * MAX_DOTS_TO_RESET)
+        let MAX_DOTS_TO_RESET = self.maxDotsToReset;
+        let numDotsToReset = 2 + Int(sortParam.sortAmount * Double(MAX_DOTS_TO_RESET))
         
         let scanLinesToDuplicate = self.roughnessDots(withDotsPerScanLine: dotsPerScanLine, roughnessAmount: sortParam.roughnessAmount)
         
@@ -295,8 +298,14 @@ class PatternOffset: PatternStripe {
     override func roughnessDots(withDotsPerScanLine dotsPerScanLine: Int, roughnessAmount: Double) -> Int {
         
         let MAX_ROUGH = 32.0;
-        let r = 8 + Int(MAX_ROUGH * roughnessAmount)
+        let r = 2 + Int(MAX_ROUGH * roughnessAmount)
         return r
+    }
+    
+    override var maxDotsToReset: Int {
+        get {
+            return 128
+        }
     }
     
     override var name: String {
