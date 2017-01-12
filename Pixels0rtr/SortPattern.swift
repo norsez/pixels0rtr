@@ -213,7 +213,7 @@ class PatternClassic : AbstractSortPattern {
     }
 }
 
-class PatternOffset: AbstractSortPattern {
+class PatternStripe: AbstractSortPattern {
     
     var table = [[Bool]]()
     
@@ -221,6 +221,15 @@ class PatternOffset: AbstractSortPattern {
         let normalized =  fMap(value: Double(value), fromMin: 2, fromMax: 1600, toMin: 0, toMax: 1)
         let scaledValue = pow(normalized, 2)
         return max(Int(scaledValue * 1600), 2)
+    }
+    
+    func roughnessDots(withDotsPerScanLine dotsPerScanLine: Int, roughnessAmount: Double) -> Int {
+        
+        let MIN_R = 2
+        let LARGEST_SORT_WIDTH = 32
+        let r = MIN_R + Int(Double(dotsPerScanLine)/(Double(LARGEST_SORT_WIDTH) * (roughnessAmount + 0.0001)))
+        return r
+        
     }
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
@@ -231,8 +240,8 @@ class PatternOffset: AbstractSortPattern {
         let MAX_DOTS_TO_RESET = 64.0;
         let numDotsToReset = 2 + Int(sortParam.sortAmount * MAX_DOTS_TO_RESET)
         
-        let MAX_ROUGH = 32.0;
-        let scanLinesToDuplicate = 2 + Int(MAX_ROUGH * sortParam.roughnessAmount)
+        let scanLinesToDuplicate = self.roughnessDots(withDotsPerScanLine: dotsPerScanLine, roughnessAmount: sortParam.roughnessAmount)
+        
         
         Logger.log(" lines to dup: \(scanLinesToDuplicate)")
         Logger.log(" num dots to reset \(numDotsToReset)" )
@@ -276,10 +285,28 @@ class PatternOffset: AbstractSortPattern {
     
     override var name: String {
         get{
+            return "Stripe"
+        }
+    }
+}
+
+class PatternOffset: PatternStripe {
+    
+    override func roughnessDots(withDotsPerScanLine dotsPerScanLine: Int, roughnessAmount: Double) -> Int {
+        
+        let MAX_ROUGH = 32.0;
+        let r = 8 + Int(MAX_ROUGH * roughnessAmount)
+        return r
+    }
+    
+    override var name: String {
+        get {
             return "Offset"
         }
     }
 }
+
+
 
 class PatternClean: PatternClassic {
     

@@ -1,5 +1,9 @@
 release notes
 =============
+
+build 17
+- add Offset and Stripe patterns
+
 build 16
 - add CMYK sort
 - create preview just in time
