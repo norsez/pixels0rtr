@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import QuartzCore
+
 
 class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
     
@@ -16,7 +18,8 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
     fileprivate let initOrigin = XYValue(x:0.4, y: 0.5)
     
     fileprivate var previewImageView: UIImageView!
-    fileprivate let SIZE_PREVIEW:CGFloat = 150
+    fileprivate let SIZE_PREVIEW:CGFloat = 200
+    fileprivate let SIZE_LOUPE:CGFloat = 64
     fileprivate var progressView: UIProgressView!
     
     var lastSortParam: SortParam!
@@ -34,12 +37,14 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         self.imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         self.addSubview(self.imageView)
         
-        self.previewImageView = UIImageView(frame: CGRect(x:0, y:0, width: self.SIZE_PREVIEW, height: self.SIZE_PREVIEW))
+        self.previewImageView = UIImageView(frame: CGRect(x:0, y:0, width: self.SIZE_LOUPE, height: self.SIZE_LOUPE))
+        self.previewImageView.layer.borderWidth = 1
+        self.previewImageView.layer.borderColor = APP_COLOR_FONT.cgColor
         self.previewImageView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         self.imageView.addSubview(self.previewImageView)
+        self.previewImageView.alpha = 0
         
         self.originSelector = XYPadModel(withXYPadView: self, initialValue: initOrigin)
-        
         self.originSelector.delegate = self
         
         self.progressView = UIProgressView(progressViewStyle: .default)
@@ -78,19 +83,20 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         self.lastSortParam = sp
         
         if let imageToPreview = self.imageToPreview {
-            
+            self.imageView.image = imageToPreview
             let previewOrigin = self.currentOrigin
             self.animateChangePreviewImage(image: imageToPreview, location: previewOrigin)
             
             let previewParam = PreviewParam(image: imageToPreview, sortParam: self.lastSortParam, originX: Double(previewOrigin.x), originY: Double(previewOrigin.y), previewSize: Int(self.SIZE_PREVIEW))
             self.progressView.progress = 0.1
             self.previewEngine.createPreview(withParam: previewParam, progress: { (p) in
+                    self.progressView.alpha = 1
                     self.progressView.progress = p
                 
             }) { (previewImage) in
-                UIView.animate(withDuration: 0.5, animations: { 
-                    self.progressView.progress = 0
-                })
+                
+                self.progressView.progress = 0
+                
                 
                 if let pi = previewImage {
                     self.animateChangePreviewImage(image: pi, location: previewOrigin)
@@ -101,6 +107,11 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         }
     }
     
+    func showImage(image: UIImage) {
+        self.imageView.image = image
+        self.previewImageView.alpha = 0
+    }
+    
     fileprivate func animateChangePreviewImage(image: UIImage, location: XYValue?) {
         
         let DURATION = 0.5
@@ -109,8 +120,8 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         if let loc = location {
             newFrame = CGRect(x: loc.x * self.bounds.width ,
                                y: loc.y * self.bounds.height,
-                               width: self.SIZE_PREVIEW,
-                               height: self.SIZE_PREVIEW)
+                               width: self.SIZE_LOUPE,
+                               height: self.SIZE_LOUPE)
         }
         
         UIView.animate(withDuration: DURATION,

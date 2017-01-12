@@ -185,6 +185,7 @@ SortParamUIViewControllerDelegate{
             finished in
             self.paramValueDidChange(toParam: self.paramController.currentParameters)
             self.sortLoupeView.setImageToPreview(loadedImage, sortParam: self.paramController.currentParameters)
+            self.thumbnailLabel.text = "\(Int(image.size.width))x\(Int(image.size.height))"
             
         })
         
@@ -283,9 +284,8 @@ SortParamUIViewControllerDelegate{
             
             DispatchQueue.main.async {
                 self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self) {
-                    
                     self.manageOutputImage(output)
-                    self.sortLoupeView.updateLoupe(withSortParam: sortParam)
+                    self.sortLoupeView.showImage(image: output)
                     Analytics.shared.logSort(withSortParam: sortParam)
                 }
             }
