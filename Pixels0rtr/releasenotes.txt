@@ -3,6 +3,7 @@ release notes
 
 build 17
 - add Offset and Stripe patterns
+- now use loupe to preview the real output
 
 build 16
 - add CMYK sort

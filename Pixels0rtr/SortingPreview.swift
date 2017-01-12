@@ -61,7 +61,7 @@ class SortingPreview: NSObject {
         }
         
         let cropRect = CGRect(x: pp.originX * Double(correctSizeImage.size.width),
-                              y: pp.originX * Double(correctSizeImage.size.height),
+                              y: pp.originY * Double(correctSizeImage.size.height),
                               width: Double(pp.previewSize),
                               height: Double(pp.previewSize)
                               );
@@ -89,11 +89,11 @@ class SortingPreview: NSObject {
     
     func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
         
-        if let existing = self.previewImage(withSortParam: sp),
-            let c = completion {
-            c(existing)
-            return
-        }
+//        if let existing = self.previewImage(withSortParam: sp),
+//            let c = completion {
+//            c(existing)
+//            return
+//        }
         
         guard let imageToSort = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
             Logger.log("failed creating thumbnail")

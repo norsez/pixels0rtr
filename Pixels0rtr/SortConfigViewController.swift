@@ -17,15 +17,13 @@ SortParamUIViewControllerDelegate{
     @IBOutlet weak var thumbnailBackgroundView: UIView!
     @IBOutlet var backgroundImageView: UIImageView!
     @IBOutlet var selectImageButton: UIButton!
-    @IBOutlet var thumbnailView: UIImageView!
-    @IBOutlet weak var predictionView: UIImageView!
     @IBOutlet var constraintToastY: NSLayoutConstraint!
     @IBOutlet var toastLabel: UILabel!
     @IBOutlet var startSortButton: UIButton!
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet weak var consoleTextView: UITextView!
     @IBOutlet weak var controlScrollView: UIScrollView!
-    
+    @IBOutlet weak var sortLoupeView: SortLoupeView!
     
     var showingThumbnailView = true
     var paramController: SortParamUIViewController!
@@ -46,8 +44,9 @@ SortParamUIViewControllerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupThumbnails()
         self.setupParamControllerView()
+        self.setupThumbnails()
+        
         self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
         
         self.consoleTextView.alpha = 0.3
@@ -166,12 +165,10 @@ SortParamUIViewControllerDelegate{
     
     func setSelected(image loadedImage: UIImage) {
         self.setProgressView(hidden: false)
-        self.hidePredictionView()
         self.previewEngine.clearPreviews()
         let image = loadedImage.fixedOrientation()
         
         self.selectedImage = image
-        self.thumbnailView.image = image
         self.backgroundImageView.image = image
         self.thumbnailLabel.text = "…"
         self.paramController.updateUI(withImageSize: image.size)
@@ -186,8 +183,9 @@ SortParamUIViewControllerDelegate{
             self.view.layoutIfNeeded()
         }, completion: {
             finished in
-            
             self.paramValueDidChange(toParam: self.paramController.currentParameters)
+            self.sortLoupeView.setImageToPreview(loadedImage, sortParam: self.paramController.currentParameters)
+            
         })
         
         Analytics.shared.logSelectImage(withActualSize: loadedImage.size)
@@ -227,7 +225,6 @@ SortParamUIViewControllerDelegate{
                 self.updatePregressInMainThread(v)
             }, completion: { (previewImage) in
                 self.setProgressView(hidden: true)
-                self.showPredictionView()
                 if let pv = previewImage {
                     self.paramController.setXYPadBackgroundImage(pv)
                 }
@@ -249,7 +246,6 @@ SortParamUIViewControllerDelegate{
         let font = UIFont(name: "Silom", size: 16)!
         let fontColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.9)
         picker.navigationBar.titleTextAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
-        
         self.controlScrollView.flashScrollIndicators()
         
     }
@@ -289,8 +285,7 @@ SortParamUIViewControllerDelegate{
                 self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self) {
                     
                     self.manageOutputImage(output)
-                    self.previewEngine.updatePreviewImage(withImage: output, forSortParam: self.paramController.currentParameters)
-                    self.showPredictionView()
+                    self.sortLoupeView.updateLoupe(withSortParam: sortParam)
                     Analytics.shared.logSort(withSortParam: sortParam)
                 }
             }
@@ -330,68 +325,28 @@ SortParamUIViewControllerDelegate{
     
     
     fileprivate func setupThumbnails () {
-        self.thumbnailView.layer.masksToBounds = true
-        self.thumbnailView.layer.cornerRadius = CORNER_RADIUS
-        self.predictionView.layer.masksToBounds = true
-        self.predictionView.layer.cornerRadius = CORNER_RADIUS
+//        self.thumbnailView.layer.masksToBounds = true
+//        self.thumbnailView.layer.cornerRadius = CORNER_RADIUS
+//        self.predictionView.layer.masksToBounds = true
+//        self.predictionView.layer.cornerRadius = CORNER_RADIUS
+        
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(showPredictionView))
+//        tap.numberOfTapsRequired = 1
+//        tap.numberOfTouchesRequired = 1
+//        self.thumbnailView.addGestureRecognizer(tap)
+//        self.thumbnailView.isUserInteractionEnabled = true
+//        
+//        let tap2 = UITapGestureRecognizer(target: self, action: #selector(hidePredictionView))
+//        tap.numberOfTapsRequired = 1
+//        tap.numberOfTouchesRequired = 1
+//        self.predictionView.addGestureRecognizer(tap2)
+//        self.predictionView.isUserInteractionEnabled = true
+        
         self.thumbnailBackgroundView.layer.cornerRadius = CORNER_RADIUS
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showPredictionView))
-        tap.numberOfTapsRequired = 1
-        tap.numberOfTouchesRequired = 1
-        self.thumbnailView.addGestureRecognizer(tap)
-        self.thumbnailView.isUserInteractionEnabled = true
-        
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(hidePredictionView))
-        tap.numberOfTapsRequired = 1
-        tap.numberOfTouchesRequired = 1
-        self.predictionView.addGestureRecognizer(tap2)
-        self.predictionView.isUserInteractionEnabled = true
+        self.paramController.delegates.append( self.sortLoupeView )
     }
     
-    @objc fileprivate func showPredictionView () {
-        guard let _ = self.selectedImage else {
-            return
-        }
-        
-        let sortParam = self.paramController.currentParameters
-        
-        guard let currentPreviewImage  = self.previewEngine.previewImage(withSortParam: sortParam) else {
-            Logger.log("no preview for \(sortParam)")
-            return
-        }
-        self.predictionView.image = currentPreviewImage
-        Logger.log("show prediction view")
-        self.thumbnailLabel.alpha = 0
-        
-        self.thumbnailLabel.text = "lo-res: \(self.previewEngine.title(ofSortParam: sortParam))"
-        
-        
-        UIView.animate(withDuration: 0.5) {
-            self.predictionView.alpha = 1
-            self.thumbnailLabel.alpha = 0.85
-        }
-    }
-    @objc fileprivate func hidePredictionView () {
-        guard let _ = self.selectedImage else {
-            return
-        }
-        Logger.log("hide prediction view")
-        self.thumbnailLabel.alpha = 0
-        var sizeString = ""
-        if let img = self.selectedImage {
-            let size = img.size
-            let width = Int(size.width)
-            let height = Int(size.height)
-            sizeString = "\(width)x\(height)"
-        }
-        self.thumbnailLabel.text = "Original \(sizeString)"
-        UIView.animate(withDuration: 0.5) {
-            self.predictionView.alpha = 0
-            self.thumbnailLabel.alpha = 0.85
-        }
-        
-    }
     
     
     func showToastMessage(_ m:String, completion: (()->Void)? = nil) {
