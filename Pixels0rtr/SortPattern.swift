@@ -228,53 +228,45 @@ class PatternOffset: AbstractSortPattern {
         let scanLines = sortParam.orientation == .vertical ? width : height
         let dotsPerScanLine = sortParam.orientation == .vertical ? height : width
         
-        //amount is how less frequently sort gets a reset block
-        let RESET_K_1600p = 0.5
-        let resetFactor:Double = RESET_K_1600p * Double(scanLines) / 1600.0
-        let MAX_RESET_FACTOR = Double(scanLines) * resetFactor
-        let pixelsPerReset = 1 + Int(sortParam.sortAmount * MAX_RESET_FACTOR)
+        let MAX_DOTS_TO_RESET = 64.0;
+        let numDotsToReset = 2 + Int(sortParam.sortAmount * MAX_DOTS_TO_RESET)
         
-        let ROUGH_K_1600p = 0.0156
-        let roughFactor: Double = ROUGH_K_1600p * Double(scanLines) / 1600.0
-        let MAX_ROUGH_DOTS = Double(dotsPerScanLine) * roughFactor
-        let dots_per_rough = 2 + Int(sortParam.roughnessAmount * MAX_ROUGH_DOTS)
+        let MAX_ROUGH = 32.0;
+        let scanLinesToDuplicate = 2 + Int(MAX_ROUGH * sortParam.roughnessAmount)
         
-        
-        Logger.log("cols per rough:\(dots_per_rough), pixelsPerReset: \(pixelsPerReset)")
-        
-        var sumDist: Int = 0
-        var prevRowWithReset = 0
+        Logger.log(" lines to dup: \(scanLinesToDuplicate)")
+        Logger.log(" num dots to reset \(numDotsToReset)" )
         
         self.table = [[Bool]]()
         for _ in 0..<scanLines {
-            let colValues = Array(repeating: false, count: dotsPerScanLine)
-            self.table.append(colValues)
+            self.table.append(Array<Bool>(repeating: false, count:dotsPerScanLine))
         }
         
+        
+        var sumNumDot = 0
+        var sumDuplicatedScanLines = scanLinesToDuplicate
+        var previousScanLineWithReset = -1
+        
         for scan in 0..<scanLines {
-            for dot in 0..<dotsPerScanLine {
-                
-                let mustReset = sumDist > pixelsPerReset
-                
-                if mustReset {
-                    sumDist = 0
-                    
-                }else {
-                    sumDist = sumDist + 1
-                }
-               
-                if (mustReset) {
-                    table[scan][dot] = true
-                }else {
-                    if (dot % dots_per_rough != 0 && scan > 0) {
-                        table[scan][dot] = table[prevRowWithReset][dot]
-                        prevRowWithReset = scan
-                    }else  {
+            if (sumDuplicatedScanLines < scanLinesToDuplicate && previousScanLineWithReset != -1) {
+                table[scan] = table[previousScanLineWithReset]
+                sumDuplicatedScanLines = sumDuplicatedScanLines + 1;
+            } else {
+                //scan dots and find index to reset sort
+                for dot in 0..<dotsPerScanLine {
+                    if (sumNumDot < numDotsToReset) {
                         table[scan][dot] = false
+                        sumNumDot = sumNumDot + 1
+                    } else {
+                        table[scan][dot] = true;
+                        sumNumDot = Int(Double(numDotsToReset) * 0.5);
+                        previousScanLineWithReset = scan
                     }
                 }
+                
+                //reset roughness
+                sumDuplicatedScanLines = 0
             }
-            
         }
     }
     
