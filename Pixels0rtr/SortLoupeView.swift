@@ -46,6 +46,14 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         self.previewImageView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         self.imageView.addSubview(self.previewImageView)
         self.previewImageView.alpha = 0
+        self.previewImageView.layer.cornerRadius = 5
+        
+        let crosshair = UILabel(frame: CGRect(x:-10,y:-10, width:20, height: 20))
+        crosshair.font = APP_FONT?.withSize(36)
+        crosshair.text = "+"
+        crosshair.textAlignment = .center
+        crosshair.textColor = APP_COLOR_FONT.withAlphaComponent(0.8)
+        self.previewImageView.addSubview(crosshair)
         
         self.originSelector = XYPadModel(withXYPadView: self, initialValue: initOrigin)
         self.originSelector.delegate = self
@@ -69,11 +77,20 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         super.init(coder: aDecoder)
         initialize()
     }
-       func showImage(image: UIImage?) {
-        self.animateChangeImage(image: image, imageView: self.imageView, location: nil) {
+    
+    func showImage(image: UIImage?) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
             self.previewImageView.alpha = 0
-            self.imageInLoupe = nil
-        }
+            
+        }, completion: { (f) in
+            if f {
+                self.animateChangeImage(image: image, imageView: self.imageView, location: nil) {
+                        self.imageInLoupe = nil
+                }
+                
+            }
+        })
+        
     }
     
     func moveLoupeToLocation(location: XYValue) {
@@ -139,12 +156,18 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         self.moveLoupeToLocation(location: loc)
     }
     
-    func xyPad(_ view: UIView, changePanValue: XYValue) {
-        //nothing
+    func xyPad(_ view: UIView, changePanValue location: XYValue) {
+        if let li = self.imageInLoupe {
+            let loupeImageOrigin = CGPoint(x: CGFloat(location.x * li.size.width),
+                                           y: CGFloat(location.y * li.size.height))
+            var frame = CGRect(x: 0, y: 0, width: SIZE_LOUPE, height: SIZE_LOUPE)
+            frame.origin = loupeImageOrigin
+            self.previewImageView.frame = frame
+        }
     }
         
-    func xyPad(_ view: UIView, didPanValue: XYValue) {
-        //nothing
+    func xyPad(_ view: UIView, didPanValue loc: XYValue) {
+        self.moveLoupeToLocation(location: loc)
     }
     
     func paramValueDidChange(toParam sp: SortParam) {

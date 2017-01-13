@@ -19,7 +19,7 @@ struct PreviewParam {
 }
 
 class SortingPreview: NSObject {
-    let MAX_THUMB_SIZE = 150
+    let MAX_THUMB_SIZE = 250
     var previews = [String:HorizontalSelectItem]()
     var valueFormatter: NumberFormatter
     

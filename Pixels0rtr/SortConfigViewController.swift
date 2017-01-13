@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AssetsLibrary
 
 class SortConfigViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,
 SortParamUIViewControllerDelegate{
@@ -303,6 +304,10 @@ SortParamUIViewControllerDelegate{
             self.unsavedImage = output
             
         }else {
+            
+            
+            let lib = ALAssetsLibrary()
+            var imageMetadata =
             
             UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
             self.setProgressView(hidden: true, completion: {
