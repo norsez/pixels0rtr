@@ -36,7 +36,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
     
     var totalHeight: CGFloat {
         get {
-            return self.sizeSelector.frame.maxY + 248
+            return self.sizeSelector.frame.maxY + 150
         }
     }
     var xyPadModel: XYPadModel!

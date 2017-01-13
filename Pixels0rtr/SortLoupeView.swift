@@ -18,15 +18,18 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
     fileprivate let initOrigin = XYValue(x:0.4, y: 0.5)
     
     fileprivate var previewImageView: UIImageView!
-    fileprivate let SIZE_PREVIEW:CGFloat = 200
-    fileprivate let SIZE_LOUPE:CGFloat = 64
+    fileprivate let SIZE_LOUPE:CGFloat = 120
     fileprivate var progressView: UIProgressView!
+    
+    var imageInLoupe: UIImage?
     
     var lastSortParam: SortParam!
     var currentOrigin = XYValue(x:0.4, y: 0.5)
     let previewEngine = SortingPreview()
     
     var busyUpdating = false
+    
+    
     
     fileprivate func initialize () {
         self.backgroundColor = UIColor.clear
@@ -66,53 +69,36 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         super.init(coder: aDecoder)
         initialize()
     }
-    
-    func setImageToPreview(_ image: UIImage, sortParam: SortParam) {
-        self.imageToPreview = image
-        self.imageView.image = image
-        self.originSelector.lastValue = initOrigin
-        self.updateLoupe(withSortParam: sortParam)
+       func showImage(image: UIImage?) {
+        self.animateChangeImage(image: image, imageView: self.imageView, location: nil) {
+            self.previewImageView.alpha = 0
+            self.imageInLoupe = nil
+        }
     }
     
-    func updateLoupe(withSortParam sp: SortParam) {
-        
-        if busyUpdating {
+    func moveLoupeToLocation(location: XYValue) {
+        guard let li = self.imageInLoupe else {
             return
         }
         
-        self.lastSortParam = sp
-        
-        if let imageToPreview = self.imageToPreview {
-            self.imageView.image = imageToPreview
-            let previewOrigin = self.currentOrigin
-            self.animateChangePreviewImage(image: imageToPreview, location: previewOrigin)
-            
-            let previewParam = PreviewParam(image: imageToPreview, sortParam: self.lastSortParam, originX: Double(previewOrigin.x), originY: Double(previewOrigin.y), previewSize: Int(self.SIZE_PREVIEW))
-            self.progressView.progress = 0.1
-            self.previewEngine.createPreview(withParam: previewParam, progress: { (p) in
-                    self.progressView.alpha = 1
-                    self.progressView.progress = p
-                
-            }) { (previewImage) in
-                
-                self.progressView.progress = 0
-                
-                
-                if let pi = previewImage {
-                    self.animateChangePreviewImage(image: pi, location: previewOrigin)
-                }
-                
-                self.busyUpdating = false
-            }
+        let loupeImageOrigin = CGPoint(x: CGFloat(location.x * li.size.width),
+                                       y: CGFloat(location.y * li.size.height))
+        var frame = CGRect(x: 0, y: 0, width: SIZE_LOUPE, height: SIZE_LOUPE)
+        frame.origin = loupeImageOrigin
+        if let cgCroppedImage = li.cgImage?.cropping(to: frame){
+            let croppedImage = UIImage(cgImage: cgCroppedImage)
+            self.animateChangeImage(image: croppedImage, imageView: self.previewImageView, location: location)
         }
     }
     
-    func showImage(image: UIImage) {
-        self.imageView.image = image
-        self.previewImageView.alpha = 0
+    func showImage(image: UIImage, inLoupeWithImage limage: UIImage) {
+        self.imageInLoupe = limage
+        self.animateChangeImage(image: image, imageView: self.imageView, location: nil) {
+            self.moveLoupeToLocation(location: self.initOrigin)
+        }
     }
     
-    fileprivate func animateChangePreviewImage(image: UIImage, location: XYValue?) {
+    fileprivate func animateChangeImage(image: UIImage?, imageView: UIImageView, location: XYValue? = nil, completion: (()->Void)? = nil) {
         
         let DURATION = 0.5
         
@@ -126,28 +112,31 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
         
         UIView.animate(withDuration: DURATION,
                        animations: { 
-                        self.previewImageView.alpha = 0
+                        imageView.alpha = 0
         }) { (f) in
             if f {
-                self.previewImageView.image = image
+                imageView.image = image
                 UIView.animate(withDuration: DURATION,
                                animations: { 
-                                self.previewImageView.alpha = 1
+                                imageView.alpha = 1
                                 if let f = newFrame {
-                                    self.previewImageView.frame = f
+                                    imageView.frame = f
                                 }
                 }, completion: { (f) in
-                    //nothing to do
+                    if let c = completion {
+                        c()
+                    }
                 })
             }
         }
         
     }
     
-    
+    //MARK :
     func xyPad(_ view: UIView, didTapValue loc: XYValue) {
         self.currentOrigin = loc
-        self.updateLoupe(withSortParam: self.lastSortParam)
+//        self.updateLoupe(withSortParam: self.lastSortParam)
+        self.moveLoupeToLocation(location: loc)
     }
     
     func xyPad(_ view: UIView, changePanValue: XYValue) {
@@ -159,7 +148,7 @@ class SortLoupeView: UIView, XYPadDelegate, SortParamUIViewControllerDelegate {
     }
     
     func paramValueDidChange(toParam sp: SortParam) {
-        self.updateLoupe(withSortParam: sp)
+//        self.updateLoupe(withSortParam: sp)
     }
     
 }

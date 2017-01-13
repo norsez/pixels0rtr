@@ -165,6 +165,7 @@ SortParamUIViewControllerDelegate{
     
     func setSelected(image loadedImage: UIImage) {
         self.setProgressView(hidden: false)
+        self.sortLoupeView.showImage(image: nil)
         self.previewEngine.clearPreviews()
         let image = loadedImage.fixedOrientation()
         
@@ -177,16 +178,12 @@ SortParamUIViewControllerDelegate{
         self.constraintThumbnailWidth.constant = fitSize.width
         self.constraintThumbnailHeight.constant = fitSize.height
         
-        
-        
         UIView.animate(withDuration: 1, animations: {
             self.view.layoutIfNeeded()
         }, completion: {
             finished in
             self.paramValueDidChange(toParam: self.paramController.currentParameters)
-            self.sortLoupeView.setImageToPreview(loadedImage, sortParam: self.paramController.currentParameters)
             self.thumbnailLabel.text = "\(Int(image.size.width))x\(Int(image.size.height))"
-            
         })
         
         Analytics.shared.logSelectImage(withActualSize: loadedImage.size)
@@ -228,6 +225,8 @@ SortParamUIViewControllerDelegate{
                 self.setProgressView(hidden: true)
                 if let pv = previewImage {
                     self.paramController.setXYPadBackgroundImage(pv)
+                    self.sortLoupeView.showImage(image: pv)
+                    self.thumbnailLabel.text = "lo-fi preview"
                 }
             })
         }
@@ -285,7 +284,8 @@ SortParamUIViewControllerDelegate{
             DispatchQueue.main.async {
                 self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self) {
                     self.manageOutputImage(output)
-                    self.sortLoupeView.showImage(image: output)
+                    self.sortLoupeView.showImage(image: output, inLoupeWithImage: output)
+                    self.thumbnailLabel.text = "full-res output"
                     Analytics.shared.logSort(withSortParam: sortParam)
                 }
             }
