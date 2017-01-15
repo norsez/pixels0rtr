@@ -477,7 +477,7 @@ class PixelSorting: NSObject {
             return false
         }
         
-        return sortRect.contains(phaseRect) == false
+        return sortRect.intersects(phaseRect) == false
     }
     
         /**

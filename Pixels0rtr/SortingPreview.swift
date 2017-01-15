@@ -20,6 +20,7 @@ struct PreviewParam {
 
 class SortingPreview: NSObject {
     let MAX_THUMB_SIZE = 250
+    let PREVIEW_RATIO = 0.1
     var previews = [String:HorizontalSelectItem]()
     var valueFormatter: NumberFormatter
     
@@ -99,7 +100,7 @@ class SortingPreview: NSObject {
             Logger.log("failed to resize to fix \(previewSortParam.maxPixels)")
             return
         }
-        let sortSize = CGFloat(min(imageToSort.size.width, imageToSort.size.height) * 0.28)
+        let sortSize = CGFloat(min(imageToSort.size.width, imageToSort.size.height) * CGFloat(PREVIEW_RATIO))
         Logger.log("preview sort size: \(sortSize)")
         let sortRect = CGRect(x: CGFloat(loupeOrigin.x * imageToSort.size.width),
                               y: CGFloat(loupeOrigin.y * imageToSort.size.height),
