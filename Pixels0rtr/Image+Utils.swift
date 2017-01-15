@@ -60,6 +60,22 @@ extension UIImage {
         
     }
     
+    func upsideDown () -> UIImage{
+        var transform: CGAffineTransform = CGAffineTransform.identity
+        transform = transform.translatedBy(x: size.width, y: size.height)
+        transform = transform.rotated(by: CGFloat(M_PI))
+        transform = transform.translatedBy(x: size.width, y: 0)
+        transform = transform.scaledBy(x: -1, y: 1)
+        
+        let ctx: CGContext = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.cgImage!.bitsPerComponent, bytesPerRow: 0, space: self.cgImage!.colorSpace!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+        
+        ctx.concatenate(transform)
+        ctx.draw(self.cgImage!, in: CGRect(origin: CGPoint.zero, size: size))
+        let cgImage: CGImage = ctx.makeImage()!
+        
+        return UIImage(cgImage: cgImage)
+    }
+    
     /**
      @return a UIImage with CGImage with the right side up
      */

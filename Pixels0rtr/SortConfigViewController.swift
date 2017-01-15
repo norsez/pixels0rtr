@@ -10,7 +10,7 @@ import UIKit
 import AssetsLibrary
 
 class SortConfigViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,
-SortParamUIViewControllerDelegate{
+SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     @IBOutlet var constraintThumbnailWidth: NSLayoutConstraint!
     
     @IBOutlet var constraintThumbnailHeight: NSLayoutConstraint!
@@ -218,21 +218,33 @@ SortParamUIViewControllerDelegate{
     }
     
     func paramValueDidChange(toParam sp: SortParam) {
-        if let image = self.selectedImage {
-            self.setProgressView(hidden: false)
-            self.previewEngine.updatePreview(forImage: image, withSortParam: sp, progress: { (v) in
-                self.updatePregressInMainThread(v)
-            }, completion: { (previewImage) in
-                self.setProgressView(hidden: true)
-                if let pv = previewImage {
-                    self.paramController.setXYPadBackgroundImage(pv)
-                    self.sortLoupeView.showImage(image: pv)
-                    self.thumbnailLabel.text = "lo-fi preview"
-                }
-            })
-        }
+        self.updatePreview()
+    }
+    func loupeDidMove(toLocation loc: XYValue) {
+        
+        self.updatePreview()
     }
     
+    fileprivate func updatePreview () {
+        if let image = self.selectedImage {
+            self.setProgressView(hidden: false)
+            DispatchQueue.global().async {
+                self.previewEngine.updatePreview(forImage: image, withSortParam: self.paramController.currentParameters, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
+                    self.updatePregressInMainThread(v)
+                }, completion: { (previewImage, sortedRect) in
+                    DispatchQueue.main.async {
+                        self.setProgressView(hidden: true)
+                        if let pv = previewImage{
+                            self.paramController.setXYPadBackgroundImage(pv)
+                            self.sortLoupeView.showImage(image: pv)
+                            self.thumbnailLabel.text = "lo-fi preview"
+                        }
+                    }
+                    
+                })
+            }
+        }
+    }
     
     @IBAction func didPressSelectImage(_ sender: Any) {
         Logger.log("select a new image…")
@@ -268,10 +280,9 @@ SortParamUIViewControllerDelegate{
         let progressBlock = { p in self.updatePregressInMainThread(p) }
         DispatchQueue.global().async {
             
-            var imageToSort = image
-            let selectedSize = sortParam.maxPixels
-            if (selectedSize != AppConfig.MaxSize.pxTrueSize) {
-                imageToSort = imageToSort.resize(imageToSort.size.aspectFit(size: CGSize(width: selectedSize.pixels, height:selectedSize.pixels)))!
+            guard let imageToSort = image.resize(toFitMaxPixels: sortParam.maxPixels) else {
+                Logger.log("failed to resize to fix \(sortParam.maxPixels)")
+                return
             }
             
             sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParam)
@@ -304,10 +315,6 @@ SortParamUIViewControllerDelegate{
             self.unsavedImage = output
             
         }else {
-            
-            
-            let lib = ALAssetsLibrary()
-            var imageMetadata =
             
             UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
             self.setProgressView(hidden: true, completion: {
@@ -349,7 +356,8 @@ SortParamUIViewControllerDelegate{
 //        self.predictionView.isUserInteractionEnabled = true
         
         self.thumbnailBackgroundView.layer.cornerRadius = CORNER_RADIUS
-        self.paramController.delegates.append( self.sortLoupeView )
+        self.sortLoupeView.delegate = self
+        
     }
     
     

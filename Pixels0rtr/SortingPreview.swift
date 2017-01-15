@@ -87,6 +87,49 @@ class SortingPreview: NSObject {
         }
     }
     
+    /**
+     create preview using full output size but limit to sortRect in sortParam
+     */
+    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, loupeOrigin: XYValue, progress: ((Float)->Void)?, completion: ((UIImage?, CGRect?)->Void)?) {
+        
+        var previewSortParam = sp
+        
+        
+        guard let imageToSort = image.resize(toFitMaxPixels: previewSortParam.maxPixels) else {
+            Logger.log("failed to resize to fix \(previewSortParam.maxPixels)")
+            return
+        }
+        let sortSize = CGFloat(min(imageToSort.size.width, imageToSort.size.height) * 0.28)
+        Logger.log("preview sort size: \(sortSize)")
+        let sortRect = CGRect(x: CGFloat(loupeOrigin.x * imageToSort.size.width),
+                              y: CGFloat(loupeOrigin.y * imageToSort.size.height),
+                              width: sortSize,
+                              height: sortSize
+        )
+        previewSortParam.sortRect = sortRect
+        
+        previewSortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: previewSortParam)
+        
+        guard let previewImage = PixelSorting.sorted(image: imageToSort, sortParam: previewSortParam, progress: { (v) in
+            if let p = progress {
+                p(Float(v))
+            }
+            
+        }).output else {
+            if let c = completion {
+                c(nil, nil)
+            }
+            return
+        }
+        
+        if let c = completion {
+            c(previewImage, sortRect)
+        }
+    }
+    
+    /**
+     create preview fixed at MAX_THUMB_SIZE
+     */
     func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
         
 //        if let existing = self.previewImage(withSortParam: sp),

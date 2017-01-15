@@ -37,6 +37,18 @@ extension CGSize {
 }
 
 extension UIImage {
+    
+    func resize(toFitMaxPixels maxPixels: AppConfig.MaxSize) -> UIImage? {
+        
+        let selectedSize = maxPixels
+        var output = self
+        if (selectedSize != AppConfig.MaxSize.pxTrueSize) {
+            output = output.resize(output.size.aspectFit(size: CGSize(width: selectedSize.pixels, height:selectedSize.pixels)))!
+        }
+        return output
+    }
+    
+    
     func resize(byMaxPixels maxPixels: Int) -> UIImage? {
         return self.resize(self.size.fit(maxPixels: maxPixels))
         

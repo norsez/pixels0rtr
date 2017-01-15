@@ -366,14 +366,34 @@ class PixelSorting: NSObject {
         let startTime = Date()
         let NUM_SCAN_LINES = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
         let scanLineDrawer = ScanLineDrawer(withCGSize: image.size, orientation: sortParam.orientation)
+        
+        var skipRange1 = -1..<0
+        var skipRange2 = NUM_SCAN_LINES..<NUM_SCAN_LINES
+        
+        if let sortRect = sortParam.sortRect {
+            skipRange1 = 0..<Int(sortRect.origin.x)
+            skipRange2 = min( Int(sortRect.origin.x + sortRect.size.width), NUM_SCAN_LINES)..<NUM_SCAN_LINES
+        }
+        
         for scanLineIndex in 0..<NUM_SCAN_LINES {
-            let scanImage = image.scanLine(atIndex: scanLineIndex, orientation: sortParam.orientation)
-            if let sortedScanImage = scanImage?.sorted(withParam: sortParam, scanLineIndex: scanLineIndex) {
-                scanLineDrawer.draw(strip: sortedScanImage, index: scanLineIndex)
+            guard let scanImage = image.scanLine(atIndex: scanLineIndex, orientation: sortParam.orientation) else {
+                continue
+            }
+            
+            if (skipRange1.contains(scanLineIndex) || skipRange2.contains(scanLineIndex)) {
+                scanLineDrawer.draw(strip: scanImage, index: scanLineIndex)
+            }else {
+                if let sortedScanImage = scanImage.sorted(withParam: sortParam, scanLineIndex: scanLineIndex) {
+                    scanLineDrawer.draw(strip: sortedScanImage, index: scanLineIndex)
+                }
             }
             progress(Float(scanLineIndex)/Float(NUM_SCAN_LINES))
         }
-        let resultImage = scanLineDrawer.makeImage()
+        var resultImage = scanLineDrawer.makeImage()
+        
+        if sortParam.orientation == .vertical {
+            resultImage = resultImage?.upsideDown()
+        }
         assert(resultImage!.size.width == image.size.width)
         let elapsedTime = Date().timeIntervalSince(startTime)
         let numPixels = Int(image.size.width * image.size.height)
@@ -382,27 +402,24 @@ class PixelSorting: NSObject {
         return (output: resultImage, stats:stats)
     }
     
-    static func sorted0(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
-        let pattern = sortParam.pattern
-        guard let cgImage = image.cgImage else {
-            Logger.log("can't create cgImage from input image")
-            return nil
-        }
-        
-        let toSort = pattern.colorArrays(of: cgImage, size: image.size, sortOrientation: sortParam.orientation, progress: progress)
-        //Logger.log("\(toSort.count) pieces to sort from \(SortColor.colorCache.count) colors")
-        
-        let sortedResult = PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
-        return sortedResult
-    }
+//    static func sorted0(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
+//        let pattern = sortParam.pattern
+//        guard let cgImage = image.cgImage else {
+//            Logger.log("can't create cgImage from input image")
+//            return nil
+//        }
+//        
+//        let toSort = pattern.colorArrays(of: cgImage, size: image.size, sortOrientation: sortParam.orientation, progress: progress)
+//        //Logger.log("\(toSort.count) pieces to sort from \(SortColor.colorCache.count) colors")
+//        
+//        let sortedResult = PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
+//        return sortedResult
+//    }
     
     static func sortedScanLine(withColorArrays colorArrays: [[SortColor]], scanLineIndex:Int, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
         
         var colors = colorArrays[0]
         sort(colors: &colors, scanLineIndex: scanLineIndex, sortParam: sortParam)
-        if sortParam.orientation == .vertical {
-            colors.reverse()
-        }
         
         let size = sortParam.orientation == .horizontal ? CGSize(width: CGFloat(colors.count), height: 1) : CGSize(width: 1, height: CGFloat(colors.count))
         
