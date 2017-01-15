@@ -434,7 +434,7 @@ class PixelSorting: NSObject {
         }
         
         //to create pattern, divide array into pieces and sort them separately
-        let unsortedPhases = sortPhases(withColors: colors, sortIndex: scanLineIndex, sortParam: sortParam)
+        let unsortedPhases = sortPhases(withColors: colors, scanLineIndex: scanLineIndex, sortParam: sortParam)
         
         var sortedPhases = [[SortColor]]()
         for var phase in unsortedPhases {
@@ -447,7 +447,7 @@ class PixelSorting: NSObject {
         /**
      @return phases to sort defined by input sort pattern
      */
-    static fileprivate func sortPhases(withColors colors: [SortColor], sortIndex: Int, sortParam: SortParam) -> [[SortColor]]{
+    static fileprivate func sortPhases(withColors colors: [SortColor], scanLineIndex: Int, sortParam: SortParam) -> [[SortColor]]{
         
         if colors.count < 2 {
             return [colors]
@@ -459,7 +459,7 @@ class PixelSorting: NSObject {
         var results = [[SortColor]]()
         var curCol = [SortColor]()
         for i in 0..<colors.count {
-            if pattern.resetSubsortBlock(withIndex: i, sortIndex: sortIndex, sortParam: sortParam) {
+            if pattern.resetSubsortBlock(withIndex: i, scanLineIndex: sortIndex, sortParam: sortParam) {
                 results.append(curCol)
                 curCol = [colors[i]]
             }else {
