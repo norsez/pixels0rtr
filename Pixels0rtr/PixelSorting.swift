@@ -173,12 +173,13 @@ struct SortParam {
     var maxPixels: AppConfig.MaxSize = .px600
     var sortRect: CGRect? = nil
     
-    init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize) {
+    init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize, sortRect: CGRect? = nil) {
         self.roughnessAmount = roughness
         self.sortAmount = sortAmount
         self.sorter = sorter
         self.pattern = pattern
         self.maxPixels = maxPixels
+        self.sortRect = sortRect
     }
 }
 
@@ -363,7 +364,6 @@ class PixelSorting: NSObject {
     static func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> (output:UIImage?, stats: PixelSortingStats){
         
         let startTime = Date()
-        
         let NUM_SCAN_LINES = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
         let scanLineDrawer = ScanLineDrawer(withCGSize: image.size, orientation: sortParam.orientation)
         for scanLineIndex in 0..<NUM_SCAN_LINES {
@@ -437,11 +437,30 @@ class PixelSorting: NSObject {
         let unsortedPhases = sortPhases(withColors: colors, scanLineIndex: scanLineIndex, sortParam: sortParam)
         
         var sortedPhases = [[SortColor]]()
-        for var phase in unsortedPhases {
-            quicksort(WithColors: &phase, low: 0, high: phase.count - 1, sortParam: sortParam)
+        var sumDots = 0
+        for  phaseIndex in 0..<unsortedPhases.count {
+            
+            var phase = unsortedPhases[phaseIndex]
+            
+            let phaseRect = CGRect(x:scanLineIndex, y:sumDots, width: 1, height: phase.count)
+            
+            if !skipPhaseRect(phaseRect: phaseRect, inSortRect: sortParam.sortRect) {
+                quicksort(WithColors: &phase, low: 0, high: phase.count - 1, sortParam: sortParam)
+            }
+            
             sortedPhases.append(phase)
+            
+            sumDots = sumDots + phase.count
         }
         colors = combinedColors(withSortPhases: sortedPhases)
+    }
+    
+    static fileprivate func skipPhaseRect(phaseRect: CGRect, inSortRect sr: CGRect? ) -> Bool {
+        guard let sortRect = sr else {
+            return false
+        }
+        
+        return sortRect.contains(phaseRect) == false
     }
     
         /**
@@ -459,7 +478,7 @@ class PixelSorting: NSObject {
         var results = [[SortColor]]()
         var curCol = [SortColor]()
         for i in 0..<colors.count {
-            if pattern.resetSubsortBlock(withIndex: i, scanLineIndex: sortIndex, sortParam: sortParam) {
+            if pattern.resetSubsortBlock(withIndex: i, sortIndex: scanLineIndex, sortParam: sortParam) {
                 results.append(curCol)
                 curCol = [colors[i]]
             }else {
