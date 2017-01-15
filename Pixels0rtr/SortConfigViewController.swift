@@ -234,9 +234,11 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                 }, completion: { (previewImage, sortedRect) in
                     DispatchQueue.main.async {
                         self.setProgressView(hidden: true)
-                        if let pv = previewImage{
+                        if let pv = previewImage,
+                            let sr = sortedRect {
                             self.paramController.setXYPadBackgroundImage(pv)
-                            self.sortLoupeView.showImage(image: pv)
+                            self.sortLoupeView.showImage(image: pv, loupeRect: sr)
+                            
                             self.thumbnailLabel.text = "lo-fi preview"
                         }
                     }
@@ -296,7 +298,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             DispatchQueue.main.async {
                 self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self) {
                     self.manageOutputImage(output)
-                    self.sortLoupeView.showImage(image: output, inLoupeWithImage: output)
+                    self.sortLoupeView.showImage(image: output)
                     self.thumbnailLabel.text = "full-res output"
                     Analytics.shared.logSort(withSortParam: sortParam)
                 }

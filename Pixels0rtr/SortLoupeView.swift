@@ -81,11 +81,18 @@ class SortLoupeView: UIView, XYPadDelegate {
         initialize()
     }
     
-    func showImage(image: UIImage?) {
+    func showImage(image: UIImage, loupeRect: CGRect) {
         self.imageView.image = image
         self.previewImageView.image = nil
+        self.previewImageView.alpha = 1
+        var newLoupeFrame = CGRect.zero
+        let factor = self.imageView.bounds.size.width / image.size.width
+        newLoupeFrame.origin = CGPoint(x: loupeRect.origin.x * factor, y: loupeRect.origin.y * factor)
+        newLoupeFrame.size = CGSize(width: loupeRect.size.width * factor, height: loupeRect.size.height * factor)
+        self.previewImageView.frame = newLoupeFrame
     }
-    func showImage_(image: UIImage?) {
+    
+    func showImage(image: UIImage?) {
         UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
             self.previewImageView.alpha = 0
         }, completion: { (f) in
