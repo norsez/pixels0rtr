@@ -154,6 +154,12 @@ class SortColor {
         }
         return nil
     }
+    
+    var isTransparent: Bool {
+        get {
+            return self.alpha == 255
+        }
+    }
 }
 
 //MARK:
@@ -165,6 +171,7 @@ struct SortParam {
     var motionAmount: Double = 0
     var orientation = SortOrientation.horizontal
     var maxPixels: AppConfig.MaxSize = .px600
+    var sortRect: CGRect? = nil
     
     init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize) {
         self.roughnessAmount = roughness
@@ -332,13 +339,13 @@ class SorterIntervals: PixelSorter {
 
 //#MARK: sort0
 extension CGImage {
-    func sorted(withParam sp: SortParam, sortIndex: Int) -> CGImage? {
+    func sorted(withParam sp: SortParam, scanLineIndex: Int) -> CGImage? {
         let size = CGSize(width: CGFloat(self.width), height: CGFloat(self.height))
         let colorArrays = sp.pattern.colorArrays(of: self,
                                                  size: size,
                                                  sortOrientation: sp.orientation,
                                                  progress: {f in})
-        let image = PixelSorting.sortedStrip(withColorArrays: colorArrays, sortIndex: sortIndex, sortParam: sp, progress: {f in})
+        let image = PixelSorting.sortedScanLine(withColorArrays: colorArrays, scanLineIndex: scanLineIndex, sortParam: sp, progress: {f in})
         return image?.cgImage
     }
 }
@@ -357,16 +364,16 @@ class PixelSorting: NSObject {
         
         let startTime = Date()
         
-        let NUM_TO_SORT = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
-        let stripBitmap = StripBitmap(withCGSize: image.size, orientation: sortParam.orientation)
-        for indexToSort in 0..<NUM_TO_SORT {
-            let strip = image.imageStrip(atIndex: indexToSort, orientation: sortParam.orientation)
-            if let sortedStrip = strip?.sorted(withParam: sortParam, sortIndex: indexToSort) {
-                stripBitmap.draw(strip: sortedStrip, index: indexToSort)
+        let NUM_SCAN_LINES = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
+        let scanLineDrawer = ScanLineDrawer(withCGSize: image.size, orientation: sortParam.orientation)
+        for scanLineIndex in 0..<NUM_SCAN_LINES {
+            let scanImage = image.scanLine(atIndex: scanLineIndex, orientation: sortParam.orientation)
+            if let sortedScanImage = scanImage?.sorted(withParam: sortParam, scanLineIndex: scanLineIndex) {
+                scanLineDrawer.draw(strip: sortedScanImage, index: scanLineIndex)
             }
-            progress(Float(indexToSort)/Float(NUM_TO_SORT))
+            progress(Float(scanLineIndex)/Float(NUM_SCAN_LINES))
         }
-        let resultImage = stripBitmap.makeImage()
+        let resultImage = scanLineDrawer.makeImage()
         assert(resultImage!.size.width == image.size.width)
         let elapsedTime = Date().timeIntervalSince(startTime)
         let numPixels = Int(image.size.width * image.size.height)
@@ -389,19 +396,17 @@ class PixelSorting: NSObject {
         return sortedResult
     }
     
-    static func sortedStrip(withColorArrays colorArrays: [[SortColor]], sortIndex:Int, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
-        
-        
+    static func sortedScanLine(withColorArrays colorArrays: [[SortColor]], scanLineIndex:Int, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
         
         var colors = colorArrays[0]
-        sort(colors: &colors, sortIndex: sortIndex, sortParam: sortParam)
+        sort(colors: &colors, scanLineIndex: scanLineIndex, sortParam: sortParam)
         if sortParam.orientation == .vertical {
             colors.reverse()
         }
         
         let size = sortParam.orientation == .horizontal ? CGSize(width: CGFloat(colors.count), height: 1) : CGSize(width: 1, height: CGFloat(colors.count))
         
-        let image = sortParam.pattern.image(with: [colors   ], size: size , sortOrientation: sortParam.orientation, progress: progress )
+        let image = sortParam.pattern.image(with: [colors], size: size , sortOrientation: sortParam.orientation, progress: progress )
         return image.uiimage
     }
     
@@ -410,7 +415,7 @@ class PixelSorting: NSObject {
         
         for index in 0..<colorArrays.count {
             var colors = colorArrays[index]
-            sort(colors: &colors, sortIndex: index, sortParam: sortParam)
+            sort(colors: &colors, scanLineIndex: index, sortParam: sortParam)
             sortedArrays.append(colors)
             progress(Float(index)/Float(colorArrays.count))
             
@@ -422,14 +427,14 @@ class PixelSorting: NSObject {
     }
     
     
-    static fileprivate func sort(colors: inout [SortColor], sortIndex:  Int, sortParam: SortParam) {
+    static fileprivate func sort(colors: inout [SortColor], scanLineIndex:  Int, sortParam: SortParam) {
         if colors.count == 0 {
             Logger.log("no colors to sort")
             return
         }
         
         //to create pattern, divide array into pieces and sort them separately
-        let unsortedPhases = sortPhases(withColors: colors, sortIndex: sortIndex, sortParam: sortParam)
+        let unsortedPhases = sortPhases(withColors: colors, sortIndex: scanLineIndex, sortParam: sortParam)
         
         var sortedPhases = [[SortColor]]()
         for var phase in unsortedPhases {
@@ -439,7 +444,7 @@ class PixelSorting: NSObject {
         colors = combinedColors(withSortPhases: sortedPhases)
     }
     
-    /**
+        /**
      @return phases to sort defined by input sort pattern
      */
     static fileprivate func sortPhases(withColors colors: [SortColor], sortIndex: Int, sortParam: SortParam) -> [[SortColor]]{
@@ -447,6 +452,7 @@ class PixelSorting: NSObject {
         if colors.count < 2 {
             return [colors]
         }
+        
         
         let pattern = sortParam.pattern
         

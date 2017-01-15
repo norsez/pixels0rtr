@@ -46,7 +46,7 @@ extension UIImage {
         return iv
     }
     
-    func imageStrip(atIndex index: Int, orientation: SortOrientation) -> CGImage?{
+    func scanLine(atIndex index: Int, orientation: SortOrientation) -> CGImage?{
         var rect = CGRect.zero
         switch orientation {
         case .horizontal:

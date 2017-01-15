@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StripBitmap: NSObject {
+class ScanLineDrawer: NSObject {
     
     fileprivate let size: CGSize
     let context: CGContext
