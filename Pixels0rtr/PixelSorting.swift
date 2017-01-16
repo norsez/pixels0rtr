@@ -375,6 +375,7 @@ class PixelSorting: NSObject {
             skipRange2 = min( Int(sortRect.origin.x + sortRect.size.width), NUM_SCAN_LINES)..<NUM_SCAN_LINES
         }
         
+        
         for scanLineIndex in 0..<NUM_SCAN_LINES {
             guard let scanImage = image.scanLine(atIndex: scanLineIndex, orientation: sortParam.orientation) else {
                 continue

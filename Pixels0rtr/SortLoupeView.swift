@@ -186,9 +186,6 @@ class SortLoupeView: UIView, XYPadDelegate {
             self.previewImageView.frame = frame
         }
         
-        if let dl = self.delegate {
-            dl.loupeDidMove(toLocation: location)
-        }
     }
         
     func xyPad(_ view: UIView, didPanValue loc: XYValue) {
