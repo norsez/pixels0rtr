@@ -12,25 +12,17 @@ class ScanLineDrawer: NSObject {
     
     fileprivate let size: CGSize
     let context: CGContext
-    let orientation: SortOrientation
-    init(withCGSize size: CGSize, orientation: SortOrientation) {
+    
+    init(withCGSize size: CGSize) {
         self.size = size
         UIGraphicsBeginImageContextWithOptions(size, true, 1)
         self.context = UIGraphicsGetCurrentContext()!
-        self.orientation = orientation
     }
     
     func draw(strip: CGImage, index: Int) {
         var rect = CGRect.zero
-        switch self.orientation {
-        case .horizontal:
-            rect.origin = CGPoint(x:0, y: index)
-            rect.size = CGSize(width: self.size.width, height: 1)
-        default:
-            rect.origin = CGPoint(x:index, y: 0)
-            rect.size = CGSize(width: 1, height: self.size.height)
-        }
-        
+        rect.origin = CGPoint(x:index, y: 0)
+        rect.size = CGSize(width: 1, height: self.size.height)
         context.draw(strip, in: rect)
     }
     

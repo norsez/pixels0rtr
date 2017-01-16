@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -216,7 +216,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="37.5" y="18.5" width="76.5" height="15.5"/>
+                                            <rect key="frame" x="37" y="18" width="77" height="16"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -285,14 +285,16 @@
                                 </constraints>
                             </containerView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2yI-tw-f87">
-                                <rect key="frame" x="113" y="364" width="150" height="37"/>
+                                <rect key="frame" x="63" y="364" width="250" height="37"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="3Eb-Hz-zVF"/>
+                                    <constraint firstAttribute="width" constant="250" id="3Eb-Hz-zVF"/>
                                     <constraint firstAttribute="height" constant="36" id="G80-ax-yq8"/>
                                 </constraints>
                                 <segments>
-                                    <segment title="→"/>
+                                    <segment title="&lt;-"/>
                                     <segment title="↓"/>
+                                    <segment title="-&gt;"/>
+                                    <segment title="↑"/>
                                 </segments>
                                 <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.74818313960000005" colorSpace="calibratedRGB"/>
                                 <connections>

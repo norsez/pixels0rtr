@@ -4,6 +4,7 @@ release notes
 build 17
 - add Offset and Stripe patterns
 - now use loupe to preview the real output
+- now sort direction is possible in 4 directions
 
 build 16
 - add CMYK sort

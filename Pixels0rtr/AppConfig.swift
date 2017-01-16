@@ -79,10 +79,10 @@ class AppConfig: NSObject {
     var sortOrientation: SortOrientation {
         get {
             let savedValue = UserDefaults.standard.integer(forKey: Config.SortOrientation.rawValue)
-            if savedValue == SortOrientation.vertical.rawValue {
-                return SortOrientation.vertical
+            if savedValue == SortOrientation.down.rawValue {
+                return SortOrientation.down
             }else {
-                return SortOrientation.horizontal
+                return SortOrientation.down
             }
         }
         
@@ -175,7 +175,7 @@ class AppConfig: NSObject {
             Config.RoughnessAmount.rawValue: 0.5,
             Config.MotionAmount.rawValue: 0,
             Config.MaxSize.rawValue: MaxSize.px600.rawValue,
-            Config.SortOrientation.rawValue: SortOrientation.horizontal.rawValue,
+            Config.SortOrientation.rawValue: SortOrientation.down.rawValue,
             AppConfig.Key.FreeVersion: true
         ]
         uf.register(defaults: defaults)

@@ -169,7 +169,7 @@ struct SortParam {
     var sorter: PixelSorter
     var pattern: SortPattern
     var motionAmount: Double = 0
-    var orientation = SortOrientation.horizontal
+    var orientation = SortOrientation.down
     var maxPixels: AppConfig.MaxSize = .px600
     var sortRect: CGRect? = nil
     
@@ -344,7 +344,6 @@ extension CGImage {
         let size = CGSize(width: CGFloat(self.width), height: CGFloat(self.height))
         let colorArrays = sp.pattern.colorArrays(of: self,
                                                  size: size,
-                                                 sortOrientation: sp.orientation,
                                                  progress: {f in})
         let image = PixelSorting.sortedScanLine(withColorArrays: colorArrays, scanLineIndex: scanLineIndex, sortParam: sp, progress: {f in})
         return image?.cgImage
@@ -359,13 +358,47 @@ struct PixelSortingStats {
     
 }
 //MARK: quick sort
+
+extension UIImage {
+     func rotated(toSortOrientation so: SortOrientation) -> UIImage {
+        switch so {
+        case .down:
+            return self
+        case .right:
+            return self.image(withRotation: .m_pi_2)
+        case .up:
+            return self.image(withRotation: .m_pi)
+        case .left:
+            return self.image(withRotation: .m_3_pi_2)
+        }
+    }
+    
+    func reverseRotation(forSortOrientation so: SortOrientation) -> UIImage {
+        switch so {
+        case .down:
+            return self
+        case .right:
+            return self.image(withRotation: .m_3_pi_2)
+        case .up:
+            return self.image(withRotation: .m_pi)
+        case .left:
+            return self.image(withRotation: .m_pi_2)
+            
+        }
+    }
+}
+
 class PixelSorting: NSObject {
+    
+    
     
     static func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> (output:UIImage?, stats: PixelSortingStats){
         
+        let imageToSort = image.rotated(toSortOrientation: sortParam.orientation)
+        
         let startTime = Date()
-        let NUM_SCAN_LINES = sortParam.orientation == .horizontal ? Int(image.size.height) : Int(image.size.width)
-        let scanLineDrawer = ScanLineDrawer(withCGSize: image.size, orientation: sortParam.orientation)
+        let NUM_SCAN_LINES = Int(imageToSort.size.width)
+        let scanLineDrawer = ScanLineDrawer(withCGSize: imageToSort.size)
         
         var skipRange1 = -1..<0
         var skipRange2 = NUM_SCAN_LINES..<NUM_SCAN_LINES
@@ -373,11 +406,12 @@ class PixelSorting: NSObject {
         if let sortRect = sortParam.sortRect {
             skipRange1 = 0..<Int(sortRect.origin.x)
             skipRange2 = min( Int(sortRect.origin.x + sortRect.size.width), NUM_SCAN_LINES)..<NUM_SCAN_LINES
+            Logger.log("sortRect: \(sortRect)")
+            
         }
         
-        
         for scanLineIndex in 0..<NUM_SCAN_LINES {
-            guard let scanImage = image.scanLine(atIndex: scanLineIndex, orientation: sortParam.orientation) else {
+            guard let scanImage = imageToSort.scanLine(atIndex: scanLineIndex) else {
                 continue
             }
             
@@ -391,40 +425,27 @@ class PixelSorting: NSObject {
             progress(Float(scanLineIndex)/Float(NUM_SCAN_LINES))
         }
         var resultImage = scanLineDrawer.makeImage()
+        resultImage = resultImage?.upsideDown()
         
-        if sortParam.orientation == .vertical {
-            resultImage = resultImage?.upsideDown()
-        }
-        assert(resultImage!.size.width == image.size.width)
+        assert(resultImage!.size.width == imageToSort.size.width)
         let elapsedTime = Date().timeIntervalSince(startTime)
-        let numPixels = Int(image.size.width * image.size.height)
+        let numPixels = Int(imageToSort.size.width * imageToSort.size.height)
         let stats = PixelSortingStats(elapsedTime: elapsedTime, numberOfPixels: numPixels)
+        
+        resultImage = resultImage?.reverseRotation(forSortOrientation: sortParam.orientation)
         
         return (output: resultImage, stats:stats)
     }
     
-//    static func sorted0(image: UIImage, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
-//        let pattern = sortParam.pattern
-//        guard let cgImage = image.cgImage else {
-//            Logger.log("can't create cgImage from input image")
-//            return nil
-//        }
-//        
-//        let toSort = pattern.colorArrays(of: cgImage, size: image.size, sortOrientation: sortParam.orientation, progress: progress)
-//        //Logger.log("\(toSort.count) pieces to sort from \(SortColor.colorCache.count) colors")
-//        
-//        let sortedResult = PixelSorting.sorted(withColorArrays: toSort, size: image.size, sortParam: sortParam, progress: progress)
-//        return sortedResult
-//    }
     
     static func sortedScanLine(withColorArrays colorArrays: [[SortColor]], scanLineIndex:Int, sortParam: SortParam, progress: (Float)->Void) -> UIImage? {
         
         var colors = colorArrays[0]
         sort(colors: &colors, scanLineIndex: scanLineIndex, sortParam: sortParam)
         
-        let size = sortParam.orientation == .horizontal ? CGSize(width: CGFloat(colors.count), height: 1) : CGSize(width: 1, height: CGFloat(colors.count))
+        let size = CGSize(width: 1, height: CGFloat(colors.count))
         
-        let image = sortParam.pattern.image(with: [colors], size: size , sortOrientation: sortParam.orientation, progress: progress )
+        let image = sortParam.pattern.image(with: [colors], size: size , progress: progress )
         return image.uiimage
     }
     
@@ -436,11 +457,10 @@ class PixelSorting: NSObject {
             sort(colors: &colors, scanLineIndex: index, sortParam: sortParam)
             sortedArrays.append(colors)
             progress(Float(index)/Float(colorArrays.count))
-            
         }
         
         //Logger.log("finished sorting size \(size)")
-        let image = sortParam.pattern.image(with: sortedArrays, size: size, sortOrientation: sortParam.orientation, progress: progress )
+        let image = sortParam.pattern.image(with: sortedArrays, size: size, progress: progress )
         return image.uiimage
     }
     
@@ -459,13 +479,10 @@ class PixelSorting: NSObject {
         for  phaseIndex in 0..<unsortedPhases.count {
             
             var phase = unsortedPhases[phaseIndex]
-            
             let phaseRect = CGRect(x:scanLineIndex, y:sumDots, width: 1, height: phase.count)
-            
             if !skipPhaseRect(phaseRect: phaseRect, inSortRect: sortParam.sortRect) {
                 quicksort(WithColors: &phase, low: 0, high: phase.count - 1, sortParam: sortParam)
             }
-            
             sortedPhases.append(phase)
             
             sumDots = sumDots + phase.count
@@ -477,7 +494,6 @@ class PixelSorting: NSObject {
         guard let sortRect = sr else {
             return false
         }
-        
         return sortRect.intersects(phaseRect) == false
     }
     
@@ -489,8 +505,6 @@ class PixelSorting: NSObject {
         if colors.count < 2 {
             return [colors]
         }
-        
-        
         let pattern = sortParam.pattern
         
         var results = [[SortColor]]()

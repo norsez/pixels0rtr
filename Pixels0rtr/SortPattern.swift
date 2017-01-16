@@ -11,15 +11,19 @@ import C4
 
 
 enum SortOrientation: Int, CustomStringConvertible {
-    case horizontal, vertical
+    case right, down, left, up
     
     var description: String {
         get {
             switch self {
-            case .horizontal:
-                return "Horizontal"
-            default:
-                return "Vertical"
+            case .right:
+                return "right"
+            case .down:
+                return "down"
+            case .up:
+                return "up"
+            case .left:
+                return "left"
             }
         }
     }
@@ -32,8 +36,8 @@ protocol SortPattern {
     
     func initialize(withWidth width:Int, height: Int, sortParam: SortParam)
     func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool
-    func colorArrays(of cgimage: CGImage, size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> [[SortColor]]
-    func image(with colorArrays: [[SortColor]], size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> Image
+    func colorArrays(of cgimage: CGImage, size: CGSize, progress: (Float)->Void) -> [[SortColor]]
+    func image(with colorArrays: [[SortColor]], size: CGSize, progress: (Float)->Void) -> Image
 }
 
 class AbstractSortPattern: SortPattern{
@@ -54,32 +58,20 @@ class AbstractSortPattern: SortPattern{
         return false
     }
     
-    func image(with colorArrays: [[SortColor]], size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> Image {
+    func image(with colorArrays: [[SortColor]], size: CGSize, progress: (Float)->Void) -> Image {
         var pixels = [Pixel]()
-        
-            switch sortOrientation {
-            case .horizontal:
-                for index in 0..<colorArrays.count {
-                    let parr = colorArrays[index].flatMap({ (sortColor) -> Pixel? in
-                        return sortColor.C4Pixel
-                    })
-                    pixels.append(contentsOf: parr)
-                    progress(Float(index)/Float(colorArrays.count))
-                }
-            default:
-                for row in 0..<Int(size.height) {
-                    for colarr in colorArrays {
-                        pixels.append(colarr[row].C4Pixel)
-                    }
-                    progress(Float(row)/Float(size.height))
-                }
+        for row in 0..<Int(size.height) {
+            for colarr in colorArrays {
+                pixels.append(colarr[row].C4Pixel)
             }
+            progress(Float(row)/Float(size.height))
+        }
         
         //Logger.log("built image of size \(size)")
         return Image(pixels: pixels, size: Size(size))
     }
         
-    func colorArrays(of cgimage: CGImage, size: CGSize, sortOrientation: SortOrientation, progress: (Float)->Void) -> [[SortColor]]{
+    func colorArrays(of cgimage: CGImage, size: CGSize, progress: (Float)->Void) -> [[SortColor]]{
         
         let bitmap = Bitmap(img: cgimage)
         guard let correctedBitmapCGImage = bitmap.asCGImage else {
@@ -93,43 +85,23 @@ class AbstractSortPattern: SortPattern{
         
         var results = [[SortColor]]()
         let NUM_COMPS = 4 //know this from how bitmap object defines context
-        let DATA_SIZE = Int(size.width)*Int(size.height) * NUM_COMPS
+        //let DATA_SIZE = Int(size.width)*Int(size.height) * NUM_COMPS
         
-        switch sortOrientation {
-        case .horizontal:
-            var rowData = [SortColor]()
-            for idx in stride(from: 0, to: DATA_SIZE, by: NUM_COMPS) {
-                if idx > 0 && idx % (Int(size.width) * NUM_COMPS) == 0 {
-                    results.append(rowData)
-                    rowData = [SortColor]()
-                }
+        for x in 0..<Int(size.width) {
+            var colorCols = [SortColor]()
+            for y in 0..<Int(size.height) {
+                let idx = (y * Int(size.width) + x) * NUM_COMPS
                 let c = SortColor(withRed: data[idx + 1],
-                         green: data[idx + 2],
-                         blue: data[idx + 3],
-                         alpha: data[idx])
-                rowData.append(c)
-                progress(Float(idx)/Float(DATA_SIZE))
-                
+                                  green: data[idx + 2],
+                                  blue: data[idx + 3],
+                                  alpha: data[idx])
+                colorCols.append(c)
             }
-            results.append(rowData)
             
-        default:
-            for x in 0..<Int(size.width) {
-                var colorCols = [SortColor]()
-                for y in 0..<Int(size.height) {
-                    let idx = (y * Int(size.width) + x) * NUM_COMPS
-                    let c = SortColor(withRed: data[idx + 1],
-                                      green: data[idx + 2],
-                                      blue: data[idx + 3],
-                                      alpha: data[idx])
-                    colorCols.append(c)
-                }
-                
-                
-                    progress (Float(x)/Float(size.width))
-                
-                results.append(colorCols)
-            }
+            
+            progress (Float(x)/Float(size.width))
+            
+            results.append(colorCols)
         }
         
         return results
@@ -171,39 +143,22 @@ class PatternClassic : AbstractSortPattern {
         var lastValue: Int = 0
         
         let MIN_R = 1
-        let MAX_R = Int(Double(sortParam.orientation == .horizontal ? height : width)/Double(self.largestSortWidth))
+        let MAX_R = Int(Double(width)/Double(self.largestSortWidth))
         let roughness = MIN_R + Int(Double(MAX_R) * c_roughness)
         
         Logger.log(" -- roughness:  \(roughness), sort amt: \(_min)-\(_max)")
         
-        switch sortParam.orientation {
-        case .vertical:
-            for i in 0..<width {
-                
-                if i % roughness != 0 {
-                    resetRowIndexByCol.append(lastValue)
-                }else {
-                    let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
-                    let v = max(2.0, r) + sortParam.motionAmount * 25.0
-                    lastValue = Int(v)
-                    resetRowIndexByCol.append(lastValue)
-                    
-                }
-            }
-        default:
+        for i in 0..<width {
             
-            for i in 0..<height {
+            if i % roughness != 0 {
+                resetRowIndexByCol.append(lastValue)
+            }else {
+                let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
+                let v = max(2.0, r) + sortParam.motionAmount * 25.0
+                lastValue = Int(v)
+                resetRowIndexByCol.append(lastValue)
                 
-                if i % roughness != 0 {
-                    resetRowIndexByCol.append(lastValue)
-                }else {
-                    let r = fRandom(min: Double(width)/_min, max: Double(width)/_max)
-                    let v = max(2.0, r) + sortParam.motionAmount * 25.0
-                    lastValue = Int(v)
-                    resetRowIndexByCol.append(lastValue)
-                }
             }
-            
         }
         
     }
@@ -237,8 +192,8 @@ class PatternStripe: AbstractSortPattern {
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         super.initialize(withWidth: width, height: height, sortParam: sortParam)
-        let scanLines = sortParam.orientation == .vertical ? width : height
-        let dotsPerScanLine = sortParam.orientation == .vertical ? height : width
+        let scanLines = width
+        let dotsPerScanLine = height
         
         let MAX_DOTS_TO_RESET = self.maxDotsToReset;
         let numDotsToReset = 2 + Int(sortParam.sortAmount * Double(MAX_DOTS_TO_RESET))

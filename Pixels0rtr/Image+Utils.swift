@@ -49,16 +49,10 @@ extension UIImage {
         return iv
     }
     
-    func scanLine(atIndex index: Int, orientation: SortOrientation) -> CGImage?{
+    func scanLine(atIndex index: Int) -> CGImage?{
         var rect = CGRect.zero
-        switch orientation {
-        case .horizontal:
-            rect.origin = CGPoint(x:0, y: index)
-            rect.size = CGSize(width: self.size.width, height: 1)
-        default:
-            rect.origin = CGPoint(x:index, y: 0)
-            rect.size = CGSize(width: 1, height: self.size.height)
-        }
+        rect.origin = CGPoint(x:index, y: 0)
+        rect.size = CGSize(width: 1, height: self.size.height)
         return self.cgImage?.cropping(to: rect)
         
     }
