@@ -10,6 +10,9 @@ import UIKit
 import CoreImage
 
 extension UIImage {
+    
+    
+    
     func blurredImage(withRadius radius: Double) -> UIImage {
         let imageToBlur = CIImage(image: self)
         let blurfilter = CIFilter(name: "CIGaussianBlur")
@@ -103,6 +106,7 @@ extension UIImage {
         case UIImageOrientation.up, UIImageOrientation.upMirrored:
             break
         }
+        
         switch imageOrientation {
         case UIImageOrientation.upMirrored, UIImageOrientation.downMirrored:
             transform.translatedBy(x: size.width, y: 0)
@@ -132,4 +136,52 @@ extension UIImage {
         return UIImage(cgImage: cgImage)
     }
     
+    enum ImageRotation: Int {
+        case m_0_pi, m_pi_2, m_pi, m_3_pi_2
+    }
+    
+    func image(withRotation rotation: ImageRotation) -> UIImage {
+        
+        var tf = CGAffineTransform.identity
+        let LARGEST_SIZE = CGFloat(max(self.size.width, self.size.height))
+        let DELTA_WIDTH = LARGEST_SIZE - self.size.width
+        let DELTA_HEIGHT = LARGEST_SIZE - self.size.height
+        
+        switch rotation {
+        case .m_0_pi:
+            tf = tf.translatedBy(x: DELTA_WIDTH, y: DELTA_HEIGHT)
+        case .m_pi_2:
+            tf = tf.rotated(by: CGFloat(M_PI_2))
+            tf = tf.translatedBy(x: 0, y: -self.size.height)
+        case .m_pi:
+            tf = tf.rotated(by: CGFloat(M_PI))
+            tf = tf.translatedBy(x: -self.size.height-DELTA_HEIGHT, y: -self.size.width)
+        case .m_3_pi_2:
+            tf = tf.rotated(by: CGFloat(3 * M_PI_2))
+            tf = tf.translatedBy(x: -self.size.width, y: 0)
+        }
+        
+        let cgImage = self.cgImage!
+        
+        let context = CGContext.init(data: nil, width:Int(LARGEST_SIZE), height:Int(LARGEST_SIZE), bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0, space: cgImage.colorSpace!, bitmapInfo: cgImage.bitmapInfo.rawValue)!
+        context.concatenate(tf)
+        context.draw(cgImage, in: CGRect(x:0,y:0,width:cgImage.width, height: cgImage.height))
+        
+        var resultImage = context.makeImage()!
+        
+        var cropRect = CGRect.zero
+        switch rotation {
+        case .m_0_pi, .m_pi:
+            cropRect.size = self.size
+        case .m_pi_2, .m_3_pi_2:
+            cropRect.size = CGSize(width: self.size.height, height: self.size.width)
+        }
+        resultImage = resultImage.cropping(to: cropRect)!
+        
+        return UIImage(cgImage: resultImage)
+        
+    }
+
+    
 }
+
