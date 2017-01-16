@@ -238,8 +238,6 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                             let sr = sortedRect {
                             self.paramController.setXYPadBackgroundImage(pv)
                             self.sortLoupeView.showImage(image: pv, loupeRect: sr)
-                            
-                            self.thumbnailLabel.text = "lo-fi preview"
                         }
                     }
                     

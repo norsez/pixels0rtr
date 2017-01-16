@@ -79,62 +79,20 @@ extension UIImage {
         return UIImage(cgImage: cgImage)
     }
     
-    /**
-     @return a UIImage with CGImage with the right side up
-     */
     func fixedOrientation() -> UIImage {
-        
-        if imageOrientation == UIImageOrientation.up {
-            return self
-        }
-        
-        var transform: CGAffineTransform = CGAffineTransform.identity
-        
-        switch imageOrientation {
-        case UIImageOrientation.down, UIImageOrientation.downMirrored:
-            transform = transform.translatedBy(x: size.width, y: size.height)
-            transform = transform.rotated(by: CGFloat(M_PI))
-            break
-        case UIImageOrientation.left, UIImageOrientation.leftMirrored:
-            transform = transform.translatedBy(x: size.width, y: 0)
-            transform = transform.rotated(by: CGFloat(M_PI_2))
-            break
-        case UIImageOrientation.right, UIImageOrientation.rightMirrored:
-            transform = transform.translatedBy(x: 0, y: size.height)
-            transform = transform.rotated(by: CGFloat(-M_PI_2))
-            break
-        case UIImageOrientation.up, UIImageOrientation.upMirrored:
-            break
-        }
-        
-        switch imageOrientation {
-        case UIImageOrientation.upMirrored, UIImageOrientation.downMirrored:
-            transform.translatedBy(x: size.width, y: 0)
-            transform.scaledBy(x: -1, y: 1)
-            break
-        case UIImageOrientation.leftMirrored, UIImageOrientation.rightMirrored:
-            transform.translatedBy(x: size.height, y: 0)
-            transform.scaledBy(x: -1, y: 1)
-        case UIImageOrientation.up, UIImageOrientation.down, UIImageOrientation.left, UIImageOrientation.right:
-            break
-        }
-        
-        let ctx: CGContext = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.cgImage!.bitsPerComponent, bytesPerRow: 0, space: self.cgImage!.colorSpace!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
-        
-        ctx.concatenate(transform)
-        
-        switch imageOrientation {
-        case UIImageOrientation.left, UIImageOrientation.leftMirrored, UIImageOrientation.right, UIImageOrientation.rightMirrored:
-            ctx.draw(self.cgImage!, in: CGRect(origin: CGPoint.zero, size: size))
-        default:
-            ctx.draw(self.cgImage!, in: CGRect(origin: CGPoint.zero, size: size))
-            break
-        }
-        
-        let cgImage: CGImage = ctx.makeImage()!
-        
-        return UIImage(cgImage: cgImage)
+        return self
+//        switch imageOrientation {
+//        case .up, .upMirrored:
+//            return self
+//        case .down, .downMirrored:
+//            return self.image(withRotation: .m_pi)
+//        case .right, .rightMirrored:
+//            return self.image(withRotation: .m_pi)
+//        case .left, .leftMirrored:
+//            return self.image(withRotation: .m_pi_2)
+//        }
     }
+    
     
     enum ImageRotation: Int {
         case m_0_pi, m_pi_2, m_pi, m_3_pi_2
