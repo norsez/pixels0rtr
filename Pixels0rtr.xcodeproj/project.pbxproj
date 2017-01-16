@@ -67,6 +67,7 @@
 		F336FB711DEEBE3000FB3817 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F336FB731DEEBE3000FB3817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F336FB791DEEBE4600FB3817 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F33736771E2D026700455D3F /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+PixelsortingFX.swift"; sourceTree = "<group>"; };
 		F3375B561DFFE2CD00AF0742 /* ScrollableContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableContainerView.swift; sourceTree = "<group>"; };
 		F3375B7C1DFFEC0800AF0742 /* VerticalSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalSelectorViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +168,7 @@
 				F336FB731DEEBE3000FB3817 /* Info.plist */,
 				F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */,
 				F336FB791DEEBE4600FB3817 /* Podfile */,
+				F33736771E2D026700455D3F /* MyPlayground.playground */,
 			);
 			path = Pixels0rtr;
 			sourceTree = "<group>";

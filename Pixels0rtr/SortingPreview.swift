@@ -109,7 +109,6 @@ class SortingPreview: NSObject {
         )
         previewSortParam.sortRect = sortRect
         
-        previewSortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: previewSortParam)
         
         guard let previewImage = PixelSorting.sorted(image: imageToSort, sortParam: previewSortParam, progress: { (v) in
             if let p = progress {

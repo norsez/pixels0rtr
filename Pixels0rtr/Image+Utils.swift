@@ -87,50 +87,28 @@ extension UIImage {
 //        }
     }
     
-    
-    enum ImageRotation: Int {
-        case m_0_pi, m_pi_2, m_pi, m_3_pi_2
-    }
-    
-    func image(withRotation rotation: ImageRotation) -> UIImage {
-        
-        var tf = CGAffineTransform.identity
-        let LARGEST_SIZE = CGFloat(max(self.size.width, self.size.height))
-        let DELTA_WIDTH = LARGEST_SIZE - self.size.width
-        let DELTA_HEIGHT = LARGEST_SIZE - self.size.height
-        
-        switch rotation {
-        case .m_0_pi:
-            tf = tf.translatedBy(x: DELTA_WIDTH, y: DELTA_HEIGHT)
-        case .m_pi_2:
-            tf = tf.rotated(by: CGFloat(M_PI_2))
-            tf = tf.translatedBy(x: 0, y: -self.size.height)
-        case .m_pi:
-            tf = tf.rotated(by: CGFloat(M_PI))
-            tf = tf.translatedBy(x: -self.size.height-DELTA_HEIGHT, y: -self.size.width)
-        case .m_3_pi_2:
-            tf = tf.rotated(by: CGFloat(3 * M_PI_2))
-            tf = tf.translatedBy(x: -self.size.width, y: 0)
-        }
-        
+    func image(withRotation radians: CGFloat) -> UIImage {
         let cgImage = self.cgImage!
-        
+        let LARGEST_SIZE = CGFloat(max(self.size.width, self.size.height))
         let context = CGContext.init(data: nil, width:Int(LARGEST_SIZE), height:Int(LARGEST_SIZE), bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0, space: cgImage.colorSpace!, bitmapInfo: cgImage.bitmapInfo.rawValue)!
+        
+        var drawRect = CGRect.zero
+        drawRect.size = self.size
+        let drawOrigin = CGPoint(x: (LARGEST_SIZE - self.size.width) * 0.5,y: (LARGEST_SIZE - self.size.height) * 0.5)
+        drawRect.origin = drawOrigin
+        drawRect = drawRect.integral
+        var tf = CGAffineTransform.identity
+        tf = tf.translatedBy(x: LARGEST_SIZE * 0.5, y: LARGEST_SIZE * 0.5)
+        tf = tf.rotated(by: CGFloat(radians))
+        tf = tf.translatedBy(x: LARGEST_SIZE * -0.5, y: LARGEST_SIZE * -0.5)
         context.concatenate(tf)
-        context.draw(cgImage, in: CGRect(x:0,y:0,width:cgImage.width, height: cgImage.height))
+        context.draw(cgImage, in: drawRect)
+        var rotatedImage = context.makeImage()!
+        drawRect = drawRect.applying(tf)
+        rotatedImage = rotatedImage.cropping(to: drawRect)!
+        let resultImage = UIImage(cgImage: rotatedImage)
+        return resultImage
         
-        var resultImage = context.makeImage()!
-        
-        var cropRect = CGRect.zero
-        switch rotation {
-        case .m_0_pi, .m_pi:
-            cropRect.size = self.size
-        case .m_pi_2, .m_3_pi_2:
-            cropRect.size = CGSize(width: self.size.height, height: self.size.width)
-        }
-        resultImage = resultImage.cropping(to: cropRect)!
-        
-        return UIImage(cgImage: resultImage)
         
     }
 

@@ -365,11 +365,11 @@ extension UIImage {
         case .down:
             return self
         case .right:
-            return self.image(withRotation: .m_pi_2)
+            return self.image(withRotation: CGFloat(M_PI_2))
         case .up:
-            return self.image(withRotation: .m_pi)
+            return self.image(withRotation: CGFloat(M_PI))
         case .left:
-            return self.image(withRotation: .m_3_pi_2)
+            return self.image(withRotation: CGFloat(M_PI_2 * 3))
         }
     }
     
@@ -378,11 +378,11 @@ extension UIImage {
         case .down:
             return self
         case .right:
-            return self.image(withRotation: .m_3_pi_2)
+            return self.image(withRotation: CGFloat(M_PI_2 * 3))
         case .up:
-            return self.image(withRotation: .m_pi)
+            return self.image(withRotation: CGFloat(M_PI))
         case .left:
-            return self.image(withRotation: .m_pi_2)
+            return self.image(withRotation: CGFloat(M_PI_2))
             
         }
     }
@@ -409,6 +409,8 @@ class PixelSorting: NSObject {
             Logger.log("sortRect: \(sortRect)")
             
         }
+        
+        sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height:Int(imageToSort.size.height), sortParam: sortParam)
         
         for scanLineIndex in 0..<NUM_SCAN_LINES {
             guard let scanImage = imageToSort.scanLine(atIndex: scanLineIndex) else {

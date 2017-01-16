@@ -285,7 +285,6 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                 return
             }
             
-            sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParam)
             let sortedResult = PixelSorting.sorted(image: imageToSort, sortParam: sortParam, progress: progressBlock)
             guard let output = sortedResult.output else {
                 Logger.log("Sorting failed.")
