@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MHz-Iw-WJc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -132,6 +132,19 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                             </scrollView>
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kjm-v6-UTm">
+                                <rect key="frame" x="150.5" y="613" width="73" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="umx-9I-oBG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="24"/>
+                                <state key="normal" title="Abort">
+                                    <color key="titleColor" red="0.0" green="1" blue="0.18643208610000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressAbortSort:" destination="4e0-rS-Mih" eventType="touchUpInside" id="3fD-b4-Fsz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -143,6 +156,7 @@
                             <constraint firstItem="Z9b-Yv-DCf" firstAttribute="top" secondItem="xRh-6Q-sH9" secondAttribute="bottom" id="BMl-3l-tPm"/>
                             <constraint firstAttribute="trailing" secondItem="9Yg-v1-pIg" secondAttribute="trailing" id="Gwo-JM-csJ"/>
                             <constraint firstItem="i3d-y6-roO" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="ItF-c8-ayq"/>
+                            <constraint firstItem="kjm-v6-UTm" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="LBW-1x-CEM"/>
                             <constraint firstItem="pPL-DD-06u" firstAttribute="leading" secondItem="Nt0-v6-RxG" secondAttribute="leadingMargin" id="Lzv-bz-gfK"/>
                             <constraint firstItem="Ptd-Qf-jGf" firstAttribute="top" secondItem="sdS-zI-44l" secondAttribute="bottom" constant="8" id="Mua-jh-odM"/>
                             <constraint firstItem="Ptd-Qf-jGf" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="Rdn-Jo-ALd"/>
@@ -152,10 +166,12 @@
                             <constraint firstItem="Z9b-Yv-DCf" firstAttribute="top" secondItem="9Yg-v1-pIg" secondAttribute="bottom" id="anb-Gy-vrh"/>
                             <constraint firstItem="xRh-6Q-sH9" firstAttribute="top" secondItem="sdS-zI-44l" secondAttribute="bottom" id="cI7-PI-QRn"/>
                             <constraint firstItem="Z9b-Yv-DCf" firstAttribute="top" secondItem="pPL-DD-06u" secondAttribute="bottom" id="eHb-5b-wm8"/>
+                            <constraint firstItem="kjm-v6-UTm" firstAttribute="top" secondItem="qac-f8-Htg" secondAttribute="top" id="fcr-Yn-0no"/>
                             <constraint firstItem="pPL-DD-06u" firstAttribute="top" secondItem="sdS-zI-44l" secondAttribute="bottom" id="hlq-1X-Ul5"/>
                             <constraint firstItem="HeR-Lg-Jcy" firstAttribute="trailing" secondItem="Nt0-v6-RxG" secondAttribute="trailingMargin" id="htD-O4-H55"/>
                             <constraint firstItem="qac-f8-Htg" firstAttribute="centerY" secondItem="6h0-Qp-8PE" secondAttribute="centerY" id="iGd-Xc-eMd"/>
                             <constraint firstItem="HeR-Lg-Jcy" firstAttribute="top" secondItem="i3d-y6-roO" secondAttribute="bottom" constant="8" id="jpq-GL-yax"/>
+                            <constraint firstItem="qac-f8-Htg" firstAttribute="centerX" secondItem="Nt0-v6-RxG" secondAttribute="centerX" id="mWp-qO-8Ev"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xRh-6Q-sH9" secondAttribute="trailing" id="uYy-lM-kia"/>
                             <constraint firstItem="Z9b-Yv-DCf" firstAttribute="top" secondItem="qac-f8-Htg" secondAttribute="bottom" constant="24" id="xeh-Hb-bzh"/>
                             <constraint firstItem="9Yg-v1-pIg" firstAttribute="leading" secondItem="Nt0-v6-RxG" secondAttribute="leading" id="y9N-5Y-YTq"/>
@@ -165,6 +181,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="QEU-pH-4PW"/>
                     <connections>
+                        <outlet property="abortSortButton" destination="kjm-v6-UTm" id="9hA-Z9-nyI"/>
                         <outlet property="backgroundImageView" destination="xRh-6Q-sH9" id="DfJ-OE-DNZ"/>
                         <outlet property="consoleTextView" destination="pPL-DD-06u" id="IIB-Yu-3jK"/>
                         <outlet property="constraintThumbnailHeight" destination="kby-l3-iOR" id="chh-Xt-wcd"/>

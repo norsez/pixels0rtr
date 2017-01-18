@@ -54,8 +54,8 @@ loupe.layer.borderWidth = 1
 
 let path = Bundle.main.path(forResource: "1", ofType: "jpg")!
 var image = UIImage(contentsOfFile: path)!
-let output = image.image(withRotation: CGFloat(M_PI), subRect: loupeRect)
-image = output.image
+var output = image.image(withRotation: CGFloat( M_PI_2), subRect: loupeRect)
+image = output.image.image(withRotation: CGFloat(M_PI_2), subRect: loupeRect).image
 loupe.frame = output.rect
 print(output.rect)
 

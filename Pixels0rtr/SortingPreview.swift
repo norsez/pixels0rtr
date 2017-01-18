@@ -48,36 +48,36 @@ class SortingPreview: NSObject {
         self.previews.removeAll()
     }
     
-    func createPreview(withParam pp: PreviewParam, progress: ((Float)->Void)?, completion:@escaping (UIImage?)->Void) {
-        
-        var correctSizeImage = pp.image
-        if pp.sortParam.maxPixels != .pxTrueSize {
-            if let csi = correctSizeImage.resize(byMaxPixels: pp.sortParam.maxPixels.pixels) {
-                correctSizeImage = csi
-            }else {
-                completion(nil)
-                Logger.log("can't generate image for size \(pp.sortParam.maxPixels)")
-                return
-            }
-        }
-        
-        let cropRect = CGRect(x: pp.originX * Double(correctSizeImage.size.width),
-                              y: pp.originY * Double(correctSizeImage.size.height),
-                              width: Double(pp.previewSize),
-                              height: Double(pp.previewSize)
-                              );
-        
-        guard let croppedCGImage = correctSizeImage.cgImage?.cropping(to: cropRect) else {
-            completion(nil)
-            Logger.log("can't crop image to create preview")
-            return
-        }
-        
-        let croppedImage = UIImage(cgImage: croppedCGImage)
-        
-        self.updatePreview(forImage: croppedImage, withSortParam: pp.sortParam, progress: progress, completion: completion)
-        
-    }
+//    func createPreview(withParam pp: PreviewParam, progress: ((Float)->Void)?, completion:@escaping (UIImage?)->Void) {
+//        
+//        var correctSizeImage = pp.image
+//        if pp.sortParam.maxPixels != .pxTrueSize {
+//            if let csi = correctSizeImage.resize(byMaxPixels: pp.sortParam.maxPixels.pixels) {
+//                correctSizeImage = csi
+//            }else {
+//                completion(nil)
+//                Logger.log("can't generate image for size \(pp.sortParam.maxPixels)")
+//                return
+//            }
+//        }
+//        
+//        let cropRect = CGRect(x: pp.originX * Double(correctSizeImage.size.width),
+//                              y: pp.originY * Double(correctSizeImage.size.height),
+//                              width: Double(pp.previewSize),
+//                              height: Double(pp.previewSize)
+//                              );
+//        
+//        guard let croppedCGImage = correctSizeImage.cgImage?.cropping(to: cropRect) else {
+//            completion(nil)
+//            Logger.log("can't crop image to create preview")
+//            return
+//        }
+//        
+//        let croppedImage = UIImage(cgImage: croppedCGImage)
+//        
+//        self.updatePreview(forImage: croppedImage, withSortParam: pp.sortParam, progress: progress, completion: completion)
+//        
+//    }
     
     func previewImage(withSortParam sp: SortParam) -> UIImage?{
         let title = self.title(ofSortParam: sp)
@@ -109,61 +109,58 @@ class SortingPreview: NSObject {
         )
         previewSortParam.sortRect = sortRect
         
-        
-        guard let previewImage = PixelSorting.sorted(image: imageToSort, sortParam: previewSortParam, progress: { (v) in
+        let ps = PixelSorting(withSortParam: previewSortParam, imageToSort: imageToSort)
+        ps.start(withProgress: { (v) in
             if let p = progress {
                 p(Float(v))
             }
-            
-        }).output else {
+        }, aborted: { () -> Bool in
+            return false
+        }) { (image, stats) in
             if let c = completion {
-                c(nil, nil)
+                c(image, sortRect)
             }
-            return
         }
         
-        if let c = completion {
-            c(previewImage, sortRect)
-        }
     }
     
-    /**
-     create preview fixed at MAX_THUMB_SIZE
-     */
-    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
-        
-//        if let existing = self.previewImage(withSortParam: sp),
-//            let c = completion {
-//            c(existing)
+//    /**
+//     create preview fixed at MAX_THUMB_SIZE
+//     */
+//    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
+//        
+////        if let existing = self.previewImage(withSortParam: sp),
+////            let c = completion {
+////            c(existing)
+////            return
+////        }
+//        
+//        guard let imageToSort = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
+//            Logger.log("failed creating thumbnail")
 //            return
 //        }
-        
-        guard let imageToSort = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
-            Logger.log("failed creating thumbnail")
-            return
-        }
-        
-        sp.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sp)
-        
-        guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: sp, progress: { (v) in
-            if let p = progress {
-                p(Float(v))
-            }
-            
-        }).output else {
-            if let c = completion {
-                c(nil)
-            }
-            return
-        }
-        
-        let title = self.title(ofSortParam: sp)
-        let previewItem = HorizontalSelectItem(image: preview, title: title)
-        previews[title] = previewItem
-        if let c = completion {
-            c(preview)
-        }
-    }
+//        
+//        sp.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sp)
+//        
+//        guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: sp, progress: { (v) in
+//            if let p = progress {
+//                p(Float(v))
+//            }
+//            
+//        }).output else {
+//            if let c = completion {
+//                c(nil)
+//            }
+//            return
+//        }
+//        
+//        let title = self.title(ofSortParam: sp)
+//        let previewItem = HorizontalSelectItem(image: preview, title: title)
+//        previews[title] = previewItem
+//        if let c = completion {
+//            c(preview)
+//        }
+//    }
     
     /**
      replace a preview in cache with the input image
@@ -182,41 +179,41 @@ class SortingPreview: NSObject {
     /**
      generate previews for all available pattern and sort type
      */
-    func generatePreviews(with image: UIImage, sortParam sp: SortParam, progress: ((Float)->Void)? = nil) {
-        
-        guard let thumbnail = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
-            Logger.log("failed creating thumbnail")
-            return
-        }
-        
-        let blurredThumb = thumbnail
-        
-        previews = [String:HorizontalSelectItem]()
-                
-        for pattern in ALL_SORT_PATTERNS {
-            for s in ALL_SORTERS {
-                let imageToSort = blurredThumb
-                
-                var param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern, maxPixels:.px600)
-                param.orientation = sp.orientation
-                
-                pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
-                
-                guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
-                    if let p = progress {
-                        p(Float(v))
-                    }
-                }).output else {
-                    continue
-                }
-                
-                let title = self.title(ofSortParam: param)
-                let previewItem = HorizontalSelectItem(image: preview, title: title)
-                previews[title] = previewItem
-                
-            }
-        }
-    }
+//    func generatePreviews(with image: UIImage, sortParam sp: SortParam, progress: ((Float)->Void)? = nil) {
+//        
+//        guard let thumbnail = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
+//            Logger.log("failed creating thumbnail")
+//            return
+//        }
+//        
+//        let blurredThumb = thumbnail
+//        
+//        previews = [String:HorizontalSelectItem]()
+//                
+//        for pattern in ALL_SORT_PATTERNS {
+//            for s in ALL_SORTERS {
+//                let imageToSort = blurredThumb
+//                
+//                var param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern, maxPixels:.px600)
+//                param.orientation = sp.orientation
+//                
+//                pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
+//                
+//                guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
+//                    if let p = progress {
+//                        p(Float(v))
+//                    }
+//                }).output else {
+//                    continue
+//                }
+//                
+//                let title = self.title(ofSortParam: param)
+//                let previewItem = HorizontalSelectItem(image: preview, title: title)
+//                previews[title] = previewItem
+//                
+//            }
+//        }
+//    }
     
 //    func imageToSort(withImage image: UIImage) -> UIImage?{
 //        guard let beginImage = CIImage(image:image) else {

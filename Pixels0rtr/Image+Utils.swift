@@ -108,10 +108,33 @@ extension UIImage {
         rotatedImage = rotatedImage.cropping(to: drawRect)!
         let resultImage = UIImage(cgImage: rotatedImage)
         return resultImage
+    }
+    
+    func image(underImage anotherImage:UIImage) -> UIImage? {
+        guard let thisImage = self.cgImage else {
+            return nil
+        }
         
+        guard let topImage = anotherImage.cgImage else {
+            print("can't get top image ")
+            return nil
+        }
+        
+        let context = CGContext.init(data: nil, width: thisImage.width, height: thisImage.height, bitsPerComponent: thisImage.bitsPerComponent, bytesPerRow: thisImage.bytesPerRow, space: thisImage.colorSpace!, bitmapInfo: thisImage.bitmapInfo.rawValue)
+        
+        var drawRect = CGRect.zero
+        drawRect.size = self.size
+        context?.draw(thisImage, in: drawRect)
+        
+        drawRect.size = anotherImage.size
+        context?.draw(topImage, in: drawRect)
+        
+        if let cgImage = context?.makeImage() {
+            return UIImage(cgImage: cgImage)
+        }else {
+            return nil
+        }
         
     }
-
-    
 }
 

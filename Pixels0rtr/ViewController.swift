@@ -79,26 +79,26 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIImagePickerContr
         self.progressView.progress = 0
         DispatchQueue.global().async {
             Logger.log("init pattern…")
-            let imageToSort = img
-            
-            let sortParameters = AppConfig.shared.SortParameters
-            
-            sortParameters.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParameters)
-            
-            guard let sortedImage = PixelSorting.sorted(image: imageToSort , sortParam: sortParameters, progress: { p in
-                DispatchQueue.main.async {
-                    self.progressView.progress = Float(p)
-                }
-            }).output else {
-                print ("can't get sorted image")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.progressView.progress = 1
-                self.display(image: sortedImage)
-                UIImageWriteToSavedPhotosAlbum(sortedImage, nil, nil, nil)
-            }
+//            let imageToSort = img
+//            
+//            let sortParameters = AppConfig.shared.SortParameters
+//            
+//            sortParameters.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sortParameters)
+//            
+//            guard let sortedImage = PixelSorting.sorted(image: imageToSort , sortParam: sortParameters, progress: { p in
+//                DispatchQueue.main.async {
+//                    self.progressView.progress = Float(p)
+//                }
+//            }).output else {
+//                print ("can't get sorted image")
+//                return
+//            }
+//            
+//            DispatchQueue.main.async {
+//                self.progressView.progress = 1
+//                self.display(image: sortedImage)
+//                UIImageWriteToSavedPhotosAlbum(sortedImage, nil, nil, nil)
+//            }
             
         }
     }

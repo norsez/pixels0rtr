@@ -22,6 +22,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     @IBOutlet var toastLabel: UILabel!
     @IBOutlet var startSortButton: UIButton!
     @IBOutlet var progressView: UIProgressView!
+    @IBOutlet var abortSortButton: UIButton!
     @IBOutlet weak var consoleTextView: UITextView!
     @IBOutlet weak var controlScrollView: UIScrollView!
     @IBOutlet weak var sortLoupeView: SortLoupeView!
@@ -192,20 +193,24 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     }
     
     fileprivate func setProgressView(hidden: Bool, completion: (()->Void)? = nil) {
-        self.view.isUserInteractionEnabled = hidden
+        self.sortLoupeView.isUserInteractionEnabled = hidden
         self.controlScrollView.isUserInteractionEnabled = hidden
         
         let endAlpha:CGFloat = hidden ? 1 : 0.15
         let endAlphaStartbutton:CGFloat = hidden ? 1 : 0
         let endAlphaProgressBar:CGFloat = hidden ? 0 : 1
+        let endAlphaAbortButton:CGFloat = hidden ? 0 : 1
         
-        
+        if !hidden {
+            self.abortSortButton.isHidden = false
+        }
         
         UIView.animate(withDuration: 0.25, animations: {
             self.startSortButton.alpha = endAlphaStartbutton
             self.progressView.alpha = endAlphaProgressBar
             self.controlScrollView.alpha = endAlpha
             self.selectImageButton.alpha = endAlpha
+            self.abortSortButton.alpha = endAlphaAbortButton
         }, completion: {
             finished in
             if finished {
@@ -228,6 +233,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     fileprivate func updatePreview () {
         if let image = self.selectedImage {
             self.setProgressView(hidden: false)
+            self.abortSortButton.alpha = 0
             DispatchQueue.global().async {
                 self.previewEngine.updatePreview(forImage: image, withSortParam: self.paramController.currentParameters, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
                     self.updatePregressInMainThread(v)
@@ -263,7 +269,11 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         
     }
     
-    
+    var pixelSorting: PixelSorting?
+    var abortSorting = false
+    @IBAction func didPressAbortSort(_ sender: Any) {
+        abortSorting = true
+    }
     
     @IBAction func didPressSort(_ sender: Any) {
         
@@ -272,7 +282,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             return
         }
         
-        
+        abortSorting = false
         let sortParam = self.paramController.currentParameters
         
         self.setProgressView(hidden: false)
@@ -285,21 +295,24 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                 return
             }
             
-            let sortedResult = PixelSorting.sorted(image: imageToSort, sortParam: sortParam, progress: progressBlock)
-            guard let output = sortedResult.output else {
-                Logger.log("Sorting failed.")
-                return
-            }
-            
-            
-            DispatchQueue.main.async {
-                self.toast?.showToast(withPixelSortingStats: sortedResult.stats, onViewController: self) {
-                    self.manageOutputImage(output)
-                    self.sortLoupeView.showImage(image: output)
-                    self.thumbnailLabel.text = "full-res output"
-                    Analytics.shared.logSort(withSortParam: sortParam)
+            self.progressMark = (at10: false, at25: false, at50: false, at75: false)
+            self.pixelSorting = PixelSorting(withSortParam: sortParam, imageToSort: imageToSort)
+            self.pixelSorting?.start(withProgress: progressBlock,
+                               aborted: { () -> Bool in
+                                return self.abortSorting
+            }, completion: { (image, stats) in
+                DispatchQueue.main.async {
+                    if let lstats = stats,
+                        let output = image{
+                        self.toast?.showToast(withPixelSortingStats: lstats,
+                                              onViewController: self) {
+                                                self.manageOutputImage(output)
+                                                self.sortLoupeView.showImage(image: output)
+                                                Analytics.shared.logSort(withSortParam: sortParam)
+                        }
+                    }
                 }
-            }
+            })
             
         }
         
@@ -409,10 +422,28 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     
     //MARK: progress bar
+    var progressMark : (at10: Bool, at25: Bool, at50: Bool, at75:Bool) = (at10: false, at25: false, at50: false, at75: false)
     
     func updatePregressInMainThread(_ progress:Float) {
         DispatchQueue.main.async {
             self.progressView.progress = progress
+            
+            let mustUpdatePreview = (progress > 0.25 && self.progressMark.at25 == false) || (progress > 0.50 && self.progressMark.at50 == false) ||
+            (progress > 0.75 && self.progressMark.at75 == false) ||
+            (progress > 0.10 && self.progressMark.at10 == false)
+            
+            
+            if mustUpdatePreview {
+                if let ps = self.pixelSorting,
+                    let currentPreview = ps.currentStateImage {
+                    self.sortLoupeView.showImage(image: currentPreview)
+                }
+                
+                self.progressMark.at10 = progress >= 0.1
+                self.progressMark.at25 = progress >= 0.25
+                self.progressMark.at50 = progress >= 0.5
+                self.progressMark.at75 = progress >= 0.75
+            }
         }
     }
     
