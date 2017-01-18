@@ -1055,7 +1055,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "445"
             endingLineNumber = "445"
-            landmarkName = "sortedScanLine(withColorArrays:scanLineIndex:sortParam:progress:)"
+            landmarkName = "sorted(image:sortParam:progress:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1071,7 +1071,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "379"
             endingLineNumber = "379"
-            landmarkName = "reverseRotation(forSortOrientation:)"
+            landmarkName = "rotated(toSortOrientation:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1519,8 +1519,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "399"
             endingLineNumber = "399"
-            landmarkName = "sorted(image:sortParam:progress:)"
-            landmarkType = "7">
+            landmarkName = "PixelSorting"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

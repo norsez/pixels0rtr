@@ -359,6 +359,12 @@ struct PixelSortingStats {
 }
 //MARK: quick sort
 
+//extension CGRect {
+//    func rotated(toSortOrientation so: SortOrientation) -> UIImage {
+//        var tf = transform
+//    }
+//}
+
 extension UIImage {
      func rotated(toSortOrientation so: SortOrientation) -> UIImage {
         switch so {
