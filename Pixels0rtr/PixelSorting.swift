@@ -417,6 +417,7 @@ class PixelSorting: NSObject {
         let startTime = Date()
         let NUM_SCAN_LINES = Int(imageToSort.size.width)
         scanLineDrawer = ScanLineDrawer(withCGSize: imageToSort.size)
+        scanLineDrawer.draw(image: imageToSort)
         
         var skipRange1 = -1..<0
         var skipRange2 = NUM_SCAN_LINES..<NUM_SCAN_LINES

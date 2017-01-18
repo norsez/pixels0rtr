@@ -18,6 +18,14 @@ class ScanLineDrawer: NSObject {
         self.context = UIGraphicsGetCurrentContext()
     }
     
+    func draw(image: UIImage) {
+        if let cgImage = image.cgImage {
+            var rect = CGRect.zero
+            rect.size = self.size
+            context?.draw(cgImage, in: rect)
+        }
+    }
+    
     func draw(strip: CGImage, index: Int) {
         var rect = CGRect.zero
         rect.origin = CGPoint(x:index, y: 0)
