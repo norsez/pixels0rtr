@@ -41,8 +41,12 @@ protocol SortPattern {
 }
 
 class AbstractSortPattern: SortPattern{
+    
+    var imageWidth = 0
+    var imageHeight = 0
     internal func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
-        
+        self.imageWidth = width
+        self.imageHeight = height
     }
 
     init() {
@@ -187,7 +191,7 @@ class PatternStripe: AbstractSortPattern {
         
     }
     var maxDotsToReset: Int {
-        return 64
+        return Int(Double(self.imageWidth) * 0.1)
     }
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
@@ -259,7 +263,7 @@ class PatternOffset: PatternStripe {
     
     override var maxDotsToReset: Int {
         get {
-            return 128
+            return Int(128 * 2.15)
         }
     }
     

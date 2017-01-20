@@ -39,6 +39,14 @@ extension UIImage {
 
 
 
+
+func testImage() -> UIImage {
+    let path = Bundle.main.path(forResource: "1", ofType: "jpg")!
+    var image = UIImage(contentsOfFile: path)!
+    return image
+}
+
+func test2 () {
 let view = UIView(frame: CGRect(x:0, y:0, width: 800, height: 800))
 let imageView = UIImageView(frame: view.bounds)
 imageView.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
@@ -64,3 +72,15 @@ view.addSubview(loupe)
 
 
 print("ok")
+}
+
+
+
+let view = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+let v1 = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+view.addSubview(v1)
+let v2 = UIView(frame: CGRect(x:0, y:0, width: 20, height: 90))
+v2.backgroundColor = UIColor.red
+v2.center = v1.center
+v1.addSubview(v2)
+

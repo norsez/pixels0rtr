@@ -273,6 +273,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     var abortSorting = false
     @IBAction func didPressAbortSort(_ sender: Any) {
         abortSorting = true
+        self.thumbnailLabel.text = "…?"
     }
     
     @IBAction func didPressSort(_ sender: Any) {
