@@ -412,21 +412,20 @@ class PixelSorting: NSObject {
     
     fileprivate func rect(rect: CGRect, rotatedForSortOrientation so: SortOrientation, imageToSortSize size: CGSize) -> CGRect {
         var tf = CGAffineTransform.identity
-        
-        tf.translatedBy(x: (size.width * 0.5), y: (size.height * 0.5))
         switch so {
         case .down:
             break
         case .right:
-            tf = tf.rotated(by: CGFloat(M_PI_2 * 3))
+            tf = tf.rotated(by: CGFloat(M_PI_2 ))
         case .up:
             tf = tf.rotated(by: CGFloat(M_PI))
         case .left:
-            tf = tf.rotated(by: CGFloat(M_PI_2))
-            
+            tf = tf.rotated(by: CGFloat(M_PI_2 * 3))
         }
-        tf.translatedBy(x: -(size.width * 0.5) , y: -(size.height * 0.5))
-        return rect.applying(tf)
+        
+        let rect1 = rect.applying(tf)
+        Logger.log("\(rect) => \(rect1)")
+        return rect
     }
     
     fileprivate func sorted(image: UIImage, sortParam: SortParam, progress: (Float)->Void, aborted: ()->Bool, completion: (UIImage?, PixelSortingStats?)->Void){
@@ -443,7 +442,7 @@ class PixelSorting: NSObject {
         var skipRange2 = NUM_SCAN_LINES..<NUM_SCAN_LINES
         
         if let sr = sortParam.sortRect {
-            let sortRect = sr
+            let sortRect = self.rect(rect: sr, rotatedForSortOrientation: sortParam.orientation, imageToSortSize: imageToSort.size)
             skipRange1 = 0..<Int(sortRect.origin.x)
             skipRange2 = min( Int(sortRect.origin.x + sortRect.size.width), NUM_SCAN_LINES)..<NUM_SCAN_LINES
             Logger.log("sortRect: \(sortRect)")

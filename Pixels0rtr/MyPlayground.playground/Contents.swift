@@ -75,12 +75,24 @@ print("ok")
 }
 
 
+let image = testImage ()
+let ti = image.cgImage!
+let ctx = CGContext.init(data: nil, width: 150, height: 200, bitsPerComponent: ti.bitsPerComponent, bytesPerRow: ti.bytesPerRow, space: ti.colorSpace!, bitmapInfo: ti.bitmapInfo.rawValue)
+var drawRect = CGRect(x: 0, y: 0, width: 150, height: 200)
+var tf = CGAffineTransform.identity
+//tf = tf.translatedBy(x: 0, y: 350)
+//tf = tf.scaledBy(x: 1, y: -1)
+//ctx?.concatenate(tf)
 
-let view = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-let v1 = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-view.addSubview(v1)
-let v2 = UIView(frame: CGRect(x:0, y:0, width: 20, height: 90))
-v2.backgroundColor = UIColor.red
-v2.center = v1.center
-v1.addSubview(v2)
-
+ctx?.draw(ti, in: drawRect)
+ctx?.setFillColor(UIColor.green.cgColor)
+ctx?.setStrokeColor(UIColor.green.cgColor)
+ctx?.setLineWidth(2)
+var r1 = CGRect(x: 10, y: 10, width: 35, height: 70)
+tf = tf.translatedBy(x: 0, y: 200)
+tf = tf.scaledBy(x: 1, y: -1)
+r1 = r1.applying(tf)
+ctx?.addRect(r1)
+ctx?.stroke(r1, width: 1)
+let b = (ctx?.makeImage())!
+let output = UIImage(cgImage: b)

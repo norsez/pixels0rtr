@@ -94,7 +94,7 @@ class SortingPreview: NSObject {
     func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, loupeOrigin: XYValue, progress: ((Float)->Void)?, completion: ((UIImage?, CGRect?)->Void)?) {
         
         var previewSortParam = sp
-        
+        previewSortParam.orientation = .down
         
         guard let imageToSort = image.resize(toFitMaxPixels: previewSortParam.maxPixels) else {
             Logger.log("failed to resize to fix \(previewSortParam.maxPixels)")
@@ -118,11 +118,39 @@ class SortingPreview: NSObject {
             return false
         }) { (image, stats) in
             if let c = completion {
-                c(image, sortRect)
+                
+                if let pv = image,
+                    let cgImage = pv.cgImage,
+                    let sr = previewSortParam.sortRect {
+                    if let cropped = cgImage.cropping(to: sr),
+                        let originalCGImage = imageToSort.cgImage {
+                        let croppedImage = UIImage(cgImage: cropped)
+                        let rotatedCropped = croppedImage.rotated(toSortOrientation: sp.orientation)
+                        
+                        if let context = CGContext.init(data: nil, width: originalCGImage.width, height: originalCGImage.height, bitsPerComponent: originalCGImage.bitsPerComponent, bytesPerRow: originalCGImage.bytesPerRow, space: originalCGImage.colorSpace!, bitmapInfo: originalCGImage.bitmapInfo.rawValue),
+                            let rcgIage = rotatedCropped.cgImage {
+                            var orect = CGRect.zero
+                            orect.size = imageToSort.size
+                            context.draw(originalCGImage, in: orect)
+                            orect = sortRect
+                            var flipTf = CGAffineTransform.identity
+                            flipTf = flipTf.translatedBy(x: 0, y: imageToSort.size.height)
+                            flipTf = flipTf.scaledBy(x: 1, y: -1)
+                            orect = orect.applying(flipTf)
+                            context.draw(rcgIage, in: orect)
+                            if let result = context.makeImage() {
+                                let resultImage = UIImage(cgImage: result)
+                                c(resultImage, sortRect)
+                            }
+                        }
+                    }
+                }
+                c(nil, sortRect)
             }
         }
         
     }
+    
     
 //    /**
 //     create preview fixed at MAX_THUMB_SIZE
