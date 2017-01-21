@@ -59,10 +59,8 @@ extension UIImage {
     
     func upsideDown () -> UIImage{
         var transform: CGAffineTransform = CGAffineTransform.identity
-        transform = transform.translatedBy(x: size.width, y: size.height)
-        transform = transform.rotated(by: CGFloat(M_PI))
-        transform = transform.translatedBy(x: size.width, y: 0)
-        transform = transform.scaledBy(x: -1, y: 1)
+        transform = transform.translatedBy(x: 0, y: size.height)
+        transform = transform.scaledBy(x: 1, y: -1)
         
         let ctx: CGContext = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.cgImage!.bitsPerComponent, bytesPerRow: 0, space: self.cgImage!.colorSpace!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
         

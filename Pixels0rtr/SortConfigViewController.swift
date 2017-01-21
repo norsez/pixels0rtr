@@ -233,6 +233,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     fileprivate func updatePreview () {
         if let image = self.selectedImage {
             self.setProgressView(hidden: false)
+            self.thumbnailLabel.text = "creating preview…"
             self.abortSortButton.alpha = 0
             DispatchQueue.global().async {
                 self.previewEngine.updatePreview(forImage: image, withSortParam: self.paramController.currentParameters, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
@@ -244,6 +245,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                             let sr = sortedRect {
                             self.paramController.setXYPadBackgroundImage(pv)
                             self.sortLoupeView.showImage(image: pv, loupeRect: sr)
+                            self.thumbnailLabel.text = "preview"
                         }
                     }
                     
@@ -322,16 +324,17 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     func manageOutputImage(_ output:UIImage) {
         
+        
         if AppConfig.shared.isFreeVersion && max(output.size.width,output.size.height) > 600 {
             self.performSegue(withIdentifier: "showUnlock", sender: output)
             self.setProgressView(hidden: true, completion: {})
             self.unsavedImage = output
-            
+            self.thumbnailLabel.text = "[output requires unlock]"
         }else {
-            
             UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
             self.setProgressView(hidden: true, completion: {
                 self.showToastMessage("Saved\nto\nCamera Roll")
+                self.thumbnailLabel.text = "[output saved in Camera Roll]"
             })
         }
     }

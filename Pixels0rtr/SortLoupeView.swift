@@ -30,7 +30,7 @@ class SortLoupeView: UIView, XYPadDelegate {
     let previewEngine = SortingPreview()
     
     var busyUpdating = false
-    var loupeSize : CGSize = CGSize(width: 80, height: 80)
+    var loupeSize : CGSize = CGSize.zero
     
     var delegate: SortLoupeViewDelegate?
     
@@ -68,7 +68,6 @@ class SortLoupeView: UIView, XYPadDelegate {
         self.progressView.frame = CGRect(x:0,y:0,width: self.previewImageView.bounds.width, height: 2)
         self.progressView.autoresizingMask = [.flexibleWidth]
         self.previewImageView.addSubview(self.progressView)
-        
     }
     
     override init(frame: CGRect) {
@@ -85,11 +84,10 @@ class SortLoupeView: UIView, XYPadDelegate {
         self.imageView.image = image
         self.previewImageView.image = nil
         self.previewImageView.alpha = 1
-        var newLoupeFrame = CGRect.zero
         let factor = self.imageView.bounds.size.width / image.size.width
-        newLoupeFrame.origin = CGPoint(x: loupeRect.origin.x * factor, y: loupeRect.origin.y * factor)
-        newLoupeFrame.size = CGSize(width: loupeRect.size.width * factor, height: loupeRect.size.height * factor)
-        self.previewImageView.frame = newLoupeFrame
+        let location = XYValue(x:loupeRect.origin.x/image.size.width ,y:loupeRect.origin.y/image.size.height)
+        self.loupeSize = CGSize(width: loupeRect.size.width * factor, height: loupeRect.size.height * factor)
+        self.animateChangeImage(image: nil, imageView: self.previewImageView, location: location)
     }
     
     func showImage(image: UIImage?) {
@@ -107,21 +105,26 @@ class SortLoupeView: UIView, XYPadDelegate {
     }
     
     func moveLoupeToLocation(location: XYValue) {
-        guard let li = self.imageInLoupe else {
-            return
-        }
         
-        let loupeImageOrigin = CGPoint(x: CGFloat(location.x * li.size.width),
-                                       y: CGFloat(location.y * li.size.height))
-        var frame = CGRect.zero
-        frame.size = self.loupeSize
-        frame.origin = loupeImageOrigin
-        if let cgCroppedImage = li.cgImage?.cropping(to: frame){
-            let croppedImage = UIImage(cgImage: cgCroppedImage)
-            self.animateChangeImage(image: croppedImage, imageView: self.previewImageView, location: location) {
-                self.currentOrigin = location
-            }
-        }
+        self.animateChangeImage(image: nil, imageView: self.previewImageView, location: location)
+        
+//        guard let li = self.imageInLoupe else {
+//            return
+//        }
+//        
+//        let loupeImageOrigin = CGPoint(x: CGFloat(location.x * li.size.width),
+//                                       y: CGFloat(location.y * li.size.height))
+//        var frame = CGRect.zero
+//        frame.size = self.loupeSize
+//        frame.origin = loupeImageOrigin
+//        if let cgCroppedImage = li.cgImage?.cropping(to: frame){
+//            let croppedImage = UIImage(cgImage: cgCroppedImage)
+//            self.animateChangeImage(image: croppedImage, imageView: self.previewImageView, location: location) {
+//                self.currentOrigin = location
+//            }
+//        }else {
+//            
+//        }
         
     }
     
@@ -169,7 +172,6 @@ class SortLoupeView: UIView, XYPadDelegate {
     //MARK :
     func xyPad(_ view: UIView, didTapValue loc: XYValue) {
         self.currentOrigin = loc
-//        self.updateLoupe(withSortParam: self.lastSortParam)
         self.moveLoupeToLocation(location: loc)
         
         if let dl = self.delegate {
