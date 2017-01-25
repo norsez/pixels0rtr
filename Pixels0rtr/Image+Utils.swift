@@ -134,5 +134,25 @@ extension UIImage {
         }
         
     }
+    
+    /**
+     recompress a jpg repeatedly
+     */
+    func recompressedImage(image: UIImage, compressionRate: CGFloat, times: Int) -> UIImage? {
+        
+        var currentImage = image
+        
+        for _ in 0..<times {
+            if let data = UIImageJPEGRepresentation(currentImage, compressionRate),
+                let img =  UIImage(data: data){
+                 currentImage = img
+            }else {
+                return nil
+            }
+        }
+        return currentImage
+        
+    }
+    
 }
 

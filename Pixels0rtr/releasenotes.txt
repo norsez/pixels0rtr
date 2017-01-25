@@ -1,6 +1,9 @@
 release notes
 =============
 
+build 18
+- add black/white threshold
+
 build 17
 - add Offset and Stripe patterns
 - now use loupe to preview the real output

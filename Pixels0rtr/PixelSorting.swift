@@ -172,6 +172,8 @@ struct SortParam {
     var orientation = SortOrientation.down
     var maxPixels: AppConfig.MaxSize = .px600
     var sortRect: CGRect? = nil
+    var whiteThreshold: UInt8 = 240
+    var blackThreshold: UInt8 = 10
     
     init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize, sortRect: CGRect? = nil) {
         self.roughnessAmount = roughness
@@ -565,11 +567,16 @@ class PixelSorting: NSObject {
         var results = [[SortColor]]()
         var curCol = [SortColor]()
         for i in 0..<colors.count {
-            if pattern.resetSubsortBlock(withIndex: i, sortIndex: scanLineIndex, sortParam: sortParam) {
+            let c = colors[i]
+            
+            let needsReset = pattern.resetSubsortBlock(withIndex: i, sortIndex: scanLineIndex, sortParam: sortParam)
+                || (c.brightness >= sortParam.whiteThreshold) || (c.brightness <= sortParam.blackThreshold)
+            
+            if needsReset {
                 results.append(curCol)
-                curCol = [colors[i]]
+                curCol = [c]
             }else {
-                curCol.append(colors[i])
+                curCol.append(c)
             }
         }
         results.append(curCol)

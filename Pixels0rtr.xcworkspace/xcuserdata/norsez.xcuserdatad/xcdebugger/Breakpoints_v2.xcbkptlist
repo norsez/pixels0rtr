@@ -223,7 +223,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
             endingLineNumber = "48"
-            landmarkName = "init()"
+            landmarkName = "initialize(withWidth:height:sortParam:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -415,8 +415,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "77"
             endingLineNumber = "77"
-            landmarkName = "colorArrays(of:size:progress:)"
-            landmarkType = "7">
+            landmarkName = "AbstractSortPattern"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -431,8 +431,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "59"
             endingLineNumber = "59"
-            landmarkName = "resetSubsortBlock(withIndex:sortIndex:sortParam:)"
-            landmarkType = "7">
+            landmarkName = "AbstractSortPattern"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505140446.272102"
+            timestampString = "507046471.116987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "didSelectSortOrientation(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505140446.272102"
+            timestampString = "507046471.116987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "didSelectSize(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -655,8 +655,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "165"
             endingLineNumber = "165"
-            landmarkName = "PatternClassic"
-            landmarkType = "3">
+            landmarkName = "initialize(withWidth:height:sortParam:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -671,7 +671,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "167"
             endingLineNumber = "167"
-            landmarkName = "resetSubsortBlock(withIndex:sortIndex:sortParam:)"
+            landmarkName = "initialize(withWidth:height:sortParam:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -730,11 +730,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505140446.272102"
+            timestampString = "507046471.116987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "didSelectSortOrientation(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -970,11 +970,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505140446.272102"
+            timestampString = "507046471.116987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "SortParamUIViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -986,11 +986,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505139953.753981"
+            timestampString = "507045777.719007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "SortParamUIViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1002,11 +1002,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "sorted(image:sortParam:progress:aborted:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,11 +1018,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
+            startingLineNumber = "467"
+            endingLineNumber = "467"
             landmarkName = "sorted(image:sortParam:progress:aborted:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1034,11 +1034,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506427021.079304"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "rotated(toSortOrientation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1082,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505606721.011038"
+            timestampString = "507046471.116987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "didSelectSortOrientation(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1114,11 +1114,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505606794.651614"
+            timestampString = "507045777.719007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "SortParamUIViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1194,11 +1194,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortParamUIViewController.swift"
-            timestampString = "505955749.402045"
+            timestampString = "507045777.719007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "SortParamUIViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1418,11 +1418,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "sorted(image:sortParam:progress:aborted:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1434,11 +1434,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "510"
-            endingLineNumber = "510"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "sorted(withColorArrays:size:sortParam:progress:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1450,11 +1450,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
             landmarkName = "sorted(withColorArrays:size:sortParam:progress:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1462,7 +1462,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/Image+Utils.swift"
@@ -1562,11 +1562,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "439"
+            endingLineNumber = "439"
             landmarkName = "sorted(image:sortParam:progress:aborted:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1578,11 +1578,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "PixelSorting"
             landmarkType = "3">
          </BreakpointContent>
@@ -1594,11 +1594,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/PixelSorting.swift"
-            timestampString = "506439441.729593"
+            timestampString = "507046366.53995"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "PixelSorting"
             landmarkType = "3">
          </BreakpointContent>
@@ -1606,7 +1606,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/Image+Utils.swift"
@@ -1766,7 +1766,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortLoupeView.swift"
@@ -1798,7 +1798,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortConfigViewController.swift"
@@ -1808,6 +1808,22 @@
             startingLineNumber = "247"
             endingLineNumber = "247"
             landmarkName = "updatePreview()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixels0rtr/SortParamUIViewController.swift"
+            timestampString = "507046471.116987"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "xyPad(_:changePanValue:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

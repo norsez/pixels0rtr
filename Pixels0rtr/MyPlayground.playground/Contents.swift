@@ -41,7 +41,7 @@ extension UIImage {
 
 
 func testImage() -> UIImage {
-    let path = Bundle.main.path(forResource: "1", ofType: "jpg")!
+    let path = Bundle.main.path(forResource: "2", ofType: "jpg")!
     var image = UIImage(contentsOfFile: path)!
     return image
 }
@@ -60,7 +60,7 @@ loupe.layer.borderColor = UIColor.green.cgColor
 loupe.layer.borderWidth = 1
 
 
-let path = Bundle.main.path(forResource: "1", ofType: "jpg")!
+let path = Bundle.main.path(forResource: "2", ofType: "jpg")!
 var image = UIImage(contentsOfFile: path)!
 var output = image.image(withRotation: CGFloat( M_PI_2), subRect: loupeRect)
 image = output.image.image(withRotation: CGFloat(M_PI_2), subRect: loupeRect).image
@@ -69,30 +69,90 @@ print(output.rect)
 
 imageView.image = image
 view.addSubview(loupe)
-
-
-print("ok")
 }
 
+func recompressedImage(image: UIImage, compressionRate: CGFloat, times: Int) -> UIImage? {
+    
+    var currentImage = image
+    
+    for _ in 0..<times {
+        if let data = UIImageJPEGRepresentation(currentImage, compressionRate),
+            let img =  UIImage(data: data){
+            currentImage = img
+        }else {
+            return nil
+        }
+    }
+    return currentImage
+    
+}
+
+func cgContext(withImage image:UIImage) -> CGContext? {
+    guard let cgi = image.cgImage else {
+        return nil
+    }
+    
+    guard let context = CGContext(data: nil, width: cgi.width, height: cgi.height, bitsPerComponent: cgi.bitsPerComponent, bytesPerRow: cgi.bytesPerRow, space: cgi.colorSpace!, bitmapInfo: cgi.bitmapInfo.rawValue) else {
+        return nil
+    }
+    return context
+}
+
+func longExposure(image: UIImage, times: Int) -> UIImage? {
+    
+    guard let cgi = image.cgImage else {
+        return nil
+    }
+    
+    let context = cgContext(withImage: image)!
+    context.setFillColor(UIColor.black.cgColor)
+    context.fill(CGRect(x:0, y:0, width: image.size.width, height: image.size.height))
+    
+    let ALPHA:CGFloat = 0.1
+    context.setAlpha(ALPHA)
+    
+    let originalRect = CGRect(x:0, y:0, width: image.size.width, height: image.size.height)
+    var rects = [CGRect]()
+    for _ in 0..<64 {
+        var r = originalRect
+        let xMinus = Double(arc4random() % 100) > 0.5
+        let yMinus = Double(arc4random() % 100) > 0.5
+        let rX = Double(arc4random() % 100) * 0.01 * 15
+        let rY = Double(arc4random() % 100) * 0.01 * 15
+        r.origin = CGPoint(x: xMinus ? -rX : rX, y: yMinus ? -rY : rY )
+        rects.append(r)
+    }
+    
+    for _ in 0..<times {
+        let rect = rects [Int(arc4random() % UInt32(rects.count))]
+        let rand:Double = (Double(arc4random() % 100) * 0.01)
+        let mode:CGBlendMode = rand > 0.2 ? .screen : .overlay
+        context.setBlendMode(mode)
+        context.draw(cgi, in: rect)
+    }
+    let cgiOutput = context.makeImage()!
+    return UIImage(cgImage: cgiOutput)
+}
+
+func brightestDarkest(inImage image:UIImage) -> (brightness: Float, darkest: Float)? {
+    guard let cgi = image.cgImage else {
+        return nil
+    }
+    
+    guard let context = CGContext(data: nil, width: 128, height: 128, bitsPerComponent: cgi.bitsPerComponent, bytesPerRow: cgi.bytesPerRow, space: cgi.colorSpace!, bitmapInfo: cgi.bitmapInfo.rawValue) else {
+        return nil
+    }
+    
+    
+    
+    var brightest: CGFloat = 0
+    var darkest: CGFloat = 0
+    
+    
+    
+}
 
 let image = testImage ()
-let ti = image.cgImage!
-let ctx = CGContext.init(data: nil, width: 150, height: 200, bitsPerComponent: ti.bitsPerComponent, bytesPerRow: ti.bytesPerRow, space: ti.colorSpace!, bitmapInfo: ti.bitmapInfo.rawValue)
-var drawRect = CGRect(x: 0, y: 0, width: 150, height: 200)
-var tf = CGAffineTransform.identity
-//tf = tf.translatedBy(x: 0, y: 350)
-//tf = tf.scaledBy(x: 1, y: -1)
-//ctx?.concatenate(tf)
+//let output = recompressedImage(image: image, compressionRate: 0.0, times:50)
 
-ctx?.draw(ti, in: drawRect)
-ctx?.setFillColor(UIColor.green.cgColor)
-ctx?.setStrokeColor(UIColor.green.cgColor)
-ctx?.setLineWidth(2)
-var r1 = CGRect(x: 10, y: 10, width: 35, height: 70)
-tf = tf.translatedBy(x: 0, y: 200)
-tf = tf.scaledBy(x: 1, y: -1)
-r1 = r1.applying(tf)
-ctx?.addRect(r1)
-ctx?.stroke(r1, width: 1)
-let b = (ctx?.makeImage())!
-let output = UIImage(cgImage: b)
+
