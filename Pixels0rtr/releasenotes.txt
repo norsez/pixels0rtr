@@ -3,6 +3,7 @@ release notes
 
 build 18
 - add black/white threshold
+- fix image orientation at loading
 
 build 17
 - add Offset and Stripe patterns

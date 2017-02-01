@@ -169,7 +169,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         self.setProgressView(hidden: false)
         self.sortLoupeView.showImage(image: nil)
         self.previewEngine.clearPreviews()
-        let image = loadedImage.fixedOrientation()
+        let image = loadedImage
         
         self.selectedImage = image
         self.backgroundImageView.image = image

@@ -41,7 +41,7 @@ extension UIImage {
 
 
 func testImage() -> UIImage {
-    let path = Bundle.main.path(forResource: "2", ofType: "jpg")!
+    let path = Bundle.main.path(forResource: "1", ofType: "jpg")!
     var image = UIImage(contentsOfFile: path)!
     return image
 }
@@ -134,18 +134,11 @@ func longExposure(image: UIImage, times: Int) -> UIImage? {
     return UIImage(cgImage: cgiOutput)
 }
 
+let image = testImage()
+image.imageOrientation.rawValue
+let rt = UIImage(cgImage: image.cgImage!, scale: 1, orientation: .down)
 
-let view = UIView(frame: CGRect(x:0, y:0, width: 500, height: 500))
-let gradient = CAGradientLayer()
-let b = UIColor.black.cgColor
-let g = UIColor.green.cgColor
-gradient.colors = [b,g,g,b]
-gradient.locations = [0,0.2,0.8,1]
-gradient.startPoint = CGPoint(x:0,y:0.5)
-gradient.endPoint = CGPoint(x:1,y:0.5)
-gradient.frame = view.bounds
-let layer = CALayer()
-layer.frame = view.bounds
-layer.addSublayer(gradient)
-view.layer.insertSublayer(gradient, at: 0)
-view.frame = CGRect(x:0,y:0,width:500, height:500)
+
+
+
+
