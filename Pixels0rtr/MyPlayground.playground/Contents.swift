@@ -134,25 +134,18 @@ func longExposure(image: UIImage, times: Int) -> UIImage? {
     return UIImage(cgImage: cgiOutput)
 }
 
-func brightestDarkest(inImage image:UIImage) -> (brightness: Float, darkest: Float)? {
-    guard let cgi = image.cgImage else {
-        return nil
-    }
-    
-    guard let context = CGContext(data: nil, width: 128, height: 128, bitsPerComponent: cgi.bitsPerComponent, bytesPerRow: cgi.bytesPerRow, space: cgi.colorSpace!, bitmapInfo: cgi.bitmapInfo.rawValue) else {
-        return nil
-    }
-    
-    
-    
-    var brightest: CGFloat = 0
-    var darkest: CGFloat = 0
-    
-    
-    
-}
 
-let image = testImage ()
-//let output = recompressedImage(image: image, compressionRate: 0.0, times:50)
-
-
+let view = UIView(frame: CGRect(x:0, y:0, width: 500, height: 500))
+let gradient = CAGradientLayer()
+let b = UIColor.black.cgColor
+let g = UIColor.green.cgColor
+gradient.colors = [b,g,g,b]
+gradient.locations = [0,0.2,0.8,1]
+gradient.startPoint = CGPoint(x:0,y:0.5)
+gradient.endPoint = CGPoint(x:1,y:0.5)
+gradient.frame = view.bounds
+let layer = CALayer()
+layer.frame = view.bounds
+layer.addSublayer(gradient)
+view.layer.insertSublayer(gradient, at: 0)
+view.frame = CGRect(x:0,y:0,width:500, height:500)

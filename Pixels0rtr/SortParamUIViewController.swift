@@ -12,7 +12,7 @@ protocol SortParamUIViewControllerDelegate {
     func paramValueDidChange(toParam: SortParam)
 }
 
-class SortParamUIViewController: UIViewController, XYPadDelegate {
+class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModelControllerDelegate {
 
     @IBOutlet weak var xyPadImageView: UIImageView!
     @IBOutlet weak var xyPadView: UIView!
@@ -22,10 +22,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
     @IBOutlet var sorterContainerView: UIView!
     @IBOutlet var xyLabel: UILabel!
     
-    @IBOutlet var blackThresholdView: UIView!
-    @IBOutlet var blackThresholdLebel: UILabel!
-    @IBOutlet var whiteThresholdView: UIView!
-    @IBOutlet var whiteThresholdLabel: UILabel!
+    @IBOutlet var thresholdPad: ThresholdControlView!
     
     @IBOutlet var constraintBottomXYPad: NSLayoutConstraint!
     @IBOutlet var constraintTopXYPad: NSLayoutConstraint!
@@ -44,10 +41,6 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         }
     }
     var xyPadModel: XYPadModel!
-    var blackThresholdPadModel: XYPadModel!
-    var whiteThresholdPadModel: XYPadModel!
-    var blackThresholdValue: UInt8 = 0
-    var whiteThresholdValue: UInt8 = 255
     
     var roughness: Double = 0
     var sortAmount: Double = 0
@@ -59,8 +52,8 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
             let maxPixels = self.currentSizeOrder[self.sizeSelector.selectedSegmentIndex]
             var sp = SortParam(roughness: self.roughness, sortAmount: self.sortAmount, sorter: self.sorter, pattern: self.pattern, maxPixels: maxPixels)
             sp.orientation = SortOrientation(rawValue: self.sortOrientationSelector.selectedSegmentIndex)!
-            sp.whiteThreshold = self.whiteThresholdValue
-            sp.blackThreshold = self.blackThresholdValue
+            sp.blackThreshold = UInt8(self.thresholdPad.model.lowerValue * 255)
+            sp.whiteThreshold = UInt8(self.thresholdPad.model.upperValue * 255)
             return sp
         }
     }
@@ -110,13 +103,11 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         self.xyPadModel = XYPadModel(withXYPadView: self.xyPadView, initialValue: XYValue(x:0.5, y:0.5))
         self.xyPadModel.delegate = self
         
-        self.blackThresholdView.layer.cornerRadius = CORNER
-        self.whiteThresholdView.layer.cornerRadius = CORNER
-        self.blackThresholdPadModel = XYPadModel(withXYPadView: self.blackThresholdView, initialValue: XYValue(x:0,y:0))
-        self.blackThresholdPadModel.delegate = self
-        self.whiteThresholdPadModel = XYPadModel(withXYPadView: self.whiteThresholdView, initialValue: XYValue(x:0,y:0))
-        self.whiteThresholdPadModel.delegate = self
-        self.updateThresholdViews()
+        self.thresholdPad.setDelegate(delegate: self)
+        
+    }
+    
+    func valuesDidChange(lower: Double, upper: Double) {
         
     }
     
@@ -128,7 +119,6 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         if view == self.xyPadView {
             self.setParamsWithXYPad(atPoint: v)
         }
-        
     }
     
     func xyPad(_ view: UIView, didTapValue v: XYValue) {
@@ -141,26 +131,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate {
         if view == self.xyPadView {
             let bounds = self.xyPadView.bounds
             self.xyLabel.center = CGPoint(x: v.x * bounds.width, y: v.y * bounds.height )
-        }else if view == self.blackThresholdView {
-            let b = UInt8(v.x * 255)
-            if b < self.whiteThresholdValue {
-                self.blackThresholdValue = b
-                self.updateThresholdViews()
-            }
-        }else if view == self.whiteThresholdView {
-            let w = UInt8(v.x * 255)
-            if w > self.blackThresholdValue {
-                self.whiteThresholdValue = w
-                self.updateThresholdViews()
-            }
         }
-    }
-    
-    func updateThresholdViews() {
-        self.blackThresholdLebel.text = "black: \(self.blackThresholdValue)"
-        self.whiteThresholdLabel.text = "white: \(self.whiteThresholdValue)"
-        self.blackThresholdView.backgroundColor = UIColor(white: CGFloat(self.blackThresholdValue)/255.0, alpha: 0.2)
-        self.whiteThresholdView.backgroundColor = UIColor(white: CGFloat(self.whiteThresholdValue)/255.0, alpha: 0.2)
     }
     
     func setParamsWithXYPad(atPoint v: CGPoint) {

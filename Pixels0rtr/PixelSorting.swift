@@ -570,7 +570,7 @@ class PixelSorting: NSObject {
             let c = colors[i]
             
             let needsReset = pattern.resetSubsortBlock(withIndex: i, sortIndex: scanLineIndex, sortParam: sortParam)
-                || (c.brightness >= sortParam.whiteThreshold) || (c.brightness <= sortParam.blackThreshold)
+                || (c.brightness > sortParam.whiteThreshold) || (c.brightness < sortParam.blackThreshold)
             
             if needsReset {
                 results.append(curCol)
