@@ -126,7 +126,7 @@ class ThresholdControlView: UIView {
                     model.upperValue = min(1, Double(newCenter.x / (bounds.size.width - WIDTH_LEVER)))
                 }
                 
-                Logger.log("\(model.lowerValue) - \(model.upperValue)")
+                //Logger.log("\(model.lowerValue) - \(model.upperValue)")
                 if updateView {
                     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.2, options: [.beginFromCurrentState], animations: {
                         view.center = newCenter
@@ -134,23 +134,13 @@ class ThresholdControlView: UIView {
                     }, completion: nil)
                     
                 }
-            }
-            
-            
+            }            
             
         }
     }
     
-    fileprivate func moveLowerLeverToValue(value: Double) {
-        var f = self.lowerView.frame
-        f.origin = CGPoint(x:CGFloat(value) * (self.bounds.size.width - (WIDTH_LEVER * 2)), y:0)
-        self.lowerView.frame = f
-    }
-    
-    fileprivate func moveUpperLeverToValue(value: Double) {
-        var f = self.upperView.frame
-        f.origin = CGPoint(x:WIDTH_LEVER + (CGFloat(value) * (self.bounds.size.width - WIDTH_LEVER)), y:0)
-        self.upperView.frame = f
+    fileprivate func updateGreenBar () {
+        self.greenView.frame = CGRect(x: self.lowerView.frame.maxX, y: 0, width: self.upperView.frame.minX - self.lowerView.frame.maxX, height: self.bounds.size.height)
     }
     
     func setLowerValue(value: Double) {
@@ -158,15 +148,20 @@ class ThresholdControlView: UIView {
             fatalError("can't set lower > upper")
         }
         self.model.lowerValue = value
-        self.moveLowerLeverToValue(value: value)
+        let half_lever = (WIDTH_LEVER * 0.5)
+        self.lowerView.center = CGPoint(x: half_lever  + CGFloat(value) * (self.bounds.size.width - half_lever) ,y:self.bounds.size.height * 0.5)
+        self.updateGreenBar()
+        
     }
     
     func setUpperValue(value: Double) {
-        if self.model.upperValue < value {
+        if self.model.lowerValue > value {
             fatalError("can't set lower > upper")
         }
         self.model.upperValue = value
-        self.moveUpperLeverToValue(value: value)
+        let half_lever = (WIDTH_LEVER * 0.5)
+        self.upperView.center = CGPoint(x: half_lever  + CGFloat(value) * (self.bounds.size.width - half_lever) ,y:self.bounds.size.height * 0.5)
+        self.updateGreenBar()
     }
 }
 

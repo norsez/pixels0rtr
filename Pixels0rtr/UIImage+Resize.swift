@@ -41,11 +41,19 @@ extension UIImage {
     func resize(toFitMaxPixels maxPixels: AppConfig.MaxSize) -> UIImage? {
         
         let selectedSize = maxPixels
-        var output = self
-        if (selectedSize != AppConfig.MaxSize.pxTrueSize) {
-            output = output.resize(output.size.aspectFit(size: CGSize(width: selectedSize.pixels, height:selectedSize.pixels)))!
+        guard let toResize = self.makeCopy() else {
+            return nil
         }
-        return output
+        
+        if (selectedSize != AppConfig.MaxSize.pxTrueSize) {
+            let size = CGSize(width: selectedSize.pixels, height:selectedSize.pixels)
+            let fitSize = toResize.size.aspectFit(size: size)
+            
+            if let output = toResize.resize(fitSize) {
+                return output
+            }
+        }
+        return nil
     }
     
     
@@ -84,7 +92,7 @@ extension UIImage {
         let height = size.height
         let bitsPerComponent = cgImage.bitsPerComponent
         let bytesPerRow = cgImage.bitsPerComponent * Int(width)
-        let colorSpace = cgImage.colorSpace!
+        let colorSpace = cgImage.colorSpace ?? CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = cgImage.bitmapInfo
         
         guard let context = CGContext(data: nil, width: Int(width), height:Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)

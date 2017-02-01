@@ -194,6 +194,9 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
         self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:0, section:0), animated: false, scrollPosition: .centeredHorizontally)
         self.sorter = ALL_SORTERS[0]
         self.pattern = ALL_SORT_PATTERNS[0]
+        
+        self.thresholdPad.setLowerValue(value: 0)
+        self.thresholdPad.setUpperValue(value: 1)
     }
     
     @IBAction func didSelectSize(_ sender: Any) {
