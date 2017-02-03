@@ -149,8 +149,13 @@ class SortColor {
             let bigEndianValue = bytes.withUnsafeBufferPointer {
                 ($0.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 })
                 }.pointee
-            let value = Int(UInt32(bigEndian: bigEndianValue))
+            let value =  Int(UInt32(bigEndian: bigEndianValue)) //Int(CFSwapInt32BigToHost(bigEndianValue))
             return value
+            
+            //var value: UInt32 = 0
+            //let data = NSData(bytes: bytes, length: 4)
+            //data.getBytes(&value, length: 4)
+            //value = UInt32(bigEndian: value)
         }
         return nil
     }

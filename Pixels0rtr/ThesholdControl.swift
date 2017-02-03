@@ -160,7 +160,7 @@ class ThresholdControlView: UIView {
         }
         self.model.upperValue = value
         let half_lever = (WIDTH_LEVER * 0.5)
-        self.upperView.center = CGPoint(x: half_lever  + CGFloat(value) * (self.bounds.size.width - half_lever) ,y:self.bounds.size.height * 0.5)
+        self.upperView.center = CGPoint(x: CGFloat(value) * (self.bounds.size.width - half_lever) ,y:self.bounds.size.height * 0.5)
         self.updateGreenBar()
     }
 }

@@ -52,6 +52,8 @@ extension UIImage {
             if let output = toResize.resize(fitSize) {
                 return output
             }
+        }else {
+            return self
         }
         return nil
     }
