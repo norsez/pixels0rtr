@@ -192,8 +192,12 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         
     }
     
-    fileprivate func setProgressView(hidden: Bool, completion: (()->Void)? = nil) {
-        self.sortLoupeView.isUserInteractionEnabled = hidden
+    fileprivate func setProgressView(hidden: Bool, allowLoupe: Bool = false, completion: (()->Void)? = nil) {
+        if allowLoupe {
+            self.sortLoupeView.isUserInteractionEnabled = true
+        }else {
+            self.sortLoupeView.isUserInteractionEnabled = hidden
+        }
         self.controlScrollView.isUserInteractionEnabled = hidden
         
         let endAlpha:CGFloat = hidden ? 1 : 0.15
@@ -226,21 +230,27 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         self.updatePreview()
     }
     func loupeDidMove(toLocation loc: XYValue) {
-        
+        if self.previewEngine.isRunningPreview {
+            self.previewEngine.cancelRunningPreview()
+        }
         self.updatePreview()
     }
     
     fileprivate func updatePreview () {
+        
         if let image = self.selectedImage {
-            self.setProgressView(hidden: false)
+            
+            self.setProgressView(hidden: false, allowLoupe: true)
             self.thumbnailLabel.text = "creating preview…"
             self.abortSortButton.alpha = 0
+            
             DispatchQueue.global().async {
+                
                 self.previewEngine.updatePreview(forImage: image, withSortParam: self.paramController.currentParameters, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
                     self.updatePregressInMainThread(v)
                 }, completion: { (previewImage, sortedRect) in
                     DispatchQueue.main.async {
-                        self.setProgressView(hidden: true)
+                        self.setProgressView(hidden: true, allowLoupe: true)
                         if let pv = previewImage,
                             let sr = sortedRect {
                             self.paramController.setXYPadBackgroundImage(pv)

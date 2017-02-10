@@ -27,7 +27,7 @@ fileprivate class GreenStripView: UIView {
         let b = UIColor.black.cgColor
         let g = UIColor.green.cgColor
         gradient.colors = [b,g,g,b]
-        gradient.locations = [0,0.2,0.8,1]
+        gradient.locations = [0,0.1,0.9,1]
         gradient.startPoint = CGPoint(x:0,y:0.5)
         gradient.endPoint = CGPoint(x:1,y:0.5)
         self.layer.addSublayer(gradient)
@@ -44,7 +44,9 @@ class ThresholdControlView: UIView {
     
     let model = ThesholdModelController()
     var lowerView: UIView!
+    var lowerLabel: UILabel!
     var upperView: UIView!
+    var upperLabel: UILabel!
     var greenView: UIView!
     fileprivate let WIDTH_LEVER: CGFloat = 26
     
@@ -74,21 +76,25 @@ class ThresholdControlView: UIView {
         self.greenView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]
         self.addSubview(self.greenView)
         self.greenView.alpha = 0.2
-        
+
+        let c1 = UIColor(hue: 0.34, saturation: 1, brightness: 0.2, alpha: 0.2)
+        let c2 = UIColor(hue: 0.34, saturation: 0.6, brightness: 0.7, alpha: 0.5)
+
         self.lowerView = UIView(frame: CGRect(x:0, y: 0, width: WIDTH_LEVER, height: self.bounds.height))
-        self.lowerView.layer.backgroundColor = UIColor(white: 0, alpha: 0.75).cgColor
+        self.lowerView.layer.backgroundColor = c1.cgColor
         self.lowerView.layer.borderWidth = 1
         self.lowerView.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.25).cgColor
         self.lowerView.layer.cornerRadius = 5
         self.lowerView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]
         self.addSubview(self.lowerView)
         self.upperView = UIView(frame: CGRect(x:self.bounds.width - WIDTH_LEVER, y: 0, width: WIDTH_LEVER, height: self.bounds.height))
-        self.upperView.layer.backgroundColor = UIColor(white: 1, alpha: 0.25).cgColor
+        self.upperView.layer.backgroundColor = c2.cgColor
         self.upperView.layer.cornerRadius = self.lowerView.layer.cornerRadius
         self.upperView.layer.borderWidth = self.lowerView.layer.borderWidth
         self.upperView.layer.borderColor = self.lowerView.layer.borderColor
         self.upperView.autoresizingMask = self.lowerView.autoresizingMask
         self.addSubview(self.upperView)
+        
         
         let pan1 = UIPanGestureRecognizer(target: self, action: #selector(panLever(pan:)))
         pan1.maximumNumberOfTouches = 1

@@ -133,10 +133,9 @@ func longExposure(image: UIImage, times: Int) -> UIImage? {
     let cgiOutput = context.makeImage()!
     return UIImage(cgImage: cgiOutput)
 }
+let c1 = UIColor(hue: 0.34, saturation: 1, brightness: 1, alpha: 1)
+let c2 = UIColor(hue: 0.34, saturation: 1, brightness: 0.3, alpha: 1)
 
-let image = testImage()
-image.imageOrientation.rawValue
-let rt = UIImage(cgImage: image.cgImage!, scale: 1, orientation: .down)
 
 
 

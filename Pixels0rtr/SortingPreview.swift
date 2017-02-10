@@ -24,6 +24,8 @@ class SortingPreview: NSObject {
     var previews = [String:HorizontalSelectItem]()
     var valueFormatter: NumberFormatter
     
+    var isRunningPreview = false
+    
     override init() {
         
         self.valueFormatter = NumberFormatter()
@@ -88,6 +90,10 @@ class SortingPreview: NSObject {
         }
     }
     
+    func cancelRunningPreview () {
+        self.isRunningPreview = false
+    }
+    
     /**
      create preview using full output size but limit to sortRect in sortParam
      */
@@ -110,13 +116,18 @@ class SortingPreview: NSObject {
         previewSortParam.sortRect = sortRect
         
         let ps = PixelSorting(withSortParam: previewSortParam, imageToSort: imageToSort)
+        
+        self.isRunningPreview = true
+        
         ps.start(withProgress: { (v) in
             if let p = progress {
                 p(Float(v))
             }
         }, aborted: { () -> Bool in
-            return false
+            
+            return self.isRunningPreview == false
         }) { (image, stats) in
+            
             if let c = completion {
                 
                 if let pv = image,
@@ -147,6 +158,8 @@ class SortingPreview: NSObject {
                 }
                 c(nil, sortRect)
             }
+            self.isRunningPreview = false
+            
         }
         
     }
