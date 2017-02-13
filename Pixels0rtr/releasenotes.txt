@@ -1,9 +1,12 @@
 release notes
 =============
+build 21
+- fix crash when loading in older phones
 
 build 20
 - add black/white threshold
 - fix image orientation at loading
+- cancel preview
 
 build 17
 - add Offset and Stripe patterns

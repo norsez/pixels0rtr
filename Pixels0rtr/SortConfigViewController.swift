@@ -97,6 +97,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     func displayDebugView () {
         if let tv = self.storyboard?.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController {
+            self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(tv, animated: true)
         }
     }

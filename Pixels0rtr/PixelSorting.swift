@@ -9,6 +9,13 @@
 import UIKit
 import C4
 
+extension Data {
+    func scanValue<T>(start: Int, length: Int) -> T {
+        return self.subdata(in: start..<start+length).withUnsafeBytes { $0.pointee }
+    }
+}
+
+
 //MARK: CMYK color model
 class CMYK {
     var magenta, black, cyan, yellow: Float
@@ -146,19 +153,27 @@ class SortColor {
     
     fileprivate static func integer(withBytes bytes: [UInt8]) -> Int? {
         if bytes.count == 4 {
+            let data = Data(bytes: bytes)
+            let value: Int = data.scanValue(start: 0, length: 1)
+            return value
+           
+        }
+        return nil
+    }
+    
+    fileprivate static func old_integer(withBytes bytes: [UInt8]) -> Int? {
+        if bytes.count == 4 {
             let bigEndianValue = bytes.withUnsafeBufferPointer {
                 ($0.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 })
                 }.pointee
             let value =  Int(UInt32(bigEndian: bigEndianValue)) //Int(CFSwapInt32BigToHost(bigEndianValue))
             return value
             
-            //var value: UInt32 = 0
-            //let data = NSData(bytes: bytes, length: 4)
-            //data.getBytes(&value, length: 4)
-            //value = UInt32(bigEndian: value)
         }
         return nil
     }
+    
+    
     
     var isTransparent: Bool {
         get {

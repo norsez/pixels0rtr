@@ -44,6 +44,7 @@
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
 		F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */; };
 		F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA71DFE693900D45413 /* UnlockViewController.swift */; };
+		F3EF87D01E4EEF430026341C /* Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF87CF1E4EEF430026341C /* Batch.swift */; };
 		F3F17E6E1E40404300383CAA /* ThesholdControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F17E6D1E40404300383CAA /* ThesholdControl.swift */; };
 		F3FC32D11E012D5B0041F73E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FC32D01E012D5B0041F73E /* StoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = releasenotes.txt; sourceTree = "<group>"; };
 		F3D91AA71DFE693900D45413 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
+		F3EF87CF1E4EEF430026341C /* Batch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Batch.swift; sourceTree = "<group>"; };
 		F3F17E6D1E40404300383CAA /* ThesholdControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThesholdControl.swift; sourceTree = "<group>"; };
 		F3FC32D01E012D5B0041F73E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.release.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */,
 				F37F382E1DF63177001A97CE /* Image+Utils.swift */,
 				F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */,
+				F3EF87CF1E4EEF430026341C /* Batch.swift */,
 				F34575931E069F66001A110F /* StripBitmap.swift */,
 				F3087B6E1DEEDCD900376A98 /* SortPattern.swift */,
 				F3087B721DEEE77800376A98 /* MathUtils.swift */,
@@ -362,6 +365,7 @@
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,
 				F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */,
+				F3EF87D01E4EEF430026341C /* Batch.swift in Sources */,
 				F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */,
 				F3375B371DFAD52F00AF0742 /* UIView+PixelsortingFX.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,

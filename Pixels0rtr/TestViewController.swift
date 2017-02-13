@@ -79,4 +79,14 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         }
         
     }
+    
+//    func didPressCreateSamples () {
+//        
+//        for pattern in ALL_SORT_PATTERNS {
+//            for sorter in ALL_SORTERS {
+//                let sp = SortParam(roughness: <#T##Double#>, sortAmount: <#T##Double#>, sorter: <#T##PixelSorter#>, pattern: <#T##SortPattern#>, maxPixels: <#T##AppConfig.MaxSize#>)
+//            }
+//        }
+//        
+//    }
 }
