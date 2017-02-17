@@ -1,7 +1,7 @@
 release notes
 =============
-build 21
-- fix crash when loading in older phones
+build 22
+- add randomize params button
 
 build 20
 - add black/white threshold

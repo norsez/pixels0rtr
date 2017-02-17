@@ -80,8 +80,6 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
             self.notifyChangeToDelegates()
         }
         
-        
-        
         patternSelector = self.storyboard?.instantiateViewController(withIdentifier: "horizontalSelector") as! HorizontalSelectorCollectionViewController
         patternSelector.items = ALL_SORT_PATTERNS.flatMap({ (ps) -> HorizontalSelectItem? in
             return HorizontalSelectItem(image: nil, title: ps.name)
@@ -105,6 +103,32 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
         
         self.thresholdPad.setDelegate(delegate: self)
         
+    }
+    
+    @IBAction func didPressRandomize(_ sender: Any) {
+        randomizeParams()
+    }
+    func randomizeParams () {
+        
+        self.sortAmount = fRandom(min:0, max:1)
+        self.roughness = fRandom(min:0, max:1)
+        let xyLoc = CGPoint(x: CGFloat(self.sortAmount * Double(self.xyPadView.bounds.width)),
+                            y: CGFloat(self.roughness * Double(self.xyPadView.bounds.height)))
+        self.xyLabel.center = xyLoc
+        
+        let patternIndex = Int(arc4random()) % ALL_SORT_PATTERNS.count
+        let sorterIndex = Int(arc4random()) % ALL_SORTERS.count
+        
+        self.patternSelector.collectionView?.selectItem(at: IndexPath(row:patternIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
+        self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:sorterIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
+        
+        self.pattern = ALL_SORT_PATTERNS[patternIndex]
+        self.sorter = ALL_SORTERS[sorterIndex]
+        
+        self.thresholdPad.setLowerValue(value: fRandom(min: 0, max: 0.2))
+        self.thresholdPad.setUpperValue(value: fRandom(min: 0.7, max: 1))
+        
+        self.notifyChangeToDelegates()
     }
     
     func valuesDidChange(lower: Double, upper: Double) {
@@ -198,6 +222,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
         self.thresholdPad.setLowerValue(value: 0)
         self.thresholdPad.setUpperValue(value: 1)
     }
+    
     
     @IBAction func didSelectSize(_ sender: Any) {
         let index = self.sizeSelector.selectedSegmentIndex

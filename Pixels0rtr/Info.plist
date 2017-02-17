@@ -26,7 +26,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>21</string>
+	<string>22</string>
 	<key>FacebookAppID</key>
 	<string>1676455842685204</string>
 	<key>FacebookDisplayName</key>
@@ -64,5 +64,28 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+    <key>UTImportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.image</string>
+            </array>
+            <key>UTTypeIdentifier</key>
+            <string>public.png</string>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>com.apple.ostype</key>
+                <string>PNG</string>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>png</string>
+                </array>
+                <key>public.mime-type</key>
+                <string>image/png</string>
+            </dict>
+        </dict>
+        
+    </array>
 </dict>
 </plist>

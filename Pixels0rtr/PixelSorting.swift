@@ -151,7 +151,7 @@ class SortColor {
         }
     }
     
-    fileprivate static func integer(withBytes bytes: [UInt8]) -> Int? {
+    fileprivate static func wrong_integer(withBytes bytes: [UInt8]) -> Int? {
         if bytes.count == 4 {
             let data = Data(bytes: bytes)
             let value: Int = data.scanValue(start: 0, length: 1)
@@ -161,7 +161,7 @@ class SortColor {
         return nil
     }
     
-    fileprivate static func old_integer(withBytes bytes: [UInt8]) -> Int? {
+    fileprivate static func integer(withBytes bytes: [UInt8]) -> Int? {
         if bytes.count == 4 {
             let bigEndianValue = bytes.withUnsafeBufferPointer {
                 ($0.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 })
@@ -172,8 +172,6 @@ class SortColor {
         }
         return nil
     }
-    
-    
     
     var isTransparent: Bool {
         get {
@@ -202,6 +200,18 @@ struct SortParam {
         self.pattern = pattern
         self.maxPixels = maxPixels
         self.sortRect = sortRect
+    }
+    
+    static func randomize() -> SortParam{
+        var sp = SortParam(roughness: fRandom(min:0, max: 1),
+                         sortAmount: fRandom(min:0, max: 1),
+                         sorter: ALL_SORTERS[Int(arc4random())%ALL_SORTERS.count],
+                         pattern: ALL_SORT_PATTERNS[Int(arc4random())%ALL_SORT_PATTERNS.count],
+                         maxPixels: .px600)
+        sp.orientation = .up
+        sp.blackThreshold = UInt8(arc4random() % 50)
+        sp.whiteThreshold = UInt8(150 + arc4random() % 100)
+        return sp
     }
 }
 
