@@ -189,6 +189,8 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             self.thumbnailLabel.text = "\(Int(image.size.width))x\(Int(image.size.height))"
         })
         
+        SamplePreviewEngine.shared.lastImages = []
+        SamplePreviewEngine.shared.lastParams = []
         Analytics.shared.logSelectImage(withActualSize: loadedImage.size)
         
     }
@@ -230,6 +232,11 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     func paramValueDidChange(toParam sp: SortParam) {
         self.updatePreview()
     }
+    
+    func didPressRandomButton() {
+        self.performSegue(withIdentifier: "showRandomPreviews", sender: self.paramController)
+    }
+    
     func loupeDidMove(toLocation loc: XYValue) {
         if self.previewEngine.isRunningPreview {
             self.previewEngine.cancelRunningPreview()
@@ -335,7 +342,6 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     func manageOutputImage(_ output:UIImage) {
         
-        
         if AppConfig.shared.isFreeVersion && max(output.size.width,output.size.height) > 600 {
             self.performSegue(withIdentifier: "showUnlock", sender: output)
             self.setProgressView(hidden: true, completion: {})
@@ -355,6 +361,24 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             if let image = sender as? UIImage {
                 if let ctrl = segue.destination as? UnlockViewController {
                     ctrl.image = image
+                }
+                
+            }
+        }else if segue.identifier == "showRandomPreviews" {
+            if let image = self.selectedImage {
+                if let ctrl = segue.destination as? RandomPreviewSelectorCollectionViewController {
+                    ctrl.imageToPreview = image
+                    
+                    ctrl.didSelectItem = {
+                        sp in
+                        if let sortParam = sp {
+                            self.paramController.updateRandomParameterUI(withSortParam: sortParam)
+                            self.didPressSort(self)
+                        }
+                        
+                        let _ = self.navigationController?.popViewController(animated: true)
+                        
+                    }
                 }
                 
             }

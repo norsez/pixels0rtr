@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIBarButtonItem.appearance().setTitleTextAttributes(textAttributes, for: .normal)
         UINavigationBar.appearance().tintColor = fontColor
         UILabel.appearance().tintColor = APP_COLOR_FONT
+        UILabel.appearance().font = font
         UIButton.appearance().setTitleColor(APP_COLOR_FONT, for: .normal)
         UILabel.appearance().textColor = APP_COLOR_FONT
         

@@ -10,6 +10,7 @@ import UIKit
 
 protocol SortParamUIViewControllerDelegate {
     func paramValueDidChange(toParam: SortParam)
+    func didPressRandomButton()
 }
 
 class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModelControllerDelegate {
@@ -106,30 +107,60 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
     }
     
     @IBAction func didPressRandomize(_ sender: Any) {
-        randomizeParams()
+        self.delegates.forEach({ (delegate) in
+            delegate.didPressRandomButton()
+        })
     }
-    func randomizeParams () {
-        
+    
+    fileprivate func randomizeParams () {
+
         self.sortAmount = fRandom(min:0, max:1)
         self.roughness = fRandom(min:0, max:1)
-        let xyLoc = CGPoint(x: CGFloat(self.sortAmount * Double(self.xyPadView.bounds.width)),
-                            y: CGFloat(self.roughness * Double(self.xyPadView.bounds.height)))
-        self.xyLabel.center = xyLoc
         
         let patternIndex = Int(arc4random()) % ALL_SORT_PATTERNS.count
         let sorterIndex = Int(arc4random()) % ALL_SORTERS.count
         
-        self.patternSelector.collectionView?.selectItem(at: IndexPath(row:patternIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
-        self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:sorterIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
-        
         self.pattern = ALL_SORT_PATTERNS[patternIndex]
         self.sorter = ALL_SORTERS[sorterIndex]
         
-        self.thresholdPad.setLowerValue(value: fRandom(min: 0, max: 0.2))
-        self.thresholdPad.setUpperValue(value: fRandom(min: 0.7, max: 1))
+        var sp = SortParam(roughness: self.roughness,
+                           sortAmount: self.sortAmount,
+                           sorter: self.sorter,
+                           pattern: self.pattern,
+                           maxPixels: AppConfig.MaxSize.px600)
+        sp.blackThreshold = UInt8( fRandom(min: 0, max: 0.2) * 255 )
+        sp.whiteThreshold = UInt8( fRandom(min: 0.7, max: 1) * 255 )
         
+        self.updateRandomParameterUI(withSortParam: sp)
         self.notifyChangeToDelegates()
     }
+    
+    func updateRandomParameterUI(withSortParam sp: SortParam) {
+        self.thresholdPad.setLowerValue(value: Double(sp.blackThreshold) / 255)
+        self.thresholdPad.setUpperValue(value: Double(sp.whiteThreshold) / 255)
+        
+        let patternIndex = ALL_SORT_PATTERNS.index { (p) -> Bool in
+            return p.name == sp.pattern.name
+        }!
+        
+        let sorterIndex = ALL_SORTERS.index { (sorter) -> Bool in
+            return sorter.name == sp.sorter.name
+        }!
+        self.sorter = sp.sorter
+        self.pattern = sp.pattern
+        
+        self.patternSelector.collectionView?.selectItem(at: IndexPath(row:patternIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
+        self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:sorterIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
+        
+        
+        let xyLoc = CGPoint(x: CGFloat(sp.sortAmount * Double(self.xyPadView.bounds.width)),
+                            y: CGFloat(sp.roughnessAmount * Double(self.xyPadView.bounds.height)))
+        self.xyLabel.center = xyLoc
+        
+        self.sortOrientationSelector.selectedSegmentIndex = sp.orientation.rawValue
+        
+    }
+    
     
     func valuesDidChange(lower: Double, upper: Double) {
         

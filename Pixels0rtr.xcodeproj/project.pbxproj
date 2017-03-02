@@ -17,6 +17,8 @@
 		F3087B7B1DF6605500376A98 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B7A1DF6605500376A98 /* TestViewController.swift */; };
 		F3087B7D1DF69BFB00376A98 /* Silom.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3087B7C1DF69B6300376A98 /* Silom.ttf */; };
 		F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B7E1DF6B56000376A98 /* Logger.swift */; };
+		F319F4441E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F319F4431E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift */; };
+		F32AE9FA1E6534C9005959EA /* HashUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32AE9F91E6534C9005959EA /* HashUtils.swift */; };
 		F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB671DEEBE3000FB3817 /* AppDelegate.swift */; };
 		F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB691DEEBE3000FB3817 /* ViewController.swift */; };
 		F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F336FB6B1DEEBE3000FB3817 /* Main.storyboard */; };
@@ -61,6 +63,8 @@
 		F3087B7A1DF6605500376A98 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		F3087B7C1DF69B6300376A98 /* Silom.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Silom.ttf; sourceTree = "<group>"; };
 		F3087B7E1DF6B56000376A98 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		F319F4431E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomPreviewSelectorCollectionViewController.swift; sourceTree = "<group>"; };
+		F32AE9F91E6534C9005959EA /* HashUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashUtils.swift; sourceTree = "<group>"; };
 		F336FB641DEEBE3000FB3817 /* Pixels0rtr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixels0rtr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F336FB671DEEBE3000FB3817 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F336FB691DEEBE3000FB3817 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 				F336FB7B1DEECB3000FB3817 /* model */,
 				F336FB671DEEBE3000FB3817 /* AppDelegate.swift */,
 				F3F17E6D1E40404300383CAA /* ThesholdControl.swift */,
+				F319F4431E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift */,
 				F3D28CF71E27661700565E71 /* SortLoupeView.swift */,
 				F336FB691DEEBE3000FB3817 /* ViewController.swift */,
 				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
@@ -187,6 +192,7 @@
 				F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */,
 				F37F382E1DF63177001A97CE /* Image+Utils.swift */,
 				F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */,
+				F32AE9F91E6534C9005959EA /* HashUtils.swift */,
 				F3EF87CF1E4EEF430026341C /* Batch.swift */,
 				F34575931E069F66001A110F /* StripBitmap.swift */,
 				F3087B6E1DEEDCD900376A98 /* SortPattern.swift */,
@@ -357,6 +363,7 @@
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
 				F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
+				F319F4441E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
 				F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
@@ -368,6 +375,7 @@
 				F3EF87D01E4EEF430026341C /* Batch.swift in Sources */,
 				F3087B6D1DEEDA2900376A98 /* PixelSorting.swift in Sources */,
 				F3375B371DFAD52F00AF0742 /* UIView+PixelsortingFX.swift in Sources */,
+				F32AE9FA1E6534C9005959EA /* HashUtils.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,
 				F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */,
 				F3375B571DFFE2CD00AF0742 /* ScrollableContainerView.swift in Sources */,

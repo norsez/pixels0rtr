@@ -181,7 +181,7 @@ class SortColor {
 }
 
 //MARK:
-struct SortParam {
+struct SortParam{
     var roughnessAmount: Double = 0
     var sortAmount: Double = 0.5
     var sorter: PixelSorter
@@ -208,12 +208,13 @@ struct SortParam {
                          sorter: ALL_SORTERS[Int(arc4random())%ALL_SORTERS.count],
                          pattern: ALL_SORT_PATTERNS[Int(arc4random())%ALL_SORT_PATTERNS.count],
                          maxPixels: .px600)
-        sp.orientation = .up
+        sp.orientation = SortOrientation(rawValue: Int(arc4random_uniform(3)))!
         sp.blackThreshold = UInt8(arc4random() % 50)
         sp.whiteThreshold = UInt8(150 + arc4random() % 100)
         return sp
     }
 }
+
 
 
 //MARK:

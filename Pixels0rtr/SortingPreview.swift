@@ -49,39 +49,7 @@ class SortingPreview: NSObject {
     func clearPreviews() {
         self.previews.removeAll()
     }
-    
-//    func createPreview(withParam pp: PreviewParam, progress: ((Float)->Void)?, completion:@escaping (UIImage?)->Void) {
-//        
-//        var correctSizeImage = pp.image
-//        if pp.sortParam.maxPixels != .pxTrueSize {
-//            if let csi = correctSizeImage.resize(byMaxPixels: pp.sortParam.maxPixels.pixels) {
-//                correctSizeImage = csi
-//            }else {
-//                completion(nil)
-//                Logger.log("can't generate image for size \(pp.sortParam.maxPixels)")
-//                return
-//            }
-//        }
-//        
-//        let cropRect = CGRect(x: pp.originX * Double(correctSizeImage.size.width),
-//                              y: pp.originY * Double(correctSizeImage.size.height),
-//                              width: Double(pp.previewSize),
-//                              height: Double(pp.previewSize)
-//                              );
-//        
-//        guard let croppedCGImage = correctSizeImage.cgImage?.cropping(to: cropRect) else {
-//            completion(nil)
-//            Logger.log("can't crop image to create preview")
-//            return
-//        }
-//        
-//        let croppedImage = UIImage(cgImage: croppedCGImage)
-//        
-//        self.updatePreview(forImage: croppedImage, withSortParam: pp.sortParam, progress: progress, completion: completion)
-//        
-//    }
-    
-    func previewImage(withSortParam sp: SortParam) -> UIImage?{
+     func previewImage(withSortParam sp: SortParam) -> UIImage?{
         let title = self.title(ofSortParam: sp)
         if let item = self.previews[title] {
             return item.image
@@ -163,45 +131,7 @@ class SortingPreview: NSObject {
         }
         
     }
-    
-    
-//    /**
-//     create preview fixed at MAX_THUMB_SIZE
-//     */
-//    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, progress: ((Float)->Void)?, completion: ((UIImage?)->Void)?) {
-//        
-////        if let existing = self.previewImage(withSortParam: sp),
-////            let c = completion {
-////            c(existing)
-////            return
-////        }
-//        
-//        guard let imageToSort = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
-//            Logger.log("failed creating thumbnail")
-//            return
-//        }
-//        
-//        sp.pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: sp)
-//        
-//        guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: sp, progress: { (v) in
-//            if let p = progress {
-//                p(Float(v))
-//            }
-//            
-//        }).output else {
-//            if let c = completion {
-//                c(nil)
-//            }
-//            return
-//        }
-//        
-//        let title = self.title(ofSortParam: sp)
-//        let previewItem = HorizontalSelectItem(image: preview, title: title)
-//        previews[title] = previewItem
-//        if let c = completion {
-//            c(preview)
-//        }
-//    }
+  
     
     /**
      replace a preview in cache with the input image
@@ -217,69 +147,85 @@ class SortingPreview: NSObject {
         }
     }
     
-    /**
-     generate previews for all available pattern and sort type
-     */
-//    func generatePreviews(with image: UIImage, sortParam sp: SortParam, progress: ((Float)->Void)? = nil) {
-//        
-//        guard let thumbnail = image.resize(byMaxPixels: MAX_THUMB_SIZE) else {
-//            Logger.log("failed creating thumbnail")
-//            return
-//        }
-//        
-//        let blurredThumb = thumbnail
-//        
-//        previews = [String:HorizontalSelectItem]()
-//                
-//        for pattern in ALL_SORT_PATTERNS {
-//            for s in ALL_SORTERS {
-//                let imageToSort = blurredThumb
-//                
-//                var param = SortParam(roughness: sp.roughnessAmount, sortAmount: sp.sortAmount, sorter: s, pattern:pattern, maxPixels:.px600)
-//                param.orientation = sp.orientation
-//                
-//                pattern.initialize(withWidth: Int(imageToSort.size.width), height: Int(imageToSort.size.height), sortParam: param)
-//                
-//                guard let preview = PixelSorting.sorted(image: imageToSort, sortParam: param, progress: { (v) in
-//                    if let p = progress {
-//                        p(Float(v))
-//                    }
-//                }).output else {
-//                    continue
-//                }
-//                
-//                let title = self.title(ofSortParam: param)
-//                let previewItem = HorizontalSelectItem(image: preview, title: title)
-//                previews[title] = previewItem
-//                
-//            }
-//        }
-//    }
+}
+
+
+class SamplePreviewEngine {
+    var lastParams = [SortParam]()
+    var lastImages = [UIImage]()
     
-//    func imageToSort(withImage image: UIImage) -> UIImage?{
-//        guard let beginImage = CIImage(image:image) else {
-//            Logger.log("Can't get CIImage")
-//            return nil
-//        }
-//        
-//        guard let filter = CIFilter(name: "CIPixellate") else {
-//            Logger.log("can't get pixellate filter")
-//            return nil
-//        }
-//        
-//        filter.setValue(beginImage, forKey: kCIInputImageKey)
-//        //filter.setValue(CIVector(x:image.size.width * 0.9, y:image.size.height * 0.9), forKey: kCIInputCenterKey)
-//        filter.setValue(Double(beginImage.extent.width)  * 0.05, forKey: kCIInputScaleKey)
-//        guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
-//            Logger.log("can't get filter output")
-//            return nil
-//        }
-//        
-//        let context = CIContext(options: nil)
-//        let imageRef = context.createCGImage(filter.outputImage!, from: outputImage.extent)
-//        let result = UIImage(cgImage: imageRef!)
-//        return result
-//    }
+    var sampleSortParams: [SortParam] {
+        get {
+            let VARIATIONS = 3
+            var results = [SortParam]()
+            for pattern in ALL_SORT_PATTERNS {
+                for sorter in ALL_SORTERS {
+                    for _ in 0..<VARIATIONS {
+                        var sp = SortParam.randomize()
+                        sp.pattern = pattern
+                        sp.sorter = sorter
+                        results.append(sp)
+                    }
+                }
+            }
+            return results
+        }
+    }
     
+    func randomizedParams(withParams params: [SortParam], count: Int) -> [SortParam] {
+        let MAX = min(params.count, count)
+        var results = [SortParam]()
+        var allparams = params
+        while results.count < MAX {
+            let idx = Int(arc4random_uniform(UInt32(allparams.count - 1)))
+            let e = allparams[idx]
+            results.append(e)
+            allparams.remove(at: idx)
+        }
+        
+        return results
+    }
     
+    func createRandomPreviews(count: Int, forImage image:UIImage, progress:@escaping (UIImage, SortParam, Double)->Void, aborted: @escaping ()->Bool, completion:([UIImage]?,[SortParam]?)->Void) {
+        
+        var params = [SortParam]()
+        params.append(contentsOf: self.sampleSortParams)
+        params = randomizedParams(withParams: params, count: count)
+        
+        let PREVIEW_SIZE = 150
+        guard let imageToSort = image.resize(byMaxPixels: PREVIEW_SIZE) else {
+            Logger.log("can't resize image")
+            completion(nil,nil)
+            return
+        }
+        
+        var resultImages = [UIImage]()
+        var imageCount = 0
+        for sp in params {
+            let p = PixelSorting(withSortParam: sp, imageToSort: imageToSort)
+            p.start(withProgress: { (progress) in
+                //
+            }, aborted: aborted,
+               completion: { (image, stats) in
+                if let result = image {
+                    resultImages.append(result)
+                    let progressValue = Double(imageCount + 1)/Double(params.count)
+                    progress(result, sp, progressValue )
+                    
+                }
+                imageCount = imageCount.advanced(by: 1)
+            })
+        }
+        self.lastImages = resultImages
+        self.lastParams = params
+        completion(resultImages,params)
+    }
+    
+    //#MARK: - singleton
+    static let shared: SamplePreviewEngine = {
+        let instance = SamplePreviewEngine()
+        // setup code
+        return instance
+    }()
+
 }
