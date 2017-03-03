@@ -10,7 +10,7 @@ import UIKit
 
 class Batch: NSObject {
     
-    func renderFrom(point1: SortParam, toPoint2 point2: SortParam, frames: Int, image: UIImage, progress: (Float)->Void, aborted: @escaping () -> Bool, completion:([UIImage])->Void) {
+    func renderFrom(point1: SortParam, toPoint2 point2: SortParam, frames: Int, image imageToSort: UIImage, progress: (Float)->Void, aborted: @escaping () -> Bool, imageDone:(UIImage)->Void, completion:()->Void) {
         var steps = [SortParam]()
         steps.append(point1)
         for f in 0..<frames {
@@ -27,8 +27,9 @@ class Batch: NSObject {
         
         Logger.log("steps: \(steps.count) start…")
         
-        var outputs = [UIImage]()
+        
         var doneCount = 0
+        let image = imageToSort.resize(toFitMaxPixels: steps[0].maxPixels)!
         for sp in steps {
             
             if aborted() {
@@ -38,7 +39,7 @@ class Batch: NSObject {
             let ps = PixelSorting(withSortParam: sp, imageToSort: image)
             ps.start(withProgress: progress, aborted: aborted, completion: { (image, stats) in
                 if let output = image {
-                    outputs.append(output)
+                    imageDone(output)
                 }
                 
                 doneCount = doneCount + 1
@@ -47,7 +48,8 @@ class Batch: NSObject {
             
         }
         
-        completion(outputs)
+        completion()
+        
     }
     
     //#MARK: - singleton

@@ -175,7 +175,9 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
         
         self.aborted = true
         if let c = self.didSelectItem {
-            c(self.sortParams[indexPath.item])
+            let sp = self.sortParams[indexPath.item]
+            AppConfig.shared.lastSortParam = sp
+            c(sp)
         }
     }
 

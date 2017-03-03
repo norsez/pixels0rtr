@@ -192,6 +192,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         SamplePreviewEngine.shared.lastImages = []
         SamplePreviewEngine.shared.lastParams = []
         Analytics.shared.logSelectImage(withActualSize: loadedImage.size)
+        AppConfig.shared.lastImage = self.selectedImage
         
     }
     
@@ -231,6 +232,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     func paramValueDidChange(toParam sp: SortParam) {
         self.updatePreview()
+        AppConfig.shared.lastSortParam = sp
     }
     
     func didPressRandomButton() {

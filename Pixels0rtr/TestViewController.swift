@@ -11,6 +11,7 @@ import C4
 
 class TestViewController: CanvasController, UIScrollViewDelegate {
 
+    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     
@@ -19,8 +20,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
     @IBOutlet var freePaidSegmentedControl: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
         
     }
     
@@ -80,13 +80,44 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         
     }
     
-//    func didPressCreateSamples () {
-//        
-//        for pattern in ALL_SORT_PATTERNS {
-//            for sorter in ALL_SORTERS {
-//                let sp = SortParam(roughness: <#T##Double#>, sortAmount: <#T##Double#>, sorter: <#T##PixelSorter#>, pattern: <#T##SortPattern#>, maxPixels: <#T##AppConfig.MaxSize#>)
-//            }
-//        }
-//        
-//    }
+    func setProgressInMain(value: Float) {
+        DispatchQueue.main.async {
+            self.progressView.progress = value
+        }
+    }
+    
+    
+    @IBAction func didPressCreateMotion(_ sender: Any) {
+        guard let sp1 = AppConfig.shared.lastSortParam else {
+            Logger.log("no current sort param")
+            return
+        }
+        
+        guard let image = AppConfig.shared.lastImage else {
+            Logger.log("no image selected")
+            return
+        }
+        
+        var point1 = sp1
+        point1.maxPixels = .px600
+        var point2 = point1
+        point2.motionAmount = 1.0
+        var count: Int = 0
+        DispatchQueue.global(qos: .userInitiated) .async {
+            
+            Batch.shared.renderFrom(point1: point1, toPoint2: point2, frames: 24, image: image, progress: { (f) in
+                self.setProgressInMain(value: f)
+            }, aborted: { () -> Bool in
+                return false
+            }, imageDone: { (image) in
+                DispatchQueue.main.async {
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    count = count.advanced(by: 1)
+                    self.toast?.showToast(withText: "saved \(count) images", onViewController: self)
+                }
+            }) {
+                
+            }
+        }
+    }
 }
