@@ -13,6 +13,7 @@ private let reuseIdentifier = "Cell"
 class PreviewGridCell: UICollectionViewCell {
     
     @IBOutlet var previewImageView: UIImageView!
+    @IBOutlet weak var infoLabel: UILabel!
     
 }
 
@@ -162,6 +163,8 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
         
         if let pcell = cell as? PreviewGridCell {
             pcell.previewImageView.image = self.previewImages[indexPath.item]
+            let sp = self.sortParams[indexPath.item]
+            pcell.infoLabel.text = "\(sp.sorter.name) \(sp.pattern.name)"
         }
     
         return cell

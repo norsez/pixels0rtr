@@ -229,15 +229,28 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s32-MA-d0t">
                                             <rect key="frame" x="0.0" y="0.0" width="109" height="101"/>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ebr-rE-eq8">
+                                            <rect key="frame" x="33" y="72" width="42" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="KKw-QL-cmN"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="qpu-sI-g99"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="8"/>
+                                            <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </view>
                                 <constraints>
                                     <constraint firstItem="s32-MA-d0t" firstAttribute="leading" secondItem="vfa-AY-bjA" secondAttribute="leading" id="4d2-BJ-y2U"/>
                                     <constraint firstAttribute="bottom" secondItem="s32-MA-d0t" secondAttribute="bottom" id="OKN-dE-bbH"/>
+                                    <constraint firstItem="ebr-rE-eq8" firstAttribute="centerX" secondItem="vfa-AY-bjA" secondAttribute="centerX" id="i8A-Fa-aBI"/>
                                     <constraint firstItem="s32-MA-d0t" firstAttribute="top" secondItem="vfa-AY-bjA" secondAttribute="top" id="lFj-Sc-sBD"/>
+                                    <constraint firstItem="ebr-rE-eq8" firstAttribute="bottom" secondItem="vfa-AY-bjA" secondAttribute="bottomMargin" id="opF-hH-ac8"/>
                                     <constraint firstAttribute="trailing" secondItem="s32-MA-d0t" secondAttribute="trailing" id="rlE-Q8-rgc"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="infoLabel" destination="ebr-rE-eq8" id="SVq-sh-qyu"/>
                                     <outlet property="previewImageView" destination="s32-MA-d0t" id="PII-aY-M7o"/>
                                 </connections>
                             </collectionViewCell>
@@ -292,7 +305,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15240431201550386" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choice A B C" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYV-9b-mvd">
-                                            <rect key="frame" x="37.5" y="18" width="76.5" height="15.5"/>
+                                            <rect key="frame" x="37.5" y="18.5" width="76.5" height="15.5"/>
                                             <fontDescription key="fontDescription" name="Silom" family="Silom" pointSize="12"/>
                                             <color key="textColor" red="0.0" green="1" blue="0.18643208610000001" alpha="0.89595445740000001" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
