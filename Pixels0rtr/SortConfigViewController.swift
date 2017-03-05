@@ -235,7 +235,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         AppConfig.shared.lastSortParam = sp
     }
     
-    func didPressRandomButton() {
+    func didPressLabButton() {
         self.performSegue(withIdentifier: "showRandomPreviews", sender: self.paramController)
     }
     
@@ -368,9 +368,9 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             }
         }else if segue.identifier == "showRandomPreviews" {
             if let image = self.selectedImage {
-                if let ctrl = segue.destination as? RandomPreviewSelectorCollectionViewController {
+                if let ctrl = segue.destination as? PreviewSelectorCollectionViewController {
                     ctrl.imageToPreview = image
-                    
+                    ctrl.currentSortParam = self.paramController.currentParameters
                     ctrl.didSelectItem = {
                         sp in
                         if let sortParam = sp {

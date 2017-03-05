@@ -17,7 +17,7 @@
 		F3087B7B1DF6605500376A98 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B7A1DF6605500376A98 /* TestViewController.swift */; };
 		F3087B7D1DF69BFB00376A98 /* Silom.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3087B7C1DF69B6300376A98 /* Silom.ttf */; };
 		F3087B7F1DF6B56000376A98 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3087B7E1DF6B56000376A98 /* Logger.swift */; };
-		F319F4441E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F319F4431E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift */; };
+		F319F4441E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F319F4431E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift */; };
 		F32AE9FA1E6534C9005959EA /* HashUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32AE9F91E6534C9005959EA /* HashUtils.swift */; };
 		F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB671DEEBE3000FB3817 /* AppDelegate.swift */; };
 		F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336FB691DEEBE3000FB3817 /* ViewController.swift */; };
@@ -63,7 +63,7 @@
 		F3087B7A1DF6605500376A98 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		F3087B7C1DF69B6300376A98 /* Silom.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Silom.ttf; sourceTree = "<group>"; };
 		F3087B7E1DF6B56000376A98 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		F319F4431E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomPreviewSelectorCollectionViewController.swift; sourceTree = "<group>"; };
+		F319F4431E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewSelectorCollectionViewController.swift; sourceTree = "<group>"; };
 		F32AE9F91E6534C9005959EA /* HashUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashUtils.swift; sourceTree = "<group>"; };
 		F336FB641DEEBE3000FB3817 /* Pixels0rtr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixels0rtr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F336FB671DEEBE3000FB3817 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 				F336FB7B1DEECB3000FB3817 /* model */,
 				F336FB671DEEBE3000FB3817 /* AppDelegate.swift */,
 				F3F17E6D1E40404300383CAA /* ThesholdControl.swift */,
-				F319F4431E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift */,
+				F319F4431E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift */,
 				F3D28CF71E27661700565E71 /* SortLoupeView.swift */,
 				F336FB691DEEBE3000FB3817 /* ViewController.swift */,
 				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
@@ -363,7 +363,7 @@
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
 				F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */,
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
-				F319F4441E613E86009E23E4 /* RandomPreviewSelectorCollectionViewController.swift in Sources */,
+				F319F4441E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
 				F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  RandomPreviewSelectorCollectionViewController.swift
+//  PreviewSelectorCollectionViewController.swift
 //  Pixels0rtr
 //
 //  Created by norsez on 2/25/17.
@@ -17,16 +17,20 @@ class PreviewGridCell: UICollectionViewCell {
     
 }
 
-class RandomPreviewSelectorCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class PreviewSelectorCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     @IBOutlet var titleLabel: UILabel!
     var previewImages = [UIImage]()
     var sortParams = [SortParam]()
     var imageToPreview: UIImage?
+    var currentSortParam: SortParam?
     
     
     var didSelectItem: ((SortParam?)->Void)?
-    var updatePreviewsButton: UIBarButtonItem?
+    var randomizeButton: UIBarButtonItem?
     var doneButton: UIBarButtonItem?
+    var currentCatalogButton: UIBarButtonItem?
+    let NUM_PREVIEWS = 24
+    
     
     
     //MARK: for mass previews
@@ -41,23 +45,43 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
             label.font = APP_FONT
             label.textColor = APP_COLOR_FONT
         }
-
-        self.updatePreviewsButton = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
+        
+        self.currentCatalogButton = UIBarButtonItem(title: "Current", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
+        self.randomizeButton = UIBarButtonItem(title: "Randomize", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
         self.doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissSelf))
-        self.navigationItem.leftBarButtonItem = self.updatePreviewsButton
+        self.navigationItem.leftBarButtonItems = [self.randomizeButton!, self.currentCatalogButton!]
         self.navigationItem.rightBarButtonItem = self.doneButton
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.createPreviews()
+        
+        guard let currentSortParam = self.currentSortParam else {
+            fatalError("must set currentSortParam")
+        }
+        
+        self.didPressRefresh(sender: self.currentCatalogButton)
+        
         Analytics.shared.logScreen("Random Previews")
     }
     func didPressRefresh (sender: Any) {
         SamplePreviewEngine.shared.lastImages = []
         SamplePreviewEngine.shared.lastParams = []
-        self.createPreviews()
+        
+        guard let obj = sender as? UIBarButtonItem else {
+            return
+        }
+        
+        if obj === self.currentCatalogButton {
+            self.sortParams = SamplePreviewEngine.shared.paramCatalog(withSortParam:currentSortParam!)
+        }else if obj === self.randomizeButton {
+            let params = SamplePreviewEngine.shared.sampleSortParams
+            self.sortParams = SamplePreviewEngine.shared.randomizedParams(withParams: params, count: self.NUM_PREVIEWS)
+            self.sortParams = params
+        }
+        
+        self.createPreviews(withParams: self.sortParams)
     }
     
     func dismissSelf() {
@@ -69,7 +93,7 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
         }
     }
     
-    func createPreviews () {
+    func createPreviews (withParams params: [SortParam]) {
         
         guard let image = self.imageToPreview else {
             Logger.log("no image to preview")
@@ -86,9 +110,8 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
         
         
         self.titleLabel.text = "Creating previews…"
-        self.updatePreviewsButton?.isEnabled = false
+        self.randomizeButton?.isEnabled = false
         
-        self.sortParams = []
         self.previewImages = []
         self.collectionView?.reloadData()
         
@@ -96,12 +119,11 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
         self.aborted = false
         DispatchQueue.global(qos: .default).async {
             self.aborted = false
-            let NUM_PREVIEWS = 24
             
             let pf = NumberFormatter()
             pf.numberStyle = .percent
             pf.maximumFractionDigits = 0
-            SamplePreviewEngine.shared.createRandomPreviews(count: NUM_PREVIEWS, forImage: image,
+            SamplePreviewEngine.shared.createPreviews(withParams: self.sortParams, forImage: image,
                                                 progress: { (image, sortParam, progressValue) in
                 
                 DispatchQueue.main.async {
@@ -127,7 +149,7 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
                         self.sortParams = sps
                     }
                     
-                    self.updatePreviewsButton?.isEnabled = true
+                    self.randomizeButton?.isEnabled = true
                     
                     self.titleLabel.text = "Pick one…"
                 }
@@ -164,7 +186,11 @@ class RandomPreviewSelectorCollectionViewController: UICollectionViewController,
         if let pcell = cell as? PreviewGridCell {
             pcell.previewImageView.image = self.previewImages[indexPath.item]
             let sp = self.sortParams[indexPath.item]
-            pcell.infoLabel.text = "\(sp.sorter.name) \(sp.pattern.name)"
+            let nf = NumberFormatter()
+            nf.numberStyle = .percent
+            pcell.infoLabel.text = ""
+            //pcell.infoLabel.text = "\(sp.sorter.name) \(sp.pattern.name))"
+            //[\(nf.string(from: NSNumber(value:sp.sortAmount))!), \(nf.string(from: NSNumber(value:sp.roughnessAmount))!)]
         }
     
         return cell

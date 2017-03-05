@@ -1080,11 +1080,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortPattern.swift"
-            timestampString = "505785230.464406"
+            timestampString = "510374019.686272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "PatternClean"
             landmarkType = "3">
          </BreakpointContent>
@@ -1096,11 +1096,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixels0rtr/SortPattern.swift"
-            timestampString = "505785230.464406"
+            timestampString = "510374019.686272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "PatternClean"
             landmarkType = "3">
          </BreakpointContent>
@@ -1816,11 +1816,11 @@
                   moduleName = "Pixels0rtr"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/norsez/Dropbox/Coding/iOS/Pixels0rtr/Pixels0rtr/Batch.swift"
-                  timestampString = "510155061.700608"
+                  timestampString = "510384921.5613"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
                   offsetFromSymbolStart = "54">
                </Location>
                <Location
@@ -1831,12 +1831,108 @@
                   moduleName = "Pixels0rtr"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/norsez/Dropbox/Coding/iOS/Pixels0rtr/Pixels0rtr/Batch.swift"
-                  timestampString = "510155061.702745"
+                  timestampString = "510384921.564186"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
                   offsetFromSymbolStart = "103">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixels0rtr/PreviewSelectorCollectionViewController.swift"
+            timestampString = "510384293.039608"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "didPressRefresh(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixels0rtr/SortingPreview.swift"
+            timestampString = "510384335.392921"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "createPreviews(withParams:forImage:progress:aborted:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixels0rtr/PreviewSelectorCollectionViewController.swift"
+            timestampString = "510384414.046064"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "createPreviews(withParams:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixels0rtr/PreviewSelectorCollectionViewController.swift"
+            timestampString = "510384526.884929"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "createPreviews(withParams:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixels0rtr.PreviewSelectorCollectionViewController.createPreviews (withParams : Swift.Array&lt;Pixels0rtr.SortParam&gt;) -&gt; ()"
+                  moduleName = "Pixels0rtr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/norsez/Dropbox/Coding/iOS/Pixels0rtr/Pixels0rtr/PreviewSelectorCollectionViewController.swift"
+                  timestampString = "510384768.567988"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "1687">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixels0rtr.PreviewSelectorCollectionViewController.(createPreviews (withParams : Swift.Array&lt;Pixels0rtr.SortParam&gt;) -&gt; ()).(closure #1)"
+                  moduleName = "Pixels0rtr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/norsez/Dropbox/Coding/iOS/Pixels0rtr/Pixels0rtr/PreviewSelectorCollectionViewController.swift"
+                  timestampString = "510384768.569271"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>

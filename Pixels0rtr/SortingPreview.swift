@@ -158,15 +158,10 @@ class SamplePreviewEngine {
         get {
             
             var results = [SortParam]()
-            
-            let MORE_ :[String] = [PatternClassic(), PatternClean() ].flatMap { (p) -> String? in
-                return p.name
-            }
-            
             for pattern in ALL_SORT_PATTERNS {
                 for sorter in ALL_SORTERS {
                     
-                    let VARIATIONS = MORE_.contains(pattern.name) ? 3 : 1
+                    let VARIATIONS =  3
                     
                     for _ in 0..<VARIATIONS {
                         var sp = SortParam.randomize()
@@ -178,6 +173,22 @@ class SamplePreviewEngine {
             }
             return results
         }
+    }
+    
+    func paramCatalog(withSortParam sortParam: SortParam) -> [SortParam] {
+        
+        var results = [SortParam]()
+        let STEPS: Double = 5
+        
+        for i in 0..<Int(STEPS) {
+            for j in 0..<Int(STEPS) {
+                var sp = sortParam
+                sp.roughnessAmount = Double(i)/STEPS
+                sp.sortAmount =  Double(j)/STEPS
+                results.append(sp)
+            }
+        }
+        return results
     }
     
     func randomizedParams(withParams params: [SortParam], count: Int) -> [SortParam] {
@@ -194,12 +205,13 @@ class SamplePreviewEngine {
         return results
     }
     
-    func createRandomPreviews(count: Int, forImage image:UIImage, progress:@escaping (UIImage, SortParam, Double)->Void, aborted: @escaping ()->Bool, completion:([UIImage]?,[SortParam]?)->Void) {
+    func createPreviews(withParams params:[SortParam], forImage image:UIImage, progress:@escaping (UIImage, SortParam, Double)->Void, aborted: @escaping ()->Bool, completion:([UIImage]?,[SortParam]?)->Void) {
         
-        var params = [SortParam]()
-        params.append(contentsOf: self.sampleSortParams)
-        params = randomizedParams(withParams: params, count: count)
-        
+        //var params = [SortParam]()
+        //params.append(contentsOf: self.sampleSortParams)
+        //params = randomizedParams(withParams: params, count: count)
+        //var params = self.paramCatalog(withPattern: PatternStripe())
+       
         let PREVIEW_SIZE = 150
         guard let imageToSort = image.resize(byMaxPixels: PREVIEW_SIZE) else {
             Logger.log("can't resize image")

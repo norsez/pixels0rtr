@@ -10,7 +10,7 @@ import UIKit
 
 protocol SortParamUIViewControllerDelegate {
     func paramValueDidChange(toParam: SortParam)
-    func didPressRandomButton()
+    func didPressLabButton()
 }
 
 class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModelControllerDelegate {
@@ -108,7 +108,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
     
     @IBAction func didPressRandomize(_ sender: Any) {
         self.delegates.forEach({ (delegate) in
-            delegate.didPressRandomButton()
+            delegate.didPressLabButton()
         })
     }
     

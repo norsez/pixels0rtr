@@ -200,7 +200,8 @@ class PatternStripe: AbstractSortPattern {
         let dotsPerScanLine = height
         
         let MAX_DOTS_TO_RESET = self.maxDotsToReset;
-        let numDotsToReset = 2 + Int(sortParam.sortAmount * Double(MAX_DOTS_TO_RESET)) + Int(sortParam.motionAmount * 0.1 * Double(width))
+//        let numDotsToReset = 2 + Int(sortParam.sortAmount * Double(MAX_DOTS_TO_RESET)) + Int(sortParam.motionAmount * 0.1 * Double(width))
+        let numDotsToReset = 2 + Int(Double(self.maxDotsToReset) * sortParam.sortAmount)
         
         let scanLinesToDuplicate = self.roughnessDots(withDotsPerScanLine: dotsPerScanLine, roughnessAmount: sortParam.roughnessAmount)
         
