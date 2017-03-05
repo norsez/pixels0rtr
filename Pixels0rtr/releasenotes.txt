@@ -1,6 +1,6 @@
 release notes
 =============
-build 23
+build 24
 - add catalog and randomize previews
 - improved offset and stripe patterns
 
