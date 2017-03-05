@@ -156,10 +156,18 @@ class SamplePreviewEngine {
     
     var sampleSortParams: [SortParam] {
         get {
-            let VARIATIONS = 3
+            
             var results = [SortParam]()
+            
+            let MORE_ :[String] = [PatternClassic(), PatternClean() ].flatMap { (p) -> String? in
+                return p.name
+            }
+            
             for pattern in ALL_SORT_PATTERNS {
                 for sorter in ALL_SORTERS {
+                    
+                    let VARIATIONS = MORE_.contains(pattern.name) ? 3 : 1
+                    
                     for _ in 0..<VARIATIONS {
                         var sp = SortParam.randomize()
                         sp.pattern = pattern
