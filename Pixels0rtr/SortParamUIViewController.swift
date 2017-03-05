@@ -38,7 +38,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
     
     var totalHeight: CGFloat {
         get {
-            return self.sizeSelector.frame.maxY + 150
+            return 640
         }
     }
     var xyPadModel: XYPadModel!

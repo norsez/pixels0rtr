@@ -46,8 +46,8 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
             label.textColor = APP_COLOR_FONT
         }
         
-        self.currentCatalogButton = UIBarButtonItem(title: "Current", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
-        self.randomizeButton = UIBarButtonItem(title: "Randomize", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
+        self.currentCatalogButton = UIBarButtonItem(title: "[ 123 ]", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
+        self.randomizeButton = UIBarButtonItem(title: "[ ∞ ]", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
         self.doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissSelf))
         self.navigationItem.leftBarButtonItems = [self.randomizeButton!, self.currentCatalogButton!]
         self.navigationItem.rightBarButtonItem = self.doneButton
@@ -57,7 +57,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
-        guard let currentSortParam = self.currentSortParam else {
+        guard let _ = self.currentSortParam else {
             fatalError("must set currentSortParam")
         }
         
@@ -78,7 +78,6 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         }else if obj === self.randomizeButton {
             let params = SamplePreviewEngine.shared.sampleSortParams
             self.sortParams = SamplePreviewEngine.shared.randomizedParams(withParams: params, count: self.NUM_PREVIEWS)
-            self.sortParams = params
         }
         
         self.createPreviews(withParams: self.sortParams)
@@ -111,6 +110,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         
         self.titleLabel.text = "Creating previews…"
         self.randomizeButton?.isEnabled = false
+        self.currentCatalogButton?.isEnabled = false
         
         self.previewImages = []
         self.collectionView?.reloadData()
@@ -150,6 +150,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
                     }
                     
                     self.randomizeButton?.isEnabled = true
+                    self.currentCatalogButton?.isEnabled = true
                     
                     self.titleLabel.text = "Pick one…"
                 }

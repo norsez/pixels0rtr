@@ -1,5 +1,9 @@
 release notes
 =============
+build 23
+- add catalog and randomize previews
+- improved offset and stripe patterns
+
 build 22
 - add randomize params button
 
