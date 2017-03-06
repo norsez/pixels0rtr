@@ -161,12 +161,9 @@ class PatternClassic : AbstractSortPattern {
                 let v = max(2.0, r) + (sortParam.motionAmount * 0.1 * Double(width))
                 lastValue = Int(v)
                 resetRowIndexByCol.append(lastValue)
-                
             }
         }
-        
     }
-    
     override func resetSubsortBlock(withIndex index: Int, sortIndex: Int, sortParam: SortParam) -> Bool {
         return index % resetRowIndexByCol[sortIndex] == 0;
     }
@@ -200,7 +197,7 @@ class PatternStripe: AbstractSortPattern {
         let dotsPerScanLine = height
         
         //let MAX_DOTS_TO_RESET = self.maxDotsToReset;
-        let numDotsToReset = 2 + Int(Double(self.maxDotsToReset) * sortParam.sortAmount)
+        let numDotsToReset = 2 + Int(Double(self.maxDotsToReset) * sortParam.sortAmount) + Int(Double(width) * 0.1 * sortParam.motionAmount)
         
         let scanLinesToDuplicate = self.roughnessDots(withDotsPerScanLine: dotsPerScanLine, roughnessAmount: sortParam.roughnessAmount)
         

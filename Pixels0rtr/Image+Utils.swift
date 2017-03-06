@@ -154,5 +154,32 @@ extension UIImage {
         
     }
     
+    func save(withFileName filename: String, url: inout URL?) throws -> Bool{
+        let folders = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
+        if folders.count == 0 {
+            return false
+        }
+        
+        var path = URL(fileURLWithPath: folders.first!)
+        path = path.appendingPathComponent(filename)
+        
+        guard let data = UIImageJPEGRepresentation(self, 0.6) else {
+            return false
+        }
+        
+        try data.write(to: path)
+        url = path
+        return true
+    }
+    
 }
+
+func deleteFileAtURLs(urls: [URL]) throws {
+    let fm = FileManager.default
+    for url in urls {
+        try fm.removeItem(at: url)
+    }
+}
+
+
 

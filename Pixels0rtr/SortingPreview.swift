@@ -25,7 +25,7 @@ class SortingPreview: NSObject {
     var valueFormatter: NumberFormatter
     
     var isRunningPreview = false
-    
+    var cancelled = false
     override init() {
         
         self.valueFormatter = NumberFormatter()
@@ -58,8 +58,11 @@ class SortingPreview: NSObject {
         }
     }
     
-    func cancelRunningPreview () {
-        self.isRunningPreview = false
+    var cancellationComplete: (()->Void)?
+    
+    func cancelRunningPreview (withCompletion completion: (()->Void)?) {
+        self.cancelled = true
+        cancellationComplete = completion
     }
     
     /**
@@ -93,8 +96,14 @@ class SortingPreview: NSObject {
             }
         }, aborted: { () -> Bool in
             
-            return self.isRunningPreview == false
+            return self.cancelled == true
         }) { (image, stats) in
+            
+            if cancelled {
+                if let c = self.cancellationComplete {
+                    c()
+                }
+            }
             
             if let c = completion {
                 
@@ -127,7 +136,7 @@ class SortingPreview: NSObject {
                 c(nil, sortRect)
             }
             self.isRunningPreview = false
-            
+            self.cancelled = false
         }
         
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 import C4
-
+import AssetsLibrary
 class TestViewController: CanvasController, UIScrollViewDelegate {
 
     @IBOutlet weak var progressView: UIProgressView!
@@ -86,7 +86,6 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         }
     }
     
-    
     @IBAction func didPressCreateMotion(_ sender: Any) {
         guard let sp1 = AppConfig.shared.lastSortParam else {
             Logger.log("no current sort param")
@@ -100,9 +99,14 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         
         var point1 = sp1
         point1.maxPixels = .px600
+        point1.whiteThreshold = 0
         var point2 = point1
         point2.motionAmount = 1.0
+        point2.whiteThreshold = 255
         var count: Int = 0
+        
+        var urlsToImages = [URL]()
+        
         DispatchQueue.global(qos: .userInitiated) .async {
             
             Batch.shared.renderFrom(point1: point1, toPoint2: point2, frames: 24, image: image, progress: { (f) in
@@ -111,11 +115,23 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
                 return false
             }, imageDone: { (image) in
                 DispatchQueue.main.async {
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    //                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    do {
+                        var fileURL: URL? =  nil
+                        let _ = try image.save(withFileName: "_\(count)_.jpg", url: &fileURL)
+                        if let fu = fileURL {
+                            urlsToImages.append(fu)
+                        }
+                    }catch  {
+                        self.toast?.showToast(withText: "Failed", onViewController: self)
+                    }
                     count = count.advanced(by: 1)
                     self.toast?.showToast(withText: "saved \(count) images", onViewController: self)
                 }
             }) {
+                self.progressView.progress = 0
+                //let tlb = TimeLapseBuilder(photoURLs: urlsToImages)
+                
                 
             }
         }

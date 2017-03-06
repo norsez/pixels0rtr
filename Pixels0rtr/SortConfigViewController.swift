@@ -241,9 +241,12 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     func loupeDidMove(toLocation loc: XYValue) {
         if self.previewEngine.isRunningPreview {
-            self.previewEngine.cancelRunningPreview()
+            self.previewEngine.cancelRunningPreview() {
+                self.updatePreview()
+            }
+        }else {
+            self.updatePreview()
         }
-        self.updatePreview()
     }
     
     fileprivate func updatePreview () {
@@ -268,7 +271,6 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                             self.thumbnailLabel.text = "preview"
                         }
                     }
-                    
                 })
             }
         }

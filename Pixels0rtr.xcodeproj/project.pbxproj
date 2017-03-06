@@ -36,6 +36,8 @@
 		F34575941E069F66001A110F /* StripBitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34575931E069F66001A110F /* StripBitmap.swift */; };
 		F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */; };
 		F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36078251E0CE27100769EB6 /* XYPadModel.swift */; };
+		F37468FD1E6C0C6B0013D3AC /* TimelapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */; };
+		F37468FF1E6C0CF30013D3AC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37468FE1E6C0CF30013D3AC /* AVFoundation.framework */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
 		F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3963A941E0A342700E5214E /* ToastViewController.swift */; };
@@ -85,6 +87,9 @@
 		F34575931E069F66001A110F /* StripBitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripBitmap.swift; sourceTree = "<group>"; };
 		F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F36078251E0CE27100769EB6 /* XYPadModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYPadModel.swift; sourceTree = "<group>"; };
+		F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelapseBuilder.swift; sourceTree = "<group>"; };
+		F37468FE1E6C0CF30013D3AC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F37469001E6C0FE90013D3AC /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		F3963A941E0A342700E5214E /* ToastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
@@ -106,8 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3FC32D11E012D5B0041F73E /* StoreKit.framework in Frameworks */,
 				F3087B791DF11DA200376A98 /* Photos.framework in Frameworks */,
+				F37468FF1E6C0CF30013D3AC /* AVFoundation.framework in Frameworks */,
+				F3FC32D11E012D5B0041F73E /* StoreKit.framework in Frameworks */,
 				01D0ACEE3F94AE88D83D9E43 /* Pods_Pixels0rtr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +133,8 @@
 		EB309A8A9915D4FDFB78E6AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F37469001E6C0FE90013D3AC /* AssetsLibrary.framework */,
+				F37468FE1E6C0CF30013D3AC /* AVFoundation.framework */,
 				F3FC32D01E012D5B0041F73E /* StoreKit.framework */,
 				F3087B781DF11DA200376A98 /* Photos.framework */,
 				02818AF82A8723DE4CE8D2CF /* Pods_Pixels0rtr.framework */,
@@ -202,6 +210,7 @@
 				F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */,
 				F3D91AA31DFCE4C300D45413 /* Analytics.swift */,
 				F38047521E0159F6001B881A /* Store.swift */,
+				F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -378,6 +387,7 @@
 				F32AE9FA1E6534C9005959EA /* HashUtils.swift in Sources */,
 				F336FB681DEEBE3000FB3817 /* AppDelegate.swift in Sources */,
 				F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */,
+				F37468FD1E6C0C6B0013D3AC /* TimelapseBuilder.swift in Sources */,
 				F3375B571DFFE2CD00AF0742 /* ScrollableContainerView.swift in Sources */,
 				F3F17E6E1E40404300383CAA /* ThesholdControl.swift in Sources */,
 				F3087B771DF114BA00376A98 /* ImageSelecterViewController.swift in Sources */,
