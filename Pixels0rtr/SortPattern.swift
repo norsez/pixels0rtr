@@ -29,7 +29,12 @@ enum SortOrientation: Int, CustomStringConvertible {
     }
 }
 
-
+extension PerlinGenerator {
+    func random(atX x: Double) -> Double {
+        let v = self.perlinNoise(Float(x), y: 0, z: 0, t: 0)
+        return fMap(value: Double(v), fromMin: -1, fromMax: 1, toMin: 0, toMax: 1)
+    }
+}
 
 protocol SortPattern {
     var name: String {get}
@@ -135,6 +140,8 @@ class PatternClassic : AbstractSortPattern {
         }
     }
     
+    
+    
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         resetRowIndexByCol = [Int]()
         
@@ -150,15 +157,21 @@ class PatternClassic : AbstractSortPattern {
         let MAX_R = Int(Double(width)/Double(self.largestSortWidth))
         let roughness = MIN_R + Int(Double(MAX_R) * c_roughness)
         
-        Logger.log(" -- roughness:  \(roughness), sort amt: \(_min)-\(_max)")
+        //Logger.log(" -- roughness:  \(roughness), sort amt: \(_min)-\(_max)")
+        let perlinNoise = PerlinGenerator()
+        perlinNoise.octaves = 7
+        perlinNoise.zoom = 69
+        perlinNoise.persistence = 1.0
         
         for i in 0..<width {
             
             if i % roughness != 0 {
                 resetRowIndexByCol.append(lastValue)
             }else {
-                let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
-                let v = max(2.0, r) + (sortParam.motionAmount * 0.1 * Double(width))
+//                let r = fRandom(min: Double(height)/_min, max: Double(height)/_max)
+                let value = perlinNoise.random(atX: Double(i) + (sortParam.motionAmount * Double(width)))
+                let r = fMap(value: value, fromMin: 0, fromMax: 1, toMin: Double(height)/_min, toMax: Double(height)/_max)
+                let v = max(2.0, r)
                 lastValue = Int(v)
                 resetRowIndexByCol.append(lastValue)
             }

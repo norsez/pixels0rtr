@@ -99,13 +99,12 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         
         var point1 = sp1
         point1.maxPixels = .px600
-        point1.whiteThreshold = 0
+        point1.motionAmount = 0
         var point2 = point1
         point2.motionAmount = 1.0
-        point2.whiteThreshold = 255
         var count: Int = 0
         
-        var urlsToImages = [URL]()
+        //var urlsToImages = [URL]()
         
         DispatchQueue.global(qos: .userInitiated) .async {
             
@@ -115,16 +114,16 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
                 return false
             }, imageDone: { (image) in
                 DispatchQueue.main.async {
-                    //                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                    do {
-                        var fileURL: URL? =  nil
-                        let _ = try image.save(withFileName: "_\(count)_.jpg", url: &fileURL)
-                        if let fu = fileURL {
-                            urlsToImages.append(fu)
-                        }
-                    }catch  {
-                        self.toast?.showToast(withText: "Failed", onViewController: self)
-                    }
+                      UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+//                    do {
+//                        var fileURL: URL? =  nil
+//                        let _ = try image.save(withFileName: "_\(count)_.jpg", url: &fileURL)
+//                        if let fu = fileURL {
+//                            urlsToImages.append(fu)
+//                        }
+//                    }catch  {
+//                        self.toast?.showToast(withText: "Failed", onViewController: self)
+//                    }
                     count = count.advanced(by: 1)
                     self.toast?.showToast(withText: "saved \(count) images", onViewController: self)
                 }

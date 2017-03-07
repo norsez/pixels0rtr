@@ -38,6 +38,7 @@
 		F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36078251E0CE27100769EB6 /* XYPadModel.swift */; };
 		F37468FD1E6C0C6B0013D3AC /* TimelapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */; };
 		F37468FF1E6C0CF30013D3AC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37468FE1E6C0CF30013D3AC /* AVFoundation.framework */; };
+		F37695DC1E6EF9AE00AABB30 /* Perlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37695DB1E6EF9AE00AABB30 /* Perlin.swift */; };
 		F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37F382E1DF63177001A97CE /* Image+Utils.swift */; };
 		F38047531E0159F6001B881A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38047521E0159F6001B881A /* Store.swift */; };
 		F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3963A941E0A342700E5214E /* ToastViewController.swift */; };
@@ -90,6 +91,7 @@
 		F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelapseBuilder.swift; sourceTree = "<group>"; };
 		F37468FE1E6C0CF30013D3AC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F37469001E6C0FE90013D3AC /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		F37695DB1E6EF9AE00AABB30 /* Perlin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Perlin.swift; sourceTree = "<group>"; };
 		F37F382E1DF63177001A97CE /* Image+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utils.swift"; sourceTree = "<group>"; };
 		F38047521E0159F6001B881A /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		F3963A941E0A342700E5214E /* ToastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
@@ -170,7 +172,7 @@
 				F319F4431E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift */,
 				F3D28CF71E27661700565E71 /* SortLoupeView.swift */,
 				F336FB691DEEBE3000FB3817 /* ViewController.swift */,
-				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
+				F37695D61E6EEA9400AABB30 /* test */,
 				F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */,
 				F3D91AA71DFE693900D45413 /* UnlockViewController.swift */,
 				F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */,
@@ -211,6 +213,7 @@
 				F3D91AA31DFCE4C300D45413 /* Analytics.swift */,
 				F38047521E0159F6001B881A /* Store.swift */,
 				F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */,
+				F37695DB1E6EF9AE00AABB30 /* Perlin.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -223,6 +226,14 @@
 				F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		F37695D61E6EEA9400AABB30 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
+			);
+			name = test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,6 +379,7 @@
 				F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */,
 				F38047531E0159F6001B881A /* Store.swift in Sources */,
 				F33BA43D1DF51719008304E4 /* SortingPreview.swift in Sources */,
+				F37695DC1E6EF9AE00AABB30 /* Perlin.swift in Sources */,
 				F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */,
 				F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */,
 				F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */,
