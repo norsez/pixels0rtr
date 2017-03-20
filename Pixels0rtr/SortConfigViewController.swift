@@ -1,4 +1,4 @@
-//
+ //
 //  SortConfigViewController.swift
 //  Pixels0rtr
 //
@@ -240,13 +240,16 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     }
     
     func loupeDidMove(toLocation loc: XYValue) {
+        
         if self.previewEngine.isRunningPreview {
-            self.previewEngine.cancelRunningPreview() {
-                self.updatePreview()
-            }
+            self.abortSorting = true
+            self.setProgressView(hidden: true)
+            self.thumbnailLabel.text = "preview - cancelled"
+            
         }else {
             self.updatePreview()
         }
+        
     }
     
     fileprivate func updatePreview () {
@@ -256,11 +259,13 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             self.setProgressView(hidden: false, allowLoupe: true)
             self.thumbnailLabel.text = "creating preview…"
             self.abortSortButton.alpha = 0
-            
+            self.abortSorting = false
             DispatchQueue.global().async {
                 
                 self.previewEngine.updatePreview(forImage: image, withSortParam: self.paramController.currentParameters, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
                     self.updatePregressInMainThread(v)
+                }, aborted: {
+                   return self.abortSorting
                 }, completion: { (previewImage, sortedRect) in
                     DispatchQueue.main.async {
                         self.setProgressView(hidden: true, allowLoupe: true)
@@ -307,13 +312,14 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             return
         }
         
-        abortSorting = false
+        self.abortSorting = false
         let sortParam = self.paramController.currentParameters
+        Logger.log("will sort with param: \(sortParam)")
         
         self.setProgressView(hidden: false)
         self.progressView.progress = 0.01
         let progressBlock = { p in self.updatePregressInMainThread(p) }
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .userInteractive) .async {
             
             guard let imageToSort = image.resize(toFitMaxPixels: sortParam.maxPixels) else {
                 Logger.log("failed to resize to fix \(sortParam.maxPixels)")
@@ -392,30 +398,11 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     
     
     fileprivate func setupThumbnails () {
-//        self.thumbnailView.layer.masksToBounds = true
-//        self.thumbnailView.layer.cornerRadius = CORNER_RADIUS
-//        self.predictionView.layer.masksToBounds = true
-//        self.predictionView.layer.cornerRadius = CORNER_RADIUS
-        
-        
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(showPredictionView))
-//        tap.numberOfTapsRequired = 1
-//        tap.numberOfTouchesRequired = 1
-//        self.thumbnailView.addGestureRecognizer(tap)
-//        self.thumbnailView.isUserInteractionEnabled = true
-//        
-//        let tap2 = UITapGestureRecognizer(target: self, action: #selector(hidePredictionView))
-//        tap.numberOfTapsRequired = 1
-//        tap.numberOfTouchesRequired = 1
-//        self.predictionView.addGestureRecognizer(tap2)
-//        self.predictionView.isUserInteractionEnabled = true
         
         self.thumbnailBackgroundView.layer.cornerRadius = CORNER_RADIUS
         self.sortLoupeView.delegate = self
         
     }
-    
-    
     
     func showToastMessage(_ m:String, completion: (()->Void)? = nil) {
         

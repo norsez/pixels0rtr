@@ -73,17 +73,17 @@ class AppConfig: NSObject {
     }
     
     enum Config: String {
-        case Sorter, Pattern, SortAmount, RoughnessAmount, MaxSize, SortOrientation, isNotFirstLaunch, MotionAmount
+        case Sorter, Pattern, SortAmount, RoughnessAmount, MaxSize, SortOrientation, isNotFirstLaunch, MotionAmount, LabMode
+    }
+    
+    enum LabMode: Int {
+        case xyPad, randomized
     }
     
     var sortOrientation: SortOrientation {
         get {
             let savedValue = UserDefaults.standard.integer(forKey: Config.SortOrientation.rawValue)
-            if savedValue == SortOrientation.down.rawValue {
-                return SortOrientation.down
-            }else {
-                return SortOrientation.down
-            }
+            return SortOrientation(rawValue: savedValue) ?? .down
         }
         
         set (value) {
@@ -161,6 +161,17 @@ class AppConfig: NSObject {
             return UserDefaults.standard.bool(forKey: AppConfig.Key.FreeVersion)
         }
     }
+    var labMode: LabMode {
+        set(v) {
+            UserDefaults.standard.set(v.rawValue, forKey: Config.LabMode.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            let v = UserDefaults.standard.integer(forKey: Config.LabMode.rawValue)
+            return LabMode(rawValue: v) ?? .xyPad
+        }
+    }
+    
     
     var lastSortParam: SortParam?
     var lastImage: UIImage?
@@ -178,6 +189,7 @@ class AppConfig: NSObject {
             Config.MotionAmount.rawValue: 0,
             Config.MaxSize.rawValue: MaxSize.px600.rawValue,
             Config.SortOrientation.rawValue: SortOrientation.down.rawValue,
+            Config.LabMode.rawValue: LabMode.xyPad.rawValue,
             AppConfig.Key.FreeVersion: true
         ]
         uf.register(defaults: defaults)

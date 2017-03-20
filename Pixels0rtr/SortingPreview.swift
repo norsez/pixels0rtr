@@ -25,7 +25,7 @@ class SortingPreview: NSObject {
     var valueFormatter: NumberFormatter
     
     var isRunningPreview = false
-    var cancelled = false
+    
     override init() {
         
         self.valueFormatter = NumberFormatter()
@@ -58,17 +58,11 @@ class SortingPreview: NSObject {
         }
     }
     
-    var cancellationComplete: (()->Void)?
-    
-    func cancelRunningPreview (withCompletion completion: (()->Void)?) {
-        self.cancelled = true
-        cancellationComplete = completion
-    }
     
     /**
      create preview using full output size but limit to sortRect in sortParam
      */
-    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, loupeOrigin: XYValue, progress: ((Float)->Void)?, completion: ((UIImage?, CGRect?)->Void)?) {
+    func updatePreview(forImage image:UIImage, withSortParam sp: SortParam, loupeOrigin: XYValue, progress: ((Float)->Void)?, aborted:()->Bool, completion: ((UIImage?, CGRect?)->Void)?) {
         
         var previewSortParam = sp
         previewSortParam.orientation = .down
@@ -94,15 +88,11 @@ class SortingPreview: NSObject {
             if let p = progress {
                 p(Float(v))
             }
-        }, aborted: { () -> Bool in
+        }, aborted: aborted) { (image, stats) in
             
-            return self.cancelled == true
-        }) { (image, stats) in
-            
-            if cancelled {
-                if let c = self.cancellationComplete {
-                    c()
-                }
+            if aborted() {
+                self.isRunningPreview = false
+                return
             }
             
             if let c = completion {
@@ -136,7 +126,6 @@ class SortingPreview: NSObject {
                 c(nil, sortRect)
             }
             self.isRunningPreview = false
-            self.cancelled = false
         }
         
     }
@@ -162,6 +151,21 @@ class SortingPreview: NSObject {
 class SamplePreviewEngine {
     var lastParams = [SortParam]()
     var lastImages = [UIImage]()
+    var lastRandomParams = [SortParam]()
+    var lastRandomParamImages = [SortParam]()
+    var mode: AppConfig.LabMode = .xyPad
+    
+    
+//    func createPreview(withMode mode: AppConfig.LabMode, sortParam) {
+//        if mode == .xyPad {
+//            self.sortParams = self.paramCatalog(withSortParam:currentSortParam!)
+//        }else if mode == .randomized {
+//            let params = SamplePreviewEngine.shared.sampleSortParams
+//            self.sortParams = SamplePreviewEngine.shared.randomizedParams(withParams: params, count: self.NUM_PREVIEWS)
+//        }
+//        
+//        self.createPreviews(withParams: self.sortParams)
+//    }
     
     var sampleSortParams: [SortParam] {
         get {

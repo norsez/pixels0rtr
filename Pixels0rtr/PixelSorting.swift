@@ -187,7 +187,7 @@ struct SortParam{
     var sorter: PixelSorter
     var pattern: SortPattern
     var motionAmount: Double = 0
-    var orientation = SortOrientation.down
+    var orientation = SortOrientation.right
     var maxPixels: AppConfig.MaxSize = .px600
     var sortRect: CGRect? = nil
     var whiteThreshold: UInt8 = 240
@@ -438,7 +438,7 @@ class PixelSorting: NSObject {
         scanLineDrawer = ScanLineDrawer(withCGSize: CGSize.zero)
     }
     
-    func start(withProgress progress: (Float)->Void, aborted: @escaping ()->Bool, completion: (UIImage?, PixelSortingStats?)->Void) {
+    func start(withProgress progress: (Float)->Void, aborted: ()->Bool, completion: (UIImage?, PixelSortingStats?)->Void) {
         self.sorted(image: self.imageToSort, sortParam: self.sortParam, progress: progress, aborted: aborted, completion: completion)
         
     }

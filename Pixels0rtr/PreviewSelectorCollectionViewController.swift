@@ -22,7 +22,18 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
     var previewImages = [UIImage]()
     var sortParams = [SortParam]()
     var imageToPreview: UIImage?
-    var currentSortParam: SortParam?
+    var _currentSortParam: SortParam?
+    var currentSortParam: SortParam? {
+        get {
+            return self._currentSortParam
+        }
+        
+        set(v) {
+            SamplePreviewEngine.shared.lastImages = []
+            SamplePreviewEngine.shared.lastParams = []
+            _currentSortParam = v
+        }
+    }
     
     
     var didSelectItem: ((SortParam?)->Void)?
@@ -30,8 +41,6 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
     var doneButton: UIBarButtonItem?
     var currentCatalogButton: UIBarButtonItem?
     let NUM_PREVIEWS = 24
-    
-    
     
     //MARK: for mass previews
     fileprivate var aborted = false
@@ -61,11 +70,18 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
             fatalError("must set currentSortParam")
         }
         
-        self.didPressRefresh(sender: self.currentCatalogButton)
-        
         Analytics.shared.logScreen("Random Previews")
+        
+        let labMode = AppConfig.shared.labMode
+        if labMode == .randomized {
+            self.didPressRefresh(sender: self.randomizeButton!)
+        }else if labMode == .xyPad {
+            self.didPressRefresh(sender: self.currentCatalogButton!)
+        }
+        
     }
     func didPressRefresh (sender: Any) {
+        
         SamplePreviewEngine.shared.lastImages = []
         SamplePreviewEngine.shared.lastParams = []
         
@@ -75,9 +91,11 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         
         if obj === self.currentCatalogButton {
             self.sortParams = SamplePreviewEngine.shared.paramCatalog(withSortParam:currentSortParam!)
+            AppConfig.shared.labMode = .xyPad
         }else if obj === self.randomizeButton {
             let params = SamplePreviewEngine.shared.sampleSortParams
             self.sortParams = SamplePreviewEngine.shared.randomizedParams(withParams: params, count: self.NUM_PREVIEWS)
+            AppConfig.shared.labMode = .randomized
         }
         
         self.createPreviews(withParams: self.sortParams)
@@ -186,12 +204,10 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         
         if let pcell = cell as? PreviewGridCell {
             pcell.previewImageView.image = self.previewImages[indexPath.item]
-            let sp = self.sortParams[indexPath.item]
             let nf = NumberFormatter()
             nf.numberStyle = .percent
             pcell.infoLabel.text = ""
-            //pcell.infoLabel.text = "\(sp.sorter.name) \(sp.pattern.name))"
-            //[\(nf.string(from: NSNumber(value:sp.sortAmount))!), \(nf.string(from: NSNumber(value:sp.roughnessAmount))!)]
+            
         }
     
         return cell
@@ -207,6 +223,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         if let c = self.didSelectItem {
             let sp = self.sortParams[indexPath.item]
             AppConfig.shared.lastSortParam = sp
+            Logger.log("select param: \(sp)")
             c(sp)
         }
     }

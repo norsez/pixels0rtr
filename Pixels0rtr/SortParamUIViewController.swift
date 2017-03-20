@@ -153,10 +153,11 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
         self.sorterSelector.collectionView?.selectItem(at: IndexPath(row:sorterIndex, section:0), animated: false, scrollPosition: .centeredHorizontally)
         
         
-        let xyLoc = CGPoint(x: CGFloat(sp.sortAmount * Double(self.xyPadView.bounds.width)),
-                            y: CGFloat(sp.roughnessAmount * Double(self.xyPadView.bounds.height)))
+        let xyLoc = CGPoint(x: CGFloat(sp.sortAmount * Double(self.xyPadView.bounds.height)),
+                            y: CGFloat(sp.roughnessAmount * Double(self.xyPadView.bounds.width)))
         self.xyLabel.center = xyLoc
-        
+        self.sortAmount = sp.sortAmount
+        self.roughness = sp.roughnessAmount
         self.sortOrientationSelector.selectedSegmentIndex = sp.orientation.rawValue
         
     }

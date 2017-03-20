@@ -1,5 +1,15 @@
 release notes
 =============
+build 27
+- remove wave pattern for release.
+
+build 26
+- fix  preview cancellation
+- remember the last [123] lab mode
+
+build 25
+- fix param selected from [123]
+
 build 24
 - add catalog and randomize previews
 - improved offset and stripe patterns

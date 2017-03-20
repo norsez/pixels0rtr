@@ -99,16 +99,18 @@ class TestViewController: CanvasController, UIScrollViewDelegate {
         
         var point1 = sp1
         point1.maxPixels = .px600
-        point1.motionAmount = 0
+        point1.blackThreshold = 1
+        point1.whiteThreshold = 254
         var point2 = point1
-        point2.motionAmount = 1.0
+        point2.blackThreshold = 77
+        point2.whiteThreshold = 147
         var count: Int = 0
         
         //var urlsToImages = [URL]()
         
         DispatchQueue.global(qos: .userInitiated) .async {
             
-            Batch.shared.renderFrom(point1: point1, toPoint2: point2, frames: 24, image: image, progress: { (f) in
+            Batch.shared.renderFrom(point1: point1, toPoint2: point2, frames: 8, image: image, progress: { (f) in
                 self.setProgressInMain(value: f)
             }, aborted: { () -> Bool in
                 return false
