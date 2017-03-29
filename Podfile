@@ -1,3 +1,4 @@
+platform :ios, '9.0'
 use_frameworks!
 target 'Pixels0rtr' do
     pod 'C4',:git => 'https://github.com/C4Labs/C4iOS.git'

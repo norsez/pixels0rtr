@@ -8,6 +8,7 @@
 
 import UIKit
 import AssetsLibrary
+import Photos
 
 class SortConfigViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate,
 SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
@@ -358,11 +359,18 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             self.unsavedImage = output
             self.thumbnailLabel.text = "[output requires unlock]"
         }else {
-            UIImageWriteToSavedPhotosAlbum(output, nil, nil, nil)
-            self.setProgressView(hidden: true, completion: {
-                self.showToastMessage("Saved\nto\nCamera Roll")
-                self.thumbnailLabel.text = "[output saved in Camera Roll]"
-            })
+            
+            
+                PHPhotoLibrary.shared().savePhoto(image: output, albumName: ALBUM_NAME, completion: { (asset) in
+                    DispatchQueue.main.async {
+                        self.setProgressView(hidden: true, completion: {
+                            self.showToastMessage("Saved\nto\nCamera Roll")
+                            self.thumbnailLabel.text = "[output saved in Camera Roll]"
+                            
+                        })
+                    }
+                })
+            
         }
     }
     

@@ -1,5 +1,8 @@
 release notes
 =============
+build 28
+- save in album Pixels0rtr
+
 build 27
 - remove wave pattern for release.
 

@@ -44,6 +44,12 @@
 		F3963A951E0A342700E5214E /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3963A941E0A342700E5214E /* ToastViewController.swift */; };
 		F39F30DF1DF392F20070F379 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */; };
 		F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F30E01DF4140B0070F379 /* Bitmap.swift */; };
+		F3A659951E8769D600FA0DB8 /* RainbowLCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A659941E8769D600FA0DB8 /* RainbowLCD.swift */; };
+		F3A659971E87769100FA0DB8 /* CRTFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A659961E87769100FA0DB8 /* CRTFilter.swift */; };
+		F3B3D02C1E7F8DC700C6A8D0 /* C4Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3D02B1E7F8DC700C6A8D0 /* C4Utils.swift */; };
+		F3B3D0311E852C5100C6A8D0 /* RBGFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3D0301E852C5100C6A8D0 /* RBGFilter.swift */; };
+		F3B3D0331E88D4F300C6A8D0 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3D0321E88D4F300C6A8D0 /* PhotoLibrary.swift */; };
+		F3B7B1851E86A447008D5AE6 /* ImageFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7B1841E86A447008D5AE6 /* ImageFilterViewController.swift */; };
 		F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */; };
 		F3D28CF81E27661700565E71 /* SortLoupeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D28CF71E27661700565E71 /* SortLoupeView.swift */; };
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
@@ -97,6 +103,12 @@
 		F3963A941E0A342700E5214E /* ToastViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
 		F39F30DE1DF392F20070F379 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		F39F30E01DF4140B0070F379 /* Bitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
+		F3A659941E8769D600FA0DB8 /* RainbowLCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RainbowLCD.swift; path = filter/RainbowLCD.swift; sourceTree = "<group>"; };
+		F3A659961E87769100FA0DB8 /* CRTFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CRTFilter.swift; path = filter/CRTFilter.swift; sourceTree = "<group>"; };
+		F3B3D02B1E7F8DC700C6A8D0 /* C4Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = C4Utils.swift; sourceTree = "<group>"; };
+		F3B3D0301E852C5100C6A8D0 /* RBGFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RBGFilter.swift; path = Pixels0rtr/RBGFilter.swift; sourceTree = "<group>"; };
+		F3B3D0321E88D4F300C6A8D0 /* PhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
+		F3B7B1841E86A447008D5AE6 /* ImageFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageFilterViewController.swift; path = Pixels0rtr/ImageFilterViewController.swift; sourceTree = "<group>"; };
 		F3C04DDF1DFF7572003C4CC8 /* SortParamUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortParamUIViewController.swift; sourceTree = "<group>"; };
 		F3D28CF71E27661700565E71 /* SortLoupeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortLoupeView.swift; sourceTree = "<group>"; };
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
@@ -165,6 +177,7 @@
 		F336FB661DEEBE3000FB3817 /* Pixels0rtr */ = {
 			isa = PBXGroup;
 			children = (
+				F3B3D02F1E852C3200C6A8D0 /* filter */,
 				F33BA4401DF522F5008304E4 /* images */,
 				F336FB7B1DEECB3000FB3817 /* model */,
 				F336FB671DEEBE3000FB3817 /* AppDelegate.swift */,
@@ -196,6 +209,7 @@
 		F336FB7B1DEECB3000FB3817 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				F3B3D02B1E7F8DC700C6A8D0 /* C4Utils.swift */,
 				F3087B741DEFDCF700376A98 /* AppConfig.swift */,
 				F3375B361DFAD52F00AF0742 /* UIView+PixelsortingFX.swift */,
 				F39F30E01DF4140B0070F379 /* Bitmap.swift */,
@@ -214,6 +228,7 @@
 				F38047521E0159F6001B881A /* Store.swift */,
 				F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */,
 				F37695DB1E6EF9AE00AABB30 /* Perlin.swift */,
+				F3B3D0321E88D4F300C6A8D0 /* PhotoLibrary.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -234,6 +249,18 @@
 				F3087B7A1DF6605500376A98 /* TestViewController.swift */,
 			);
 			name = test;
+			sourceTree = "<group>";
+		};
+		F3B3D02F1E852C3200C6A8D0 /* filter */ = {
+			isa = PBXGroup;
+			children = (
+				F3B7B1841E86A447008D5AE6 /* ImageFilterViewController.swift */,
+				F3A659961E87769100FA0DB8 /* CRTFilter.swift */,
+				F3B3D0301E852C5100C6A8D0 /* RBGFilter.swift */,
+				F3A659941E8769D600FA0DB8 /* RainbowLCD.swift */,
+			);
+			name = filter;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,7 +357,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		63F0609F32E8BCFBE3A3E3B8 /* [CP] Copy Pods Resources */ = {
@@ -371,10 +398,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3087B7B1DF6605500376A98 /* TestViewController.swift in Sources */,
+				F3B3D0331E88D4F300C6A8D0 /* PhotoLibrary.swift in Sources */,
+				F3A659951E8769D600FA0DB8 /* RainbowLCD.swift in Sources */,
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
 				F3D28CF81E27661700565E71 /* SortLoupeView.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F34575941E069F66001A110F /* StripBitmap.swift in Sources */,
+				F3B3D0311E852C5100C6A8D0 /* RBGFilter.swift in Sources */,
+				F3B7B1851E86A447008D5AE6 /* ImageFilterViewController.swift in Sources */,
 				F336FB6A1DEEBE3000FB3817 /* ViewController.swift in Sources */,
 				F3C04DE01DFF7572003C4CC8 /* SortParamUIViewController.swift in Sources */,
 				F38047531E0159F6001B881A /* Store.swift in Sources */,
@@ -386,7 +417,9 @@
 				F37F382F1DF63177001A97CE /* Image+Utils.swift in Sources */,
 				F319F4441E613E86009E23E4 /* PreviewSelectorCollectionViewController.swift in Sources */,
 				F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */,
+				F3B3D02C1E7F8DC700C6A8D0 /* C4Utils.swift in Sources */,
 				F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */,
+				F3A659971E87769100FA0DB8 /* CRTFilter.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
 				F3375B7D1DFFEC0800AF0742 /* VerticalSelectorViewController.swift in Sources */,
 				F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */,

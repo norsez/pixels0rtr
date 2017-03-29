@@ -8,21 +8,83 @@
 
 import UIKit
 import C4
-import AssetsLibrary
-class TestViewController: CanvasController, UIScrollViewDelegate {
+import Photos
+
+class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     
     var toast: ToastViewController?
-    
+    var imagePicker: UIImagePickerController?
     @IBOutlet var freePaidSegmentedControl: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.toast = self.storyboard?.instantiateViewController(withIdentifier: "ToastViewController") as? ToastViewController
         
     }
+    
+    @IBAction func didCreateRGBShift(_ sender: Any) {
+        
+        if self.imagePicker == nil {
+            self.imagePicker = UIImagePickerController()
+            self.imagePicker?.delegate = self
+            self.imagePicker?.allowsEditing = false
+            self.imagePicker?.sourceType = .photoLibrary
+        }
+        
+        self.present(self.imagePicker!, animated: true, completion: nil)
+    }
+    
+    
+    
+    func createRGB(withImage img: UIImage, progress:(Float)->Void) {
+        if let cgImage = img.cgImage {
+            let rf = RainbowLCD()
+            rf.inputImage = CIImage(cgImage: cgImage)
+            
+            
+            let NUM = 12
+            for n in 0..<12 {
+                
+                rf.inputRGBAngle =  CGFloat(n) * 2 * CGFloat(M_PI) / CGFloat(NUM)
+                rf.inputRGBRadius = 0.25
+                if let ciImage = rf.outputImage{
+                    let cgImage = convertCIImageToCGImage(inputImage: ciImage)
+                    let output = UIImage(cgImage: cgImage!)
+                    PHPhotoLibrary.shared().savePhoto(image: output, albumName: "Rainbow LCD", completion: { (asset) in
+                        Logger.log("\(asset)")
+                    })
+                }
+                
+                progress(Float(n + 1)/Float(NUM))
+            }
+        }
+    }
+    
+    var selectedImage: UIImage?
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let img = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            Logger.log("none selected")
+            return
+        }
+        
+        self.selectedImage = img
+        
+        self.dismiss(animated: true) {
+            self.performSegue(withIdentifier: "imageFilter", sender: nil)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "imageFilter" {
+            if let ctrl = segue.destination as? ImageFilterViewController {
+                ctrl.inputImage = self.selectedImage
+            }
+        }
+    }
+    
     
     func test1() {
         self.scrollView.backgroundColor = UIColor.black

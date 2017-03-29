@@ -8,6 +8,7 @@
 
 import UIKit
 
+let ALBUM_NAME = "Pixels0rtr"
 let ALL_SORT_PATTERNS: [SortPattern] = [PatternClassic(), PatternClean(), PatternOffset(), PatternStripe()]
 let ALL_SORTERS: [PixelSorter] = [SorterBrightness(), SorterHue(), SorterSaturation(), SorterCenterSorted(), SorterIntervals(), SorterMagenta(), SorterCyan(), SorterYellow(), SorterBlack()]
 let APP_COLOR_FONT = UIColor(red: 0, green: 1, blue: 0, alpha: 0.85)
