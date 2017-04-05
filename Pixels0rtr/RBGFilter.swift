@@ -359,14 +359,12 @@ class ChromaticAberration: CIFilter
             return nil
         }
         
-//        let redAngle = inputAngle + tau * 0.333
-//        let greenAngle = inputAngle + tau
-//        let blueAngle = inputAngle + tau * 0.666
-        
-        let redAngle = inputAngle + (inputAngle * 0.666 * CGFloat(M_PI))
-        let greenAngle = inputAngle + (inputAngle * 0.333 * CGFloat(M_PI))
-        let blueAngle = inputAngle
-
+//        let redAngle = inputAngle + (inputAngle * 0.666 * CGFloat(M_PI))
+//        let greenAngle = inputAngle + (inputAngle * 0.333 * CGFloat(M_PI))
+//        let blueAngle = inputAngle
+        let redAngle = CGFloat(0)
+        let greenAngle =  (inputAngle * 0.333 * CGFloat(M_PI))
+        let blueAngle = (inputAngle * 0.666 * CGFloat(M_PI))
         
         let redTransform = CGAffineTransform(translationX: sin(redAngle) * inputRadius, y: cos(redAngle) * inputRadius)
         let greenTransform = CGAffineTransform(translationX: sin(greenAngle) * inputRadius, y: cos(greenAngle) * inputRadius)

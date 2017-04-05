@@ -9,13 +9,20 @@
 import UIKit
 import Photos
 
+
+enum SelectedImageFilter: Int {
+    case RGBShift, RainbowLightleak
+}
+
 class ImageFilterViewController: UIViewController {
 
     var inputImage: UIImage?
     var previewImage: UIImage?
-    var filter: CIFilter? = RainbowLCD()
+    var filter: CIFilter?
     var controlKey: String?
     var controlKeys = [String]()
+    
+    var selectedFilter: SelectedImageFilter = .RGBShift
     
     @IBOutlet var controlSlider: UISlider!
     @IBOutlet var controlLabel: UILabel!
@@ -26,7 +33,8 @@ class ImageFilterViewController: UIViewController {
         super.viewDidLoad()
         self.previewImage = inputImage?.resizeToFit(size: CGSize(width: 600, height: 600))
         self.previewImageView.image = previewImage
-        self.buildControls()
+        
+        buildControls()
         
         guard let image = self.previewImage else {
                 return
@@ -35,6 +43,12 @@ class ImageFilterViewController: UIViewController {
             self.previewImageView.image = preview
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.buildControls()
     }
 
     @IBAction func didPressControlsButton(_ sender: Any) {
@@ -52,6 +66,16 @@ class ImageFilterViewController: UIViewController {
     }
     
     func buildControls() {
+        
+        switch self.selectedFilter  {
+        case .RGBShift:
+            self.filter = RainbowLCD()
+        case .RainbowLightleak:
+            self.filter = RainbowLightLeak()
+        }
+        
+        
+        
         guard let f = self.filter else {
             fatalError("no filter")
         }
@@ -66,6 +90,8 @@ class ImageFilterViewController: UIViewController {
             }
             
             return nil
+        }).sorted(by: { (s1, s2) -> Bool in
+            return s1 > s2
         })
         
         if let firstKey = self.controlKeys.first {
@@ -132,7 +158,7 @@ class ImageFilterViewController: UIViewController {
         }
         
         if let output = self.applyFilter(withImage: inputImage) {
-            PHPhotoLibrary.shared().savePhoto(image: output, albumName: "Rainbow LCD", completion: { (asset) in
+            PHPhotoLibrary.shared().savePhoto(image: output, albumName: self.filter?.value(forKey: kCIAttributeDisplayName) as? String ?? "Pixels0rtr filter", completion: { (asset) in
                 Logger.log("\(asset)")
             })
         }

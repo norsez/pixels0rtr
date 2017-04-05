@@ -11,6 +11,8 @@ import C4
 import Photos
 
 class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
 
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet var scrollView: UIScrollView!
@@ -18,6 +20,9 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
     
     var toast: ToastViewController?
     var imagePicker: UIImagePickerController?
+    var imagePickerMode : SelectedImageFilter = .RGBShift
+    
+    
     @IBOutlet var freePaidSegmentedControl: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +30,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
         
     }
     
-    @IBAction func didCreateRGBShift(_ sender: Any) {
+    fileprivate func presentImagePicker(withMode mode: SelectedImageFilter) {
         
         if self.imagePicker == nil {
             self.imagePicker = UIImagePickerController()
@@ -33,11 +38,19 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
             self.imagePicker?.allowsEditing = false
             self.imagePicker?.sourceType = .photoLibrary
         }
-        
+        self.imagePickerMode = mode
         self.present(self.imagePicker!, animated: true, completion: nil)
     }
     
-    
+    @IBAction func didCreateRGBShift(_ sender: Any) {
+        
+       self.presentImagePicker(withMode: .RGBShift)
+    }
+  
+    @IBAction func didPressRainbowLeak(_ sender: Any) {
+        
+        self.presentImagePicker(withMode: .RainbowLightleak)
+    }
     
     func createRGB(withImage img: UIImage, progress:(Float)->Void) {
         if let cgImage = img.cgImage {
@@ -81,6 +94,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
         if segue.identifier == "imageFilter" {
             if let ctrl = segue.destination as? ImageFilterViewController {
                 ctrl.inputImage = self.selectedImage
+                ctrl.selectedFilter = self.imagePickerMode
             }
         }
     }
