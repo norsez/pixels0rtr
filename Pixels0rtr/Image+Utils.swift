@@ -81,7 +81,7 @@ extension UIImage {
 //        case .right, .rightMirrored:
 //            return self.image(withRotation: .m_pi)
 //        case .left, .leftMirrored:
-//            return self.image(withRotation: .m_pi_2)
+//            return self.image(withRotation: .Double.pi / 2)
 //        }
     }
     

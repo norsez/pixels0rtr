@@ -61,7 +61,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
             let NUM = 12
             for n in 0..<12 {
                 
-                rf.inputRGBAngle =  CGFloat(n) * 2 * CGFloat(M_PI) / CGFloat(NUM)
+                rf.inputRGBAngle =  CGFloat(n) * 2 * CGFloat(Double.pi) / CGFloat(NUM)
                 rf.inputRGBRadius = 0.25
                 if let ciImage = rf.outputImage{
                     let cgImage = convertCIImageToCGImage(inputImage: ciImage)

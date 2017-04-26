@@ -158,8 +158,8 @@ class ImageFilterViewController: UIViewController {
         }
         
         if let output = self.applyFilter(withImage: inputImage) {
-            PHPhotoLibrary.shared().savePhoto(image: output, albumName: self.filter?.value(forKey: kCIAttributeDisplayName) as? String ?? "Pixels0rtr filter", completion: { (asset) in
-                Logger.log("\(asset)")
+            PHPhotoLibrary.shared().savePhoto(image: output, albumName: "LCD", completion: { (asset) in
+                Logger.log("\(asset.debugDescription)")
             })
         }
     }

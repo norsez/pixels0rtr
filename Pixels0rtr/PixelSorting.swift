@@ -392,11 +392,11 @@ extension UIImage {
         case .down:
             return self
         case .right:
-            return self.image(withRotation: CGFloat(M_PI_2))
+            return self.image(withRotation: CGFloat(Double.pi / 2))
         case .up:
-            return self.image(withRotation: CGFloat(M_PI))
+            return self.image(withRotation: CGFloat(Double.pi))
         case .left:
-            return self.image(withRotation: CGFloat(M_PI_2 * 3))
+            return self.image(withRotation: CGFloat(Double.pi / 2 * 3))
         }
     }
     
@@ -405,11 +405,11 @@ extension UIImage {
         case .down:
             return self
         case .right:
-            return self.image(withRotation: CGFloat(M_PI_2 * 3))
+            return self.image(withRotation: CGFloat(Double.pi / 2 * 3))
         case .up:
-            return self.image(withRotation: CGFloat(M_PI))
+            return self.image(withRotation: CGFloat(Double.pi))
         case .left:
-            return self.image(withRotation: CGFloat(M_PI_2))
+            return self.image(withRotation: CGFloat(Double.pi / 2))
             
         }
     }
@@ -449,11 +449,11 @@ class PixelSorting: NSObject {
         case .down:
             break
         case .right:
-            tf = tf.rotated(by: CGFloat(M_PI_2 ))
+            tf = tf.rotated(by: CGFloat(Double.pi / 2 ))
         case .up:
-            tf = tf.rotated(by: CGFloat(M_PI))
+            tf = tf.rotated(by: CGFloat(Double.pi))
         case .left:
-            tf = tf.rotated(by: CGFloat(M_PI_2 * 3))
+            tf = tf.rotated(by: CGFloat(Double.pi / 2 * 3))
         }
         
         let rect1 = rect.applying(tf)

@@ -20,7 +20,7 @@
 
 import CoreImage
 
-let tau = CGFloat(M_PI * 2)
+let tau = CGFloat(Double.pi * 2)
 
 /// `RGBChannelCompositing` filter takes three input images and composites them together
 /// by their color channels, the output RGB is `(inputRed.r, inputGreen.g, inputBlue.b)`
@@ -359,12 +359,12 @@ class ChromaticAberration: CIFilter
             return nil
         }
         
-//        let redAngle = inputAngle + (inputAngle * 0.666 * CGFloat(M_PI))
-//        let greenAngle = inputAngle + (inputAngle * 0.333 * CGFloat(M_PI))
+//        let redAngle = inputAngle + (inputAngle * 0.666 * CGFloat(Double.pi))
+//        let greenAngle = inputAngle + (inputAngle * 0.333 * CGFloat(Double.pi))
 //        let blueAngle = inputAngle
         let redAngle = CGFloat(0)
-        let greenAngle =  (inputAngle * 0.333 * CGFloat(M_PI))
-        let blueAngle = (inputAngle * 0.666 * CGFloat(M_PI))
+        let greenAngle =  (inputAngle * 0.333 * CGFloat(Double.pi))
+        let blueAngle = (inputAngle * 0.666 * CGFloat(Double.pi))
         
         let redTransform = CGAffineTransform(translationX: sin(redAngle) * inputRadius, y: cos(redAngle) * inputRadius)
         let greenTransform = CGAffineTransform(translationX: sin(greenAngle) * inputRadius, y: cos(greenAngle) * inputRadius)

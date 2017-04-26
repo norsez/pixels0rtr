@@ -320,6 +320,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         self.setProgressView(hidden: false)
         self.progressView.progress = 0.01
         let progressBlock = { p in self.updatePregressInMainThread(p) }
+        UIApplication.shared.isIdleTimerDisabled = true
         DispatchQueue.global(qos: .userInteractive) .async {
             
             guard let imageToSort = image.resize(toFitMaxPixels: sortParam.maxPixels) else {
@@ -343,6 +344,8 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                                                 Analytics.shared.logSort(withSortParam: sortParam)
                         }
                     }
+                    
+                    UIApplication.shared.isIdleTimerDisabled = false
                 }
             })
             

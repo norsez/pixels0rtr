@@ -1,7 +1,9 @@
 release notes
 =============
+
 build 28
 - save in album Pixels0rtr
+- disable screenlock while processing
 
 build 27
 - remove wave pattern for release.

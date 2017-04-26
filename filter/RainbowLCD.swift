@@ -212,7 +212,7 @@ class RainbowScan: RainbowLCD {
                                   withInputParameters: [
                                     kCIInputImageKey: inputImage,
                                     kCIInputCenterKey: CIVector(x: inputLineCenterX * extent.width, y: inputLineCenterY * extent.height),
-                                    kCIInputAngleKey: inputLineAngle * CGFloat(M_PI) * 2,
+                                    kCIInputAngleKey: inputLineAngle * CGFloat(Double.pi) * 2,
                                     kCIInputWidthKey: 1 + (inputLineWidth * 60),
                                     kCIInputSharpnessKey: inputLineSharpness
             ])
@@ -221,7 +221,7 @@ class RainbowScan: RainbowLCD {
         
         let rgbFilter = ChromaticAberration()
         rgbFilter.inputImage = output
-        rgbFilter.inputAngle = inputRGBAngle * CGFloat(M_PI * 2)
+        rgbFilter.inputAngle = inputRGBAngle * CGFloat(Double.pi * 2)
         rgbFilter.inputRadius = inputRGBRadius * 80 * pixelScale
         Logger.log("RGB shift…")
         output = rgbFilter.outputImage!
