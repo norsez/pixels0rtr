@@ -1,5 +1,7 @@
 release notes
 =============
+build 29
+- faster preview 
 
 build 28
 - save in album Pixels0rtr

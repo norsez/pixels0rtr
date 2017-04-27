@@ -483,9 +483,9 @@ class PixelSorting: NSObject {
         
         sortParam.pattern.initialize(withWidth: Int(imageToSort.size.width), height:Int(imageToSort.size.height), sortParam: sortParam)
         
-        for scanLineIndex in 0..<NUM_SCAN_LINES {
+        for scanLineIndex in skipRange1.lowerBound..<NUM_SCAN_LINES {
             
-            if aborted() {
+            if aborted() || scanLineIndex > skipRange2.upperBound {
                 let abortedImage = scanLineDrawer.makeImage()!
                 completion(abortedImage, nil);
                 break
