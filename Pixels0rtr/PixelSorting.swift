@@ -440,7 +440,6 @@ class PixelSorting: NSObject {
     
     func start(withProgress progress: (Float)->Void, aborted: ()->Bool, completion: (UIImage?, PixelSortingStats?)->Void) {
         self.sorted(image: self.imageToSort, sortParam: self.sortParam, progress: progress, aborted: aborted, completion: completion)
-        
     }
     
     fileprivate func rect(rect: CGRect, rotatedForSortOrientation so: SortOrientation, imageToSortSize size: CGSize) -> CGRect {

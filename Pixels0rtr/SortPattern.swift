@@ -44,9 +44,12 @@ class AbstractSortPattern: SortPattern{
     
     var imageWidth = 0
     var imageHeight = 0
+    var sortParam: SortParam?
+    
     internal func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         self.imageWidth = width
         self.imageHeight = height
+        self.sortParam = sortParam
     }
     
     init() {
@@ -169,68 +172,70 @@ class PatternClassic : AbstractSortPattern {
     }
 }
 
-class PatternStripe: AbstractSortPattern {
+class PatternOffset: AbstractSortPattern {
     
     var table = [[Bool]]()
     
-    func scalePxForBase1600(value: Int) -> Int {
-        let normalized =  fMap(value: Double(value), fromMin: 2, fromMax: 1600, toMin: 0, toMax: 1)
-        let scaledValue = pow(normalized, 2)
-        return max(Int(scaledValue * 1600), 2)
+    
+    fileprivate func scaledIfNeeded(atPx: Int, fromMaxPx: Int, toMaxPx: Int) -> Int {
+        if toMaxPx < atPx {
+            return Int(fMap(value: Double(atPx), fromMin: 0, fromMax: Double(fromMaxPx), toMin: 0, toMax: Double(toMaxPx)))
+        }
+        return atPx
     }
     
-    func roughnessDots(withDotsPerScanLine dotsPerScanLine: Int, roughnessAmount: Double) -> Int {
-        
-        let MIN_R = 2
-        let LARGEST_SORT_WIDTH = 32
-        let r = MIN_R + Int(Double(dotsPerScanLine)/(Double(LARGEST_SORT_WIDTH) * (roughnessAmount + 0.0001)))
-        return r
-        
+    var rangeTimeToReset: (min: Int,max: Int) {
+        get {
+            return (min:1, max:4)
+        }
     }
-    var maxDotsToReset: Int {
-        return Int(Double(self.imageWidth) * 0.1)
+    
+    var rangeTimetoDuplicate: (min: Int, max: Int) {
+        get {
+            return (min: 48, max: 512)
+        }
     }
     
     override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
         super.initialize(withWidth: width, height: height, sortParam: sortParam)
         let scanLines = width
         let dotsPerScanLine = height
+        let range = self.rangeTimeToReset
+        let t = fMap(value: sortParam.sortAmount, fromMin: 0.0, fromMax: 1.0, toMin:Double(range.min) , toMax: Double(range.max))
+        let numDotsToReset = Int(Double(dotsPerScanLine) / t)
         
-        //let MAX_DOTS_TO_RESET = self.maxDotsToReset;
-        let numDotsToReset = 2 + Int(Double(self.maxDotsToReset) * sortParam.sortAmount) + Int(Double(width) * 0.1 * sortParam.motionAmount)
+        let rdup = self.rangeTimetoDuplicate
+        let td = fMap(value: sortParam.roughnessAmount, fromMin: 0.0, fromMax: 1.0, toMin:Double(rdup.min) , toMax: Double(rdup.max))
+        var scanLinesToDuplicate = Int(Double(dotsPerScanLine) / td)
+        scanLinesToDuplicate = self.scaledIfNeeded(atPx: scanLinesToDuplicate, fromMaxPx: Int(Double(dotsPerScanLine)/Double(rdup.max)), toMaxPx: dotsPerScanLine)
         
-        let scanLinesToDuplicate = self.roughnessDots(withDotsPerScanLine: dotsPerScanLine, roughnessAmount: sortParam.roughnessAmount)
-        
-        
-        Logger.log(" lines to dup: \(scanLinesToDuplicate)")
-        Logger.log(" num dots to reset \(numDotsToReset)" )
+        Logger.log("wxh: \(width)x\(height)")
+        Logger.log(" num dots to reset \(numDotsToReset), t:\(t)" )
+        Logger.log(" lines to dup: \(scanLinesToDuplicate), td:\(td)")
+       
         
         self.table = [[Bool]]()
         for _ in 0..<scanLines {
             self.table.append(Array<Bool>(repeating: false, count:dotsPerScanLine))
         }
         
-        
         var sumNumDot = 0
         var sumDuplicatedScanLines = scanLinesToDuplicate
-        var previousScanLineWithReset = -1
+        //var previousScanLineWithReset = 0
         
         for scan in 0..<scanLines {
-            if (sumDuplicatedScanLines < scanLinesToDuplicate && previousScanLineWithReset != -1) {
-                table[scan] = table[previousScanLineWithReset]
+            if (sumDuplicatedScanLines < scanLinesToDuplicate) {
+                table[scan] = table[scan-1]
                 sumDuplicatedScanLines = sumDuplicatedScanLines + 1;
+                continue
             } else {
-                //scan dots and find index to reset sort
-                for dot in 0..<dotsPerScanLine {
-                    if (sumNumDot < numDotsToReset) {
-                        table[scan][dot] = false
-                        sumNumDot = sumNumDot + 1
-                    } else {
-                        table[scan][dot] = true;
-                        sumNumDot = Int(Double(numDotsToReset) * 0.5);
-                        previousScanLineWithReset = scan
-                    }
+                
+                var dot = sumNumDot
+                while dot < dotsPerScanLine {
+                    table[scan][dot] = true
+                    dot = dot.advanced(by: numDotsToReset)
                 }
+                sumNumDot =  dot - dotsPerScanLine
                 
                 //reset roughness
                 sumDuplicatedScanLines = 0
@@ -244,31 +249,72 @@ class PatternStripe: AbstractSortPattern {
     
     override var name: String {
         get{
-            return "Stripe"
+            return "Offset"
         }
     }
 }
 
-class PatternOffset: PatternStripe {
+class PatternStripe: PatternOffset {
     
-    override func roughnessDots(withDotsPerScanLine dotsPerScanLine: Int, roughnessAmount: Double) -> Int {
-        
-        let MAX_ROUGH = 16.0;
-        let r = 2 + Int(MAX_ROUGH * roughnessAmount)
-        return r
-    }
-    
-    override var maxDotsToReset: Int {
-        get {
-            return Int(64 * 2.15)
-        }
-    }
+
     
     override var name: String {
         get {
-            return "Offset"
+            return "Stripe"
         }
     }
+    
+    override var rangeTimeToReset: (min: Int,max: Int) {
+        get {
+            return (min:4, max:96)
+        }
+    }
+    
+    override var rangeTimetoDuplicate: (min: Int, max: Int) {
+        get {
+            return (min: 24, max: 1024)
+        }
+    }
+
+    override func initialize(withWidth width: Int, height: Int, sortParam: SortParam) {
+        super.initialize(withWidth: width, height: height, sortParam: sortParam)
+        let scanLines = width
+        let dotsPerScanLine = height
+        let range = self.rangeTimeToReset
+        let t = fMap(value: sortParam.sortAmount, fromMin: 0.0, fromMax: 1.0, toMin:Double(range.min) , toMax: Double(range.max))
+        let numDotsToReset = Int(Double(dotsPerScanLine) / t)
+        
+        let scanLinesToDuplicate = 2 + Int((Double(scanLines - 4) * sortParam.roughnessAmount))
+        
+        Logger.log("wxh: \(width)x\(height)")
+        Logger.log(" num dots to reset \(numDotsToReset), t:\(t)" )
+        Logger.log(" lines to dup: \(scanLinesToDuplicate)")
+        
+        
+        self.table = [[Bool]]()
+        for _ in 0..<scanLines {
+            self.table.append(Array<Bool>(repeating: false, count:dotsPerScanLine))
+        }
+        
+        
+        var sumDuplicatedScanLines = scanLinesToDuplicate
+        //var previousScanLineWithReset = 0
+        
+        for scan in 0..<scanLines {
+            if (sumDuplicatedScanLines < scanLinesToDuplicate) {
+                table[scan] = table[scan-1]
+                sumDuplicatedScanLines = sumDuplicatedScanLines + 1;
+            } else {
+                var dot = 0
+                while dot < dotsPerScanLine {
+                    table[scan][dot] = true
+                    dot = dot.advanced(by: numDotsToReset)
+                }
+                sumDuplicatedScanLines = 0
+            }
+        }
+    }
+
 }
 
 

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreImage
+import AVFoundation
 
 extension UIImage {
     
@@ -180,6 +181,4 @@ func deleteFileAtURLs(urls: [URL]) throws {
         try fm.removeItem(at: url)
     }
 }
-
-
 
