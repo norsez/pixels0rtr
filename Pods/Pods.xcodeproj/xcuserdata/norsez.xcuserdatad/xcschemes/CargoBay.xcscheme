@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A078071E33C53CF4C9B808E07D5552DE'
+               BlueprintIdentifier = '154AB6ADFC72900282CC31061F8A155E'
                BlueprintName = 'CargoBay'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'CargoBay.framework'>

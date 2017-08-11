@@ -63,6 +63,7 @@
 /* Begin PBXFileReference section */
 		02818AF82A8723DE4CE8D2CF /* Pods_Pixels0rtr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixels0rtr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF798397AB3D92881E845C48 /* Pods-Pixels0rtr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.debug.xcconfig"; sourceTree = "<group>"; };
+		E97301A9454B610FD06775E7 /* Pods-Pixels0rtr.debug optimized.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.debug optimized.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.debug optimized.xcconfig"; sourceTree = "<group>"; };
 		F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelSorting.swift; sourceTree = "<group>"; };
 		F3087B6E1DEEDCD900376A98 /* SortPattern.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortPattern.swift; sourceTree = "<group>"; };
 		F3087B721DEEE77800376A98 /* MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 			children = (
 				CF798397AB3D92881E845C48 /* Pods-Pixels0rtr.debug.xcconfig */,
 				F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */,
+				E97301A9454B610FD06775E7 /* Pods-Pixels0rtr.debug optimized.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -586,6 +588,75 @@
 			};
 			name = Release;
 		};
+		F3E8D3CD1F3534D000FCB6CE /* Debug optimized */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = "Debug optimized";
+		};
+		F3E8D3CE1F3534D000FCB6CE /* Debug optimized */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E97301A9454B610FD06775E7 /* Pods-Pixels0rtr.debug optimized.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = M4AJR3AUMW;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				INFOPLIST_FILE = Pixels0rtr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = th.co.bluedot.pixels0rtr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DISABLE_SAFETY_CHECKS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 3.0;
+			};
+			name = "Debug optimized";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -593,6 +664,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F336FB741DEEBE3000FB3817 /* Debug */,
+				F3E8D3CD1F3534D000FCB6CE /* Debug optimized */,
 				F336FB751DEEBE3000FB3817 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -602,6 +674,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F336FB771DEEBE3000FB3817 /* Debug */,
+				F3E8D3CE1F3534D000FCB6CE /* Debug optimized */,
 				F336FB781DEEBE3000FB3817 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

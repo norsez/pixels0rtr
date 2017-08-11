@@ -1,5 +1,8 @@
 release notes
 =============
+build 30
+- make stripe and offset more predictable
+
 build 29
 - faster preview 
 
