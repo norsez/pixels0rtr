@@ -19,8 +19,8 @@ class Batch: NSObject {
             sp.sortAmount = fMap(value: step, fromMin: 0, fromMax: 1, toMin: point1.sortAmount, toMax: point2.sortAmount)
             sp.roughnessAmount = fMap(value: step, fromMin: 0, fromMax: 1, toMin: point1.roughnessAmount, toMax: point2.roughnessAmount)
             sp.motionAmount = fMap(value: step, fromMin: 0, fromMax: 1, toMin: point1.motionAmount, toMax: point2.motionAmount)
-            sp.blackThreshold = UInt8(fMap(value: step, fromMin: 0, fromMax: 1, toMin: Double(point1.blackThreshold), toMax: Double(point2.blackThreshold)))
-            sp.whiteThreshold = UInt8(fMap(value: step, fromMin: 0, fromMax: 1, toMin: Double(point1.whiteThreshold), toMax: Double(point2.whiteThreshold)))
+            sp.blackThreshold = fMap(value: step, fromMin: 0, fromMax: 1, toMin: point1.blackThreshold, toMax: point2.blackThreshold)
+            sp.whiteThreshold = fMap(value: step, fromMin: 0, fromMax: 1, toMin: point1.whiteThreshold, toMax: point2.whiteThreshold)
             steps.append(sp)
         }
         steps.append(point2)

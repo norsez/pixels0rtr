@@ -53,8 +53,8 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
             let maxPixels = self.currentSizeOrder[self.sizeSelector.selectedSegmentIndex]
             var sp = SortParam(roughness: self.roughness, sortAmount: self.sortAmount, sorter: self.sorter, pattern: self.pattern, maxPixels: maxPixels)
             sp.orientation = SortOrientation(rawValue: self.sortOrientationSelector.selectedSegmentIndex)!
-            sp.blackThreshold = UInt8(self.thresholdPad.model.lowerValue * 255)
-            sp.whiteThreshold = UInt8(self.thresholdPad.model.upperValue * 255)
+            sp.blackThreshold = self.thresholdPad.model.lowerValue * 255
+            sp.whiteThreshold = self.thresholdPad.model.upperValue * 255
             return sp
         }
     }
@@ -128,8 +128,8 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
                            sorter: self.sorter,
                            pattern: self.pattern,
                            maxPixels: AppConfig.MaxSize.px600)
-        sp.blackThreshold = UInt8( fRandom(min: 0, max: 0.2) * 255 )
-        sp.whiteThreshold = UInt8( fRandom(min: 0.7, max: 1) * 255 )
+        sp.blackThreshold = fRandom(min: 0, max: 0.2) * 255
+        sp.whiteThreshold = fRandom(min: 0.7, max: 1) * 255 
         
         self.updateRandomParameterUI(withSortParam: sp)
         self.notifyChangeToDelegates()

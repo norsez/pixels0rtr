@@ -18,13 +18,13 @@ extension Data {
 
 //MARK: CMYK color model
 class CMYK {
-    var magenta, black, cyan, yellow: Float
+    var magenta, black, cyan, yellow: Double
     
-    init(withARGB argb: [UInt8]) {
+    init(withARGB argb: [Double]) {
         //convert to CMY
-        cyan = 1 - (Float(argb[1]) / 255)
-        magenta = 1 - (Float(argb[2]) / 255)
-        yellow = 1 - (Float(argb[3]) / 255)
+        cyan = 1 - (argb[1] / 255)
+        magenta = 1 - (argb[2] / 255)
+        yellow = 1 - (argb[3] / 255)
         //convert to CMYK
         black = 1;
         if cyan < black {
@@ -48,49 +48,49 @@ class SortColor {
     
     fileprivate static var colorCache = [Int:SortColor]()
     
-    let bytesARBG :[UInt8]
-    var bytesAHSB :[UInt8] = [0,0,0,0]
+    let bytesARBG :[Double]
+    var bytesAHSB :[Double] = [0,0,0,0]
     lazy var CMYKValues: CMYK = {
         let result = CMYK(withARGB: self.bytesARBG)
         return result
     }()
     
-    var red: UInt8 {
+    var red: Double {
         get {
             return self.bytesARBG[1]
         }
     }
     
-    var green: UInt8 {
+    var green: Double {
         get {
             return self.bytesARBG[2]
         }
     }
     
-    var blue: UInt8 {
+    var blue: Double {
         get {
             return self.bytesARBG[3]
         }
     }
     
-    var alpha: UInt8 {
+    var alpha: Double {
         get {
             return self.bytesARBG[0]
         }
     }
     
-    var hue: UInt8 {
+    var hue: Double {
         get {
             return self.bytesAHSB[1]
         }
     }
-    var saturation: UInt8 {
+    var saturation: Double {
         get {
             return self.bytesAHSB[2]
         }
     }
     
-    var brightness: UInt8 {
+    var brightness: Double {
         get {
             return self.bytesAHSB[3]
         }
@@ -114,8 +114,9 @@ class SortColor {
     
     init(withRed red:UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
         
-        bytesARBG = [alpha, red, green, blue]
-        let key = SortColor.integer(withBytes: bytesARBG)!
+        bytesARBG = [Double(alpha), Double(red), Double(green), Double(blue)]
+        let bytesARGB8Bit: [UInt8] = [alpha,red,green,blue]
+        let key = SortColor.integer(withBytes: bytesARGB8Bit)!
         if let cached = SortColor.colorCache[key] {
             self.bytesAHSB = cached.bytesAHSB
         }else{
@@ -130,7 +131,7 @@ class SortColor {
             var b:CGFloat = 0
             var a:CGFloat = 0
             c.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-            self.bytesAHSB = [UInt8(a * 255.0), UInt8(h * 255.0),UInt8(s * 255.0),UInt8(b * 255.0)]
+            self.bytesAHSB = [Double(a * 255.0), Double(h * 255.0),Double(s * 255.0),Double(b * 255.0)]
             
             SortColor.colorCache[key] = self
         }
@@ -190,8 +191,8 @@ struct SortParam{
     var orientation = SortOrientation.right
     var maxPixels: AppConfig.MaxSize = .px600
     var sortRect: CGRect? = nil
-    var whiteThreshold: UInt8 = 240
-    var blackThreshold: UInt8 = 10
+    var whiteThreshold: Double = 240
+    var blackThreshold: Double = 10
     
     init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize, sortRect: CGRect? = nil) {
         self.roughnessAmount = roughness
@@ -209,8 +210,8 @@ struct SortParam{
                          pattern: ALL_SORT_PATTERNS[Int(arc4random())%ALL_SORT_PATTERNS.count],
                          maxPixels: .px600)
         sp.orientation = SortOrientation(rawValue: Int(arc4random_uniform(3)))!
-        sp.blackThreshold = UInt8(arc4random() % 50)
-        sp.whiteThreshold = UInt8(150 + arc4random() % 100)
+        sp.blackThreshold = Double(Int(arc4random()) % 50)
+        sp.whiteThreshold = Double(150 + (Int(arc4random()) % 100))
         return sp
     }
 }
@@ -256,7 +257,7 @@ class SorterBrightness: PixelSorter {
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         
-        return Double(color.brightness)
+        return color.brightness
     }
 }
 
@@ -269,7 +270,7 @@ class SorterMagenta: PixelSorter {
     }
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
-        return Double(color.CMYKValues.magenta)
+        return color.CMYKValues.magenta
     }
 }
 
@@ -281,7 +282,7 @@ class SorterCyan: PixelSorter {
     }
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
-        return Double(color.CMYKValues.cyan)
+        return color.CMYKValues.cyan
     }
 }
 
@@ -293,7 +294,7 @@ class SorterYellow: PixelSorter {
     }
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
-        return Double(color.CMYKValues.yellow)
+        return color.CMYKValues.yellow
     }
 }
 
@@ -305,7 +306,7 @@ class SorterBlack: PixelSorter {
     }
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam) -> Double {
-        return Double(color.CMYKValues.black)
+        return color.CMYKValues.black
     }
 }
 
@@ -318,7 +319,7 @@ class SorterHue: PixelSorter {
     }
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
-        return Double(color.hue)
+        return color.hue
     }
 }
 
@@ -331,7 +332,7 @@ class SorterSaturation: PixelSorter {
     
     func order(by color: SortColor, index: Double, totalColors: Int, sortParam: SortParam)->Double {
         
-        return Double(color.saturation)
+        return color.saturation
     }
 }
 
@@ -349,7 +350,7 @@ class SorterCenterSorted: PixelSorter {
         }else if (index > 1 - t) {
             return (index * Double(totalColors)) + 2805.0
         }
-        return Double(color.brightness) * 255.0
+        return color.brightness * 255.0
     }
 }
 
@@ -366,7 +367,7 @@ class SorterIntervals: PixelSorter {
             return index * Double(totalColors)
         }
         
-        return map(Double(color.brightness), min: 0, max: 255, toMin: thres * Double(totalColors), toMax: Double(totalColors))
+        return map(color.brightness, min: 0, max: 255, toMin: thres * Double(totalColors), toMax: Double(totalColors))
     }
 }
 
