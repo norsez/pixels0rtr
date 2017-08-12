@@ -262,8 +262,9 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             self.abortSortButton.alpha = 0
             self.abortSorting = false
             DispatchQueue.global().async {
-                
-                self.previewEngine.updatePreview(forImage: image, withSortParam: self.paramController.currentParameters, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
+                var sp = self.paramController.currentParameters
+                sp.maxPixels = .px600
+                self.previewEngine.updatePreview(forImage: image, withSortParam: sp, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
                     self.updatePregressInMainThread(v)
                 }, aborted: {
                    return self.abortSorting
