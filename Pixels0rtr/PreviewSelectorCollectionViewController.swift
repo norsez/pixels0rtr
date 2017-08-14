@@ -15,6 +15,22 @@ class PreviewGridCell: UICollectionViewCell {
     @IBOutlet var previewImageView: UIImageView!
     @IBOutlet weak var infoLabel: UILabel!
     
+    var selectedView: UIView? = nil
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.selectedView?.frame = self.bounds
+    }
+    
+    func setSelectionMark(_ selected: Bool, animated: Bool) {
+        if self.selectedView == nil {
+            self.selectedView = UIView(frame: self.bounds)
+            self.addSubview(self.selectedView!)
+        }
+        
+        self.selectedView?.backgroundColor = selected ? APP_COLOR_FONT.withAlphaComponent(0.5) : UIColor.clear
+
+    }
 }
 
 class PreviewSelectorCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
@@ -23,6 +39,10 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
     var sortParams = [SortParam]()
     var imageToPreview: UIImage?
     var _currentSortParam: SortParam?
+    
+    var modeIsAddToBatch = false
+    var selectedSortParamItems = [Int]()
+    
     var currentSortParam: SortParam? {
         get {
             return self._currentSortParam
@@ -39,6 +59,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
     var didSelectItem: ((SortParam?)->Void)?
     var randomizeButton: UIBarButtonItem?
     var doneButton: UIBarButtonItem?
+    var addToBatchButton: UIBarButtonItem?
     var currentCatalogButton: UIBarButtonItem?
     let NUM_PREVIEWS = 24
     
@@ -59,7 +80,14 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         self.randomizeButton = UIBarButtonItem(title: "[ ∞ ]", style: .plain, target: self, action: #selector(didPressRefresh(sender:)))
         self.doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissSelf))
         self.navigationItem.leftBarButtonItems = [self.randomizeButton!, self.currentCatalogButton!]
-        self.navigationItem.rightBarButtonItem = self.doneButton
+        
+        #if DEBUG
+            self.addToBatchButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToBatch))
+            self.navigationItem.rightBarButtonItems = [self.doneButton!, self.addToBatchButton!]
+        #else
+            self.navigationItem.rightBarButtonItem = self.doneButton
+        #endif
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,6 +108,33 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         }
         
     }
+    
+    func addToBatch() {
+        self.modeIsAddToBatch = !self.modeIsAddToBatch
+        self.collectionView?.allowsMultipleSelection = self.modeIsAddToBatch
+        self.collectionView?.backgroundColor = self.modeIsAddToBatch ? APP_COLOR_FONT : UIColor.black
+        
+        if !self.modeIsAddToBatch {
+            
+            guard let imagePath = AppConfig.shared.lastImagePath else {
+                Logger.log("imagePath can't be nil")
+                return
+            }
+            
+            
+            self.selectedSortParamItems.forEach({ (item) in
+                do {
+                    try self.sortParams[item].save(withImageFilePath: imagePath)
+                }catch {
+                    Logger.log("\(error)")
+                }
+            })
+            
+            self.selectedSortParamItems = []
+            self.collectionView?.reloadData()
+        }
+    }
+    
     func didPressRefresh (sender: Any) {
         
         SamplePreviewEngine.shared.lastImages = []
@@ -213,6 +268,16 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         return cell
     }
     
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        let selected = self.selectedSortParamItems.contains(indexPath.item)
+        if let cell = cell as? PreviewGridCell {
+            cell.setSelectionMark(selected, animated: true)
+        }
+        
+        
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.busy {
@@ -220,11 +285,27 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         }
         
         self.aborted = true
-        if let c = self.didSelectItem {
-            let sp = self.sortParams[indexPath.item]
-            AppConfig.shared.lastSortParam = sp
-            Logger.log("select param: \(sp)")
-            c(sp)
+        
+        let cell = self.collectionView?.cellForItem(at: indexPath) as! PreviewGridCell
+        if self.modeIsAddToBatch {
+            
+            if !self.selectedSortParamItems.contains(indexPath.item) {
+                self.selectedSortParamItems.append(indexPath.item)
+                cell.setSelectionMark(true, animated: true)
+            }else {
+                self.selectedSortParamItems = self.selectedSortParamItems.filter({ (item) -> Bool in
+                    return item != indexPath.item
+                })
+                cell.setSelectionMark(false, animated: true)
+            }
+            
+        }else {
+            if let c = self.didSelectItem {
+                let sp = self.sortParams[indexPath.item]
+                AppConfig.shared.lastSortParam = sp
+                Logger.log("select param: \(sp)")
+                c(sp)
+            }
         }
     }
 

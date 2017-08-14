@@ -32,6 +32,7 @@ extension PHPhotoLibrary {
         }
     }
     
+    
     // MARK: - Private
     
     fileprivate func findAlbum(albumName: String) -> PHAssetCollection? {

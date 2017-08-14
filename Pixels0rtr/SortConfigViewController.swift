@@ -504,6 +504,13 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
                 Logger.log("none selected")
                 return
             }
+            
+            guard let imagePath = info[UIImagePickerControllerReferenceURL] as? URL else {
+                return
+            }
+            
+            AppConfig.shared.lastImagePath = imagePath.absoluteString
+            
             Logger.log("original size: \(img.size)")
             self.setSelected(image: img)
         }

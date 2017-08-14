@@ -176,6 +176,7 @@ class AppConfig: NSObject {
     
     var lastSortParam: SortParam?
     var lastImage: UIImage?
+    var lastImagePath: String?
     
     //#MARK: - singleton
     static let shared: AppConfig = {

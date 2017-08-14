@@ -31,11 +31,13 @@ PODS:
     - AFNetworking (~> 2.2)
   - FBSDKCoreKit (4.17.0):
     - Bolts (~> 1.7)
+  - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - C4 (from `https://github.com/C4Labs/C4iOS.git`)
   - CargoBay (~> 2.1.1)
   - FBSDKCoreKit
+  - SwiftyJSON
 
 EXTERNAL SOURCES:
   C4:
@@ -52,7 +54,8 @@ SPEC CHECKSUMS:
   C4: fdd95ad49af46865219b84b743fa956593fd898c
   CargoBay: bc63f545588627238456fb56c3e7db8d42dd174a
   FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 720e76628871e353b3b01fac685b4b5249d55fd2
+PODFILE CHECKSUM: 747b7203d88036786e699510cb92049f5b4fb14e
 
 COCOAPODS: 1.2.1.beta.1

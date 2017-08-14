@@ -8,7 +8,7 @@
 
 import UIKit
 import C4
-
+import SwiftyJSON
 extension Data {
     func scanValue<T>(start: Int, length: Int) -> T {
         return self.subdata(in: start..<start+length).withUnsafeBytes { $0.pointee }
@@ -194,6 +194,23 @@ struct SortParam{
     var whiteThreshold: Double = 240
     var blackThreshold: Double = 10
     
+    var imagePath: String?
+    var batch_fileURL: URL? //the associated file url of this struct. can be nil
+    
+    struct Keys {
+        static let filePath = "filePath"
+        static let roughnessAmount = "roughnessAmount"
+        static let sortAmount = "sortAmount"
+        static let pattern = "pattern"
+        static let sorter = "sorter"
+        static let motionAmount = "motionAmount"
+        static let orientation = "orientation"
+        static let maxPixels = "maxPixels"
+        static let sortRect = "sortRect"
+        static let whiteThreshold = "whiteThreshold"
+        static let blackThreshold = "blackThreshold"
+    }
+    
     init(roughness: Double, sortAmount: Double, sorter: PixelSorter, pattern: SortPattern, maxPixels: AppConfig.MaxSize, sortRect: CGRect? = nil) {
         self.roughnessAmount = roughness
         self.sortAmount = sortAmount
@@ -213,6 +230,63 @@ struct SortParam{
         sp.blackThreshold = Double(Int(arc4random()) % 50)
         sp.whiteThreshold = Double(150 + (Int(arc4random()) % 100))
         return sp
+    }
+    
+    static func sortParam(withJSONObject jsonObject:[String:AnyObject]) -> SortParam {
+        let json = JSON(jsonObject)
+        
+        let pattern = ALL_SORT_PATTERNS[ json[Keys.pattern].int ?? 0 ]
+        let sorter = ALL_SORTERS[ json[Keys.sorter].int ?? 0]
+        let maxPixels = AppConfig.MaxSize(rawValue:  json[Keys.maxPixels].int ?? 0)!
+        var sp = SortParam(roughness: json[Keys.roughnessAmount].double ?? 0,
+                           sortAmount: json[Keys.sortAmount].double ?? 0,
+                           sorter: sorter,
+                           pattern: pattern,
+                           maxPixels: maxPixels)
+        sp.whiteThreshold = json[Keys.whiteThreshold].double ?? 255
+        sp.blackThreshold = json[Keys.blackThreshold].double ?? 0
+        sp.motionAmount = json[Keys.motionAmount].double ?? 0
+        sp.imagePath = json[Keys.filePath].string 
+        return sp
+    }
+    
+    func asJSONObject(withImageFilePath path:String?) -> [String:AnyObject] {
+        
+        var json = [String:AnyObject]()
+        
+        json[Keys.roughnessAmount] = self.roughnessAmount as Double as AnyObject
+        json[Keys.sortAmount] = self.sortAmount as AnyObject
+        json[Keys.orientation] = self.orientation.rawValue as AnyObject
+        json[Keys.blackThreshold] = self.blackThreshold as AnyObject
+        json[Keys.whiteThreshold] = self.whiteThreshold as AnyObject
+        json[Keys.maxPixels] = self.maxPixels.rawValue as AnyObject
+        
+        guard let pattern = ALL_SORT_PATTERNS.index(where: { (pattern) -> Bool in
+            return self.pattern.name == pattern.name
+        }) else {
+            fatalError("unknown pattern")
+        }
+        
+        json[Keys.pattern] = ALL_SORT_PATTERNS[pattern].name as AnyObject
+        
+        guard let sorter = ALL_SORTERS.index(where: { (sorter) -> Bool in
+            return self.sorter.name == sorter.name
+        })else {
+            fatalError("unknown sorter")
+        }
+        
+        json[Keys.sorter] = ALL_SORTERS[sorter].name as AnyObject
+        
+        if let rect = self.sortRect {
+            json[Keys.sortRect] = NSStringFromCGRect(rect) as AnyObject
+        }
+        
+        
+        if let path = path {
+            json[Keys.filePath] = path as AnyObject
+            
+        }
+        return json
     }
 }
 

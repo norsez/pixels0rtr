@@ -1,5 +1,10 @@
 release notes
 =============
+build 31
+- max size of loupe preview is 600px
+- reduce int->double typecasting
+- batch mode
+
 build 30
 - make stripe and offset more predictable
 

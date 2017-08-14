@@ -162,6 +162,24 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
         }
     }
     
+    @IBAction func didPressAddToBatch(_ sender: Any) {
+        
+        guard let sp1 = AppConfig.shared.lastSortParam else {
+            Logger.log("no current sort param")
+            return
+        }
+        
+        guard let imagePath = AppConfig.shared.lastImagePath else {
+            Logger.log("no image selected")
+            return
+        }
+        do {
+            try sp1.save(withImageFilePath: imagePath)
+        } catch {
+            Logger.log("\(error)")
+        }
+    }
+    
     @IBAction func didPressCreateMotion(_ sender: Any) {
         guard let sp1 = AppConfig.shared.lastSortParam else {
             Logger.log("no current sort param")
@@ -212,5 +230,13 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
                 
             }
         }
+    }
+    
+    @IBAction func didPressBatch(_ sender: Any) {
+        
+        let ctrl = BatchListTableViewController(style: .plain)
+        self.navigationController?.pushViewController(ctrl, animated: true)
+        
+        
     }
 }
