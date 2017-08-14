@@ -42,7 +42,7 @@ extension SortParam {
         let df = NumberFormatter()
         df.maximumSignificantDigits = 2
         let hash = df.string(from:  fRandom(min: 0, max: 10) as NSNumber)
-        let filename = "\(hash)_sortparam_\(self.sorter.name)_\(self.pattern.name)_\(df.string(from: self.sortAmount as NSNumber))_\(df.string(from: self.roughnessAmount as NSNumber))"
+        let filename = "\(hash!)_sortparam_\(self.sorter.name)_\(self.pattern.name)_\(df.string(from: self.sortAmount as NSNumber)!)_\(df.string(from: self.roughnessAmount as NSNumber)!)"
         url.appendPathComponent(filename)
         
         let jsonObject = self.asJSONObject(withImageFilePath: imagePath)
