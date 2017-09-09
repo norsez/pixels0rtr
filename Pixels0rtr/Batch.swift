@@ -288,7 +288,9 @@ class BatchListTableViewController: UITableViewController {
         
         let sp = self.params[indexPath.row]
         
-        
+        cell.textLabel?.minimumScaleFactor = 0.5
+        cell.textLabel?.lineBreakMode = .byTruncatingTail
+        cell.textLabel?.numberOfLines = 2
         cell.textLabel?.text = sp.batch_fileURL?.lastPathComponent ?? "unknown"
         
         return cell
