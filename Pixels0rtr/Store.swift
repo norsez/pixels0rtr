@@ -145,6 +145,7 @@ class Store: NSObject, SKPaymentTransactionObserver, SKRequestDelegate {
     func makeAppPaidVersion (withTransaction tx: SKPaymentTransaction) {
         AppConfig.shared.isFreeVersion = false
         NotificationCenter.default.post(name: .onStoreDidPurchase, object: nil)
+        Analytics.shared.logPurchaseSuccessful()
     }
     
     //#MARK: - singleton

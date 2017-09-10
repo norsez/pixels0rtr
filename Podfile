@@ -7,5 +7,7 @@ target 'Pixels0rtr' do
     pod 'SwiftyJSON'
     pod 'Firebase/Core'
     pod 'Firebase/Messaging'
+    pod 'Firebase/Performance'
+    pod 'Firebase/RemoteConfig'
     #pod 'Surge', :git => 'https://github.com/mattt/Surge.git'
 end

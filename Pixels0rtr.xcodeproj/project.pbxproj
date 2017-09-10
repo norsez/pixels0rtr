@@ -57,6 +57,7 @@
 		F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA71DFE693900D45413 /* UnlockViewController.swift */; };
 		F3EF87D01E4EEF430026341C /* Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF87CF1E4EEF430026341C /* Batch.swift */; };
 		F3F17E6E1E40404300383CAA /* ThesholdControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F17E6D1E40404300383CAA /* ThesholdControl.swift */; };
+		F3F191741F64B04B00311B95 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3F191731F64B04B00311B95 /* GoogleService-Info.plist */; };
 		F3FC32D11E012D5B0041F73E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FC32D01E012D5B0041F73E /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +118,8 @@
 		F3D91AA71DFE693900D45413 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
 		F3EF87CF1E4EEF430026341C /* Batch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Batch.swift; sourceTree = "<group>"; };
 		F3F17E6D1E40404300383CAA /* ThesholdControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThesholdControl.swift; sourceTree = "<group>"; };
+		F3F191731F64B04B00311B95 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F3F191751F64B60F00311B95 /* Pixels0rtr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pixels0rtr.entitlements; sourceTree = "<group>"; };
 		F3FC32D01E012D5B0041F73E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixels0rtr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixels0rtr/Pods-Pixels0rtr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,6 +182,7 @@
 		F336FB661DEEBE3000FB3817 /* Pixels0rtr */ = {
 			isa = PBXGroup;
 			children = (
+				F3F191751F64B60F00311B95 /* Pixels0rtr.entitlements */,
 				F3B3D02F1E852C3200C6A8D0 /* filter */,
 				F33BA4401DF522F5008304E4 /* images */,
 				F336FB7B1DEECB3000FB3817 /* model */,
@@ -201,6 +205,7 @@
 				F336FB6E1DEEBE3000FB3817 /* Assets.xcassets */,
 				F336FB701DEEBE3000FB3817 /* LaunchScreen.storyboard */,
 				F336FB731DEEBE3000FB3817 /* Info.plist */,
+				F3F191731F64B04B00311B95 /* GoogleService-Info.plist */,
 				F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */,
 				F336FB791DEEBE4600FB3817 /* Podfile */,
 				F33736771E2D026700455D3F /* MyPlayground.playground */,
@@ -306,6 +311,9 @@
 							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -335,6 +343,7 @@
 			files = (
 				F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */,
 				F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */,
+				F3F191741F64B04B00311B95 /* GoogleService-Info.plist in Resources */,
 				F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */,
 				F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */,
 				F336FB6D1DEEBE3000FB3817 /* Main.storyboard in Resources */,
@@ -560,8 +569,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF798397AB3D92881E845C48 /* Pods-Pixels0rtr.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pixels0rtr/Pixels0rtr.entitlements;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -576,8 +585,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F9F827F9BD3EABDB79600617 /* Pods-Pixels0rtr.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pixels0rtr/Pixels0rtr.entitlements;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -642,8 +651,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E97301A9454B610FD06775E7 /* Pods-Pixels0rtr.debug optimized.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pixels0rtr/Pixels0rtr.entitlements;
 				DEVELOPMENT_TEAM = M4AJR3AUMW;
 				GCC_OPTIMIZATION_LEVEL = 2;
 				INFOPLIST_FILE = Pixels0rtr/Info.plist;

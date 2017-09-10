@@ -31,12 +31,68 @@ PODS:
     - AFNetworking (~> 2.2)
   - FBSDKCoreKit (4.17.0):
     - Bolts (~> 1.7)
+  - Firebase/Core (4.1.1):
+    - FirebaseAnalytics (= 4.0.3)
+    - FirebaseCore (= 4.0.6)
+  - Firebase/Messaging (4.1.1):
+    - Firebase/Core
+    - FirebaseMessaging (= 2.0.2)
+  - Firebase/Performance (4.1.1):
+    - Firebase/Core
+    - FirebasePerformance (= 1.0.4)
+  - Firebase/RemoteConfig (4.1.1):
+    - Firebase/Core
+    - FirebaseRemoteConfig (= 2.0.2)
+  - FirebaseAnalytics (4.0.3):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseCore (4.0.6):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseInstanceID (2.0.2):
+    - FirebaseCore (~> 4.0)
+  - FirebaseMessaging (2.0.2):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
+  - FirebasePerformance (1.0.4):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.1)
+  - FirebaseRemoteConfig (2.0.2):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - Protobuf (~> 3.1)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GTMSessionFetcher/Core (1.1.11)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
+  - Protobuf (3.4.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - C4 (from `https://github.com/C4Labs/C4iOS.git`)
   - CargoBay (~> 2.1.1)
   - FBSDKCoreKit
+  - Firebase/Core
+  - Firebase/Messaging
+  - Firebase/Performance
+  - Firebase/RemoteConfig
   - SwiftyJSON
 
 EXTERNAL SOURCES:
@@ -54,8 +110,19 @@ SPEC CHECKSUMS:
   C4: fdd95ad49af46865219b84b743fa956593fd898c
   CargoBay: bc63f545588627238456fb56c3e7db8d42dd174a
   FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
+  Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
+  FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
+  FirebaseCore: 28def3c643989c97ea5a69ea5000f5fa9902b9fd
+  FirebaseInstanceID: c4c7fca62c7b7330caee5da04f19a37ea37bb1c1
+  FirebaseMessaging: 85af6c27188538b3a6f7dfd0b3b0596358cb0c39
+  FirebasePerformance: f1ba9ac64960f958434171877f06a0d7021b45a7
+  FirebaseRemoteConfig: 5b3e3301ef2f237b1b588e8ef3211b5a22e9e15d
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 747b7203d88036786e699510cb92049f5b4fb14e
+PODFILE CHECKSUM: 6c0be781bcaa8d1bd1e3baf50ce80b2aae13bdb7
 
 COCOAPODS: 1.2.1.beta.1

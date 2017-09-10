@@ -8,63 +8,72 @@
 
 import UIKit
 import FBSDKCoreKit
+import Firebase
+
 class Analytics: NSObject {
     let FacebookAppId = "1676455842685204"
     
-    #if DEBUG
-    var enabled = false
-    #else
-    var enabled = true
-    #endif
     
     func logSort(withSortParam sp: SortParam) {
         
-        if !enabled {
-            return
-        }
+        
+        let params = ["pattern": sp.pattern.name,
+                     "sorter": sp.sorter.name,
+                     "sortAmount": "\(sp.sortAmount * 100)",
+            "roughnessAmount": "\(sp.roughnessAmount * 100)"
+        ]
         
         FBSDKAppEvents.logEvent("Sort Action",
-                                parameters:
-            ["pattern": sp.pattern.name,
-             "sorter": sp.sorter.name,
-             "sortAmount": "\(sp.sortAmount * 100)",
-             "roughnessAmount": "\(sp.roughnessAmount * 100)"
-             ])
+                                parameters:params
+            )
+        Firebase.Analytics.logEvent("sort_action", parameters: params)
     }
     
     func logSelectImage(withActualSize size:CGSize) {
         
-        if !enabled {
-            return
-        }
         
         FBSDKAppEvents.logEvent("Select Image", parameters:
             ["width": Int(size.width),
              "height": Int(size.height)
             ]
         )
+        
+        Firebase.Analytics.logEvent("select_image", parameters: ["width": Int(size.width),
+                                                                 "height": Int(size.height)])
+    }
+    
+    func logPurchaseSuccessful() {
+        Firebase.Analytics.logEvent(AnalyticsEventEcommercePurchase, parameters:[:])
     }
     
     func logScreen(_ screenName: String) {
-        if !enabled {
-            return
-        }
         
         FBSDKAppEvents.logEvent("screen", parameters: ["name": screenName])
+        Firebase.Analytics.setScreenName(screenName, screenClass: nil)
     }
     
     func logButton(_ buttonName: String) {
-        if !enabled {
-            return
-        }
         
         FBSDKAppEvents.logEvent("button", parameters: ["name": buttonName])
+        Firebase.Analytics.logEvent("button", parameters: ["name": buttonName])
+    }
+    
+    func initialize() {
+        FirebaseApp.configure()
+        Firebase.Analytics.setUserProperty(AppConfig.shared.isFreeVersion ? "free" : "paid", forName: "paid")
+        #if DEBUG
+            Firebase.Analytics.setUserProperty("debug", forName: "debug")
+        #else
+            Firebase.Analytics.setUserProperty("production", forName: "debug")
+        #endif
+        
+        
+        
     }
     
     //#MARK: - singleton
     static let shared: Analytics = {
         let instance = Analytics()
-        // setup code
         return instance
     }()
 
