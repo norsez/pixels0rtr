@@ -204,7 +204,7 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
         
         DispatchQueue.global(qos: .userInitiated) .async {
             
-            Batch.shared.renderFrom(point1: point1, toPoint2: point2, frames: 8, image: image, progress: { (f) in
+            VideoRender.shared.renderFrom(point1: point1, toPoint2: point2, frames: 8, image: image, progress: { (f) in
                 self.setProgressInMain(value: f)
             }, aborted: { () -> Bool in
                 return false

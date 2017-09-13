@@ -34,6 +34,8 @@
 		F33BA4431DF524C3008304E4 /* SortConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA43E1DF51BA3008304E4 /* SortConfigViewController.swift */; };
 		F33BA4451DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */; };
 		F34575941E069F66001A110F /* StripBitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34575931E069F66001A110F /* StripBitmap.swift */; };
+		F345F0821F689C08004D2A7D /* CXEImageToVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F345F0811F689C08004D2A7D /* CXEImageToVideo.swift */; };
+		F345F0861F689F41004D2A7D /* VideoRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F345F0851F689F41004D2A7D /* VideoRender.swift */; };
 		F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */; };
 		F36078261E0CE27100769EB6 /* XYPadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36078251E0CE27100769EB6 /* XYPadModel.swift */; };
 		F37468FD1E6C0C6B0013D3AC /* TimelapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */; };
@@ -94,6 +96,8 @@
 		F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage_1.jpg; sourceTree = "<group>"; };
 		F33BA4441DF55732008304E4 /* HorizontalSelectorCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSelectorCollectionViewController.swift; sourceTree = "<group>"; };
 		F34575931E069F66001A110F /* StripBitmap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripBitmap.swift; sourceTree = "<group>"; };
+		F345F0811F689C08004D2A7D /* CXEImageToVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CXEImageToVideo.swift; sourceTree = "<group>"; };
+		F345F0851F689F41004D2A7D /* VideoRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRender.swift; sourceTree = "<group>"; };
 		F3504CCC1E0DE96400A7B5D3 /* defaultImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultImage.jpg; sourceTree = "<group>"; };
 		F36078251E0CE27100769EB6 /* XYPadModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYPadModel.swift; sourceTree = "<group>"; };
 		F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelapseBuilder.swift; sourceTree = "<group>"; };
@@ -225,7 +229,6 @@
 				F3087B6C1DEEDA2900376A98 /* PixelSorting.swift */,
 				F3087B6E1DEEDCD900376A98 /* SortPattern.swift */,
 				F32AE9F91E6534C9005959EA /* HashUtils.swift */,
-				F3EF87CF1E4EEF430026341C /* Batch.swift */,
 				F34575931E069F66001A110F /* StripBitmap.swift */,
 				F3087B721DEEE77800376A98 /* MathUtils.swift */,
 				F33BA43C1DF51719008304E4 /* SortingPreview.swift */,
@@ -233,7 +236,7 @@
 				F3387F811DF8CFB3004D7C3A /* UIImage+Profiling.swift */,
 				F3D91AA31DFCE4C300D45413 /* Analytics.swift */,
 				F38047521E0159F6001B881A /* Store.swift */,
-				F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */,
+				F345F0801F689BF1004D2A7D /* video */,
 				F37695DB1E6EF9AE00AABB30 /* Perlin.swift */,
 				F3B3D0321E88D4F300C6A8D0 /* PhotoLibrary.swift */,
 			);
@@ -248,6 +251,17 @@
 				F33BA4411DF5231A008304E4 /* defaultImage_1.jpg */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		F345F0801F689BF1004D2A7D /* video */ = {
+			isa = PBXGroup;
+			children = (
+				F3EF87CF1E4EEF430026341C /* Batch.swift */,
+				F37468FC1E6C0C6B0013D3AC /* TimelapseBuilder.swift */,
+				F345F0811F689C08004D2A7D /* CXEImageToVideo.swift */,
+				F345F0851F689F41004D2A7D /* VideoRender.swift */,
+			);
+			name = video;
 			sourceTree = "<group>";
 		};
 		F37695D61E6EEA9400AABB30 /* test */ = {
@@ -413,6 +427,7 @@
 				F3A659951E8769D600FA0DB8 /* RainbowLCD.swift in Sources */,
 				F3087B731DEEE77800376A98 /* MathUtils.swift in Sources */,
 				F3D28CF81E27661700565E71 /* SortLoupeView.swift in Sources */,
+				F345F0821F689C08004D2A7D /* CXEImageToVideo.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
 				F34575941E069F66001A110F /* StripBitmap.swift in Sources */,
 				F3B3D0311E852C5100C6A8D0 /* RBGFilter.swift in Sources */,
@@ -433,6 +448,7 @@
 				F3A659971E87769100FA0DB8 /* CRTFilter.swift in Sources */,
 				F3387F821DF8CFB3004D7C3A /* UIImage+Profiling.swift in Sources */,
 				F3375B7D1DFFEC0800AF0742 /* VerticalSelectorViewController.swift in Sources */,
+				F345F0861F689F41004D2A7D /* VideoRender.swift in Sources */,
 				F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */,
 				F3087B6F1DEEDCD900376A98 /* SortPattern.swift in Sources */,
 				F39F30E11DF4140B0070F379 /* Bitmap.swift in Sources */,

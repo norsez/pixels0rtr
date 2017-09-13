@@ -25,7 +25,7 @@
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
 	<true/>
 	<key>IS_GCM_ENABLED</key>
@@ -34,6 +34,8 @@
 	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:368126910727:ios:6828e936ceff344b</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>DATABASE_URL</key>
 	<string>https://pixels0rtr.firebaseio.com</string>
 </dict>
