@@ -96,7 +96,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
     }
     
     
-    func displayDebugView () {
+    @objc func displayDebugView () {
         if let tv = self.storyboard?.instantiateViewController(withIdentifier: "TestViewController") as? TestViewController {
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(tv, animated: true)
@@ -262,23 +262,41 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
             self.abortSortButton.alpha = 0
             self.abortSorting = false
             DispatchQueue.global().async {
-                var sp = self.paramController.currentParameters
-                sp.maxPixels = .px600
-                self.previewEngine.updatePreview(forImage: image, withSortParam: sp, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
-                    self.updatePregressInMainThread(v)
-                }, aborted: {
-                   return self.abortSorting
-                }, completion: { (previewImage, sortedRect) in
+                let sp = self.paramController.currentParameters
+                
+                SamplePreviewEngine.shared.createPreviews(withParams: [sp],
+                                                          forImage: image,
+                                                          progress: { (image, sortParam, progress) in
+                            self.updatePregressInMainThread(Float(progress))
+                }, aborted: { () -> Bool in
+                    return self.abortSorting
+                }, completion: { (outputImages, sortParams ) in
                     DispatchQueue.main.async {
-                        self.setProgressView(hidden: true, allowLoupe: true)
-                        if let pv = previewImage,
-                            let sr = sortedRect {
+                        self.setProgressView(hidden: true, allowLoupe: false)
+                        if let pv = outputImages?.first{
                             self.paramController.setXYPadBackgroundImage(pv)
-                            self.sortLoupeView.showImage(image: pv, loupeRect: sr)
+                            self.sortLoupeView.showImage(image: pv)
                             self.thumbnailLabel.text = "preview"
                         }
                     }
                 })
+                
+//                sp.maxPixels = .px600
+//                self.previewEngine.updatePreview(forImage: image, withSortParam: sp, loupeOrigin: self.sortLoupeView.currentOrigin, progress: { (v) in
+//                    self.updatePregressInMainThread(v)
+//                }, aborted: {
+//                   return self.abortSorting
+//                }, completion: { (previewImage, sortedRect) in
+//                    DispatchQueue.main.async {
+//                        self.setProgressView(hidden: true, allowLoupe: true)
+//                        if let pv = previewImage,
+//                            let sr = sortedRect {
+//                            self.paramController.setXYPadBackgroundImage(pv)
+//                            self.sortLoupeView.showImage(image: pv, loupeRect: sr)
+//                            self.thumbnailLabel.text = "preview"
+//                        }
+//                    }
+//                })
             }
         }
     }
@@ -295,7 +313,7 @@ SortParamUIViewControllerDelegate, SortLoupeViewDelegate{
         picker.navigationBar.barStyle = .blackTranslucent
         let font = UIFont(name: "Silom", size: 16)!
         let fontColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.9)
-        picker.navigationBar.titleTextAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
+        picker.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: fontColor]
         self.controlScrollView.flashScrollIndicators()
         
     }

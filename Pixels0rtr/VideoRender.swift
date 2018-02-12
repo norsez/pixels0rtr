@@ -9,10 +9,6 @@
 import UIKit
 
 class VideoRender {
-    
-    
-    
-    
     //MARK - render
     func renderFrom(point1: SortParam, toPoint2 point2: SortParam, frames: Int, image imageToSort: UIImage, progress: (Float)->Void, aborted: @escaping () -> Bool, imageDone:(UIImage)->Void, completion:()->Void) {
         var steps = [SortParam]()

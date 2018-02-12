@@ -185,7 +185,7 @@ class BatchListTableViewController: UITableViewController {
         self.present(ctrl, animated: true, completion: nil)
     }
     
-    func clearBatch() {
+    @objc func clearBatch() {
         do {
             try SortParam.clearBatch()
         }catch {
@@ -195,7 +195,7 @@ class BatchListTableViewController: UITableViewController {
         self.updateList()
     }
     
-    func runBatch () {
+    @objc func runBatch () {
         
         if self.params.count == 0 {
             return

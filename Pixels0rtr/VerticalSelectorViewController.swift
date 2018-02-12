@@ -36,7 +36,7 @@ class VerticalSelectorViewController: UITableViewController {
     }
     
     func attributedText(withText txt: String) -> NSAttributedString {
-        let astr = NSAttributedString(string: txt, attributes: [NSForegroundColorAttributeName: COLOR_TEXT,NSFontAttributeName: FONT_TEXT])
+        let astr = NSAttributedString(string: txt, attributes: [NSAttributedStringKey.foregroundColor: COLOR_TEXT,NSAttributedStringKey.font: FONT_TEXT])
         return astr
     }
     

@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupAppearance() {
         let font = UIFont(name: "Silom", size: 14)
         let fontColor = APP_COLOR_FONT
-        let textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor]
+        let textAttributes = [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: fontColor]
         UIBarButtonItem.appearance().setTitleTextAttributes(textAttributes, for: .normal)
         UINavigationBar.appearance().tintColor = fontColor
         UILabel.appearance().tintColor = APP_COLOR_FONT

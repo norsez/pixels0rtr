@@ -105,7 +105,7 @@ class ThresholdControlView: UIView {
     }
     
     
-    func panLever(pan: UIPanGestureRecognizer) {
+    @objc func panLever(pan: UIPanGestureRecognizer) {
         //must be moved by one of the levers
         guard let view = pan.view else {
             return

@@ -84,7 +84,7 @@ class UnlockViewController: UIViewController, UIScrollViewDelegate {
         self.animateSuccess ()
     }
     
-    func zoomToFit(_ gesture: UITapGestureRecognizer) {
+    @objc func zoomToFit(_ gesture: UITapGestureRecognizer) {
         self.scrollView.setZoomScale(self.scrollView.minimumZoomScale, animated: true)
     }
     
@@ -134,7 +134,7 @@ class UnlockViewController: UIViewController, UIScrollViewDelegate {
             }, completion: { (finished) in
                 if finished {
                     self.presentingViewController?.dismiss(animated: true, completion: {
-                        finished in
+                        
                         self.presentingViewController?.dismiss(animated: true, completion: nil)
                     })
                 }

@@ -63,7 +63,7 @@ class SortParamUIViewController: UIViewController, XYPadDelegate, ThresholdModel
         super.viewDidLoad()
         var ctRect = self.sorterContainerView.bounds
         ctRect.origin = CGPoint.zero
-        self.sizeSelector.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Silom", size: 12) as Any], for: .normal)
+        self.sizeSelector.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Silom", size: 12) as Any], for: .normal)
         
         self.sortOrientationSelector.selectedSegmentIndex = AppConfig.shared.sortOrientation.rawValue
         

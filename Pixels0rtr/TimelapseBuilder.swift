@@ -33,7 +33,7 @@ class TimeLapseBuilder: NSObject {
         } catch {}
         
         do {
-            try videoWriter = AVAssetWriter(outputURL: videoOutputURL, fileType: AVFileTypeQuickTimeMovie)
+            try videoWriter = AVAssetWriter(outputURL: videoOutputURL, fileType: AVFileType.mov)
         } catch let writerError as NSError {
             error = writerError
             videoWriter = nil
@@ -51,7 +51,7 @@ class TimeLapseBuilder: NSObject {
                 //        ]
             ]
             
-            let videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: videoSettings)
+            let videoWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: videoSettings)
             
             let sourceBufferAttributes = [
                 (kCVPixelBufferPixelFormatTypeKey as String): Int(kCVPixelFormatType_32ARGB),

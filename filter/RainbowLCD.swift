@@ -10,6 +10,20 @@ import UIKit
 import CoreImage
 import CoreGraphics
 
+//MARK: color wheel
+extension CGFloat {
+    var wheelRGBValues: (r:CGFloat,g:CGFloat,b:CGFloat) {
+        get {
+            let r: CGFloat = fmin(self,0.3333)/0.3333
+            let g: CGFloat = fmax(0,self-0.3333)/0.3333
+            let b: CGFloat = fmax(0,self-0.6666)/0.3333
+            return (r,g,b)
+        }
+    }
+}
+
+
+//MARK: color wheel
 func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {
     let context = CIContext(options: nil)
     return context.createCGImage(inputImage, from: inputImage.extent)
@@ -26,6 +40,8 @@ class RainbowLCD: CIFilter {
     var inputCompContrast: CGFloat = 1.23
     var inputCompSaturation: CGFloat = 0
     var inputStripesAlpha: CGFloat = 0.8
+    var inputOutputAmount: CGFloat = 0.5
+    
     
     override var attributes: [String : Any] {
         get{
@@ -105,6 +121,16 @@ class RainbowLCD: CIFilter {
                                    kCIAttributeSliderMin: 0,
                                    kCIAttributeSliderMax: 1.0,
                                    kCIAttributeType: kCIAttributeTypeScalar],
+                "inputOutputAmount": [kCIAttributeIdentity: 0,
+                                      kCIAttributeClass: "NSNumber",
+                                      kCIAttributeDefault: 0.5,
+                                      kCIAttributeDisplayName: "Output Amount",
+                                      kCIAttributeMin: 0,
+                                      kCIAttributeMax: 1,
+                                      kCIAttributeSliderMin: 0,
+                                      kCIAttributeSliderMax: 1.0,
+                                      kCIAttributeType: kCIAttributeTypeScalar],
+                
                 ]
         }
     }
@@ -173,7 +199,7 @@ class RainbowLCD: CIFilter {
                 name: "CIGaussianBlur",
                 withInputParameters: [kCIInputRadiusKey: inputBlurRadius * 50 * pixelScale,
                                       kCIInputImageKey: output as Any
-                ])?.outputImage?.cropping(to: extent)
+                ])?.outputImage?.cropped(to: extent)
             
             Logger.log("create stripes…")
             let stripes = CIImage (cgImage:  RainbowLCD.stripes(withSize: extent.size, inputStripesAlpha: self.inputStripesAlpha)!)
@@ -185,7 +211,15 @@ class RainbowLCD: CIFilter {
                                 kCIInputBackgroundImageKey: output!
                 ])?.outputImage
             Logger.log(output == nil ? "failed" : "ok")
-            return output
+            
+            let blendFilter = FgBgBlend()
+            blendFilter.setDefaults()
+            blendFilter.inputAmount = self.inputOutputAmount
+            
+            blendFilter.fgImage = output
+            blendFilter.bgImage = inputImage
+            
+            return blendFilter.outputImage
         }
     }
 }
@@ -231,7 +265,7 @@ class RainbowScan: RainbowLCD {
             name: "CIGaussianBlur",
             withInputParameters: [kCIInputRadiusKey: inputBlurRadius * 50 * pixelScale,
                                   kCIInputImageKey: output as Any
-            ])?.outputImage?.cropping(to: extent)
+            ])?.outputImage?.cropped(to: extent)
 
         Logger.log(output == nil ? "failed" : "ok")
         return output
@@ -305,14 +339,96 @@ class RainbowScan: RainbowLCD {
     
 }
 
+
+
+//MARK: blend fg with bg with alpha
+class FgBgBlend: CIFilter{
+    var fgImage: CIImage?
+    var bgImage: CIImage?
+    var colorSelect: CGFloat = 0
+    var inputAmount: CGFloat = 0.5
+    
+   
+    
+    override var attributes: [String : Any] {
+        get{
+            return [
+                
+                kCIAttributeFilterDisplayName: "FG BG Blend" as AnyObject,
+                
+                "fgImage": [kCIAttributeIdentity: 0,
+                               kCIAttributeClass: "CIImage",
+                               kCIAttributeDisplayName: "FG Image",
+                               kCIAttributeType: kCIAttributeTypeImage],
+                "bgImage": [kCIAttributeIdentity: 0,
+                            kCIAttributeClass: "CIImage",
+                            kCIAttributeDisplayName: "BG Image",
+                            kCIAttributeType: kCIAttributeTypeImage],
+                
+                
+             
+                "inputAmount": [kCIAttributeIdentity: 0,
+                                kCIAttributeClass: "NSNumber",
+                                kCIAttributeDefault: 0.5,
+                                kCIAttributeDisplayName: "Amount",
+                                kCIAttributeMin: 0,
+                                kCIAttributeMax: 1.0,
+                                kCIAttributeSliderMin: 0,
+                                kCIAttributeSliderMax: 1.0,
+                                kCIAttributeType: kCIAttributeTypeScalar],
+                "colorSelect": [kCIAttributeIdentity: 0,
+                                kCIAttributeClass: "NSNumber",
+                                kCIAttributeDefault: 0.5,
+                                kCIAttributeDisplayName: "Amount",
+                                kCIAttributeMin: 0,
+                                kCIAttributeMax: 1.0,
+                                kCIAttributeSliderMin: 0,
+                                kCIAttributeSliderMax: 1.0,
+                                kCIAttributeType: kCIAttributeTypeScalar],
+            ]
+        }
+    }
+    
+    override var outputImage: CIImage? {
+        get {
+            
+            guard let fgImage = self.fgImage else {
+                return nil
+            }
+            
+            guard let bgImage = self.bgImage else {
+                return nil
+            }
+            
+            let alpha = self.inputAmount
+            let rbgValues = self.colorSelect.wheelRGBValues
+            let rgba: [CGFloat] = [rbgValues.r,rbgValues.g,rbgValues.b,CGFloat(alpha)]
+            
+            let colorMatrix = CIFilter(name: "CIColorMatrix")
+            colorMatrix?.setDefaults()
+            colorMatrix?.setValue(fgImage, forKey: kCIInputImageKey)
+            colorMatrix?.setValue(CIVector(values: rgba, count: 4), forKey: "inputAVector")
+            
+            let composite = CIFilter(name: "CISourceOverCompositing")
+            composite?.setDefaults()
+            composite?.setValue(colorMatrix?.outputImage, forKey: kCIInputImageKey)
+            composite?.setValue(bgImage, forKey: kCIInputBackgroundImageKey)
+            
+            return composite?.outputImage
+        }
+    }
+}
+
 //MARK: RainbowLightLeak
 class RainbowLightLeak: CIFilter {
+    let MAX_COMP_TIMES: Double = 30;
     var inputCompositeTimes: Double = 0.0
+    var inputAmount: CGFloat = 0.5
     var inputImage: CIImage?
     let lcdFilter = RainbowLCD()
     
     fileprivate let FILTER_TRANSFORM = "CIAffineTransform"
-    fileprivate let COMPOSITES = ["CIOverlayBlendMode","CIScreenBlendMode", "CIMultiplyCompositing",
+    fileprivate let COMPOSITES = ["CIScreenBlendMode", "CIOverlayBlendMode",
                                   "CISoftLightBlendMode"]
     
     fileprivate var lcdImage: CIImage?
@@ -354,7 +470,7 @@ class RainbowLightLeak: CIFilter {
         
         
         Logger.log("compositing…")
-        let TIMES = Int(1 + self.inputCompositeTimes * 10)
+        let TIMES = Int(1 + (self.inputCompositeTimes * MAX_COMP_TIMES))
         var compositeFilters = [String]()
         for _ in 0..<TIMES{
             compositeFilters.append(COMPOSITES[Int(arc4random_uniform(UInt32(COMPOSITES.count - 1)))])
@@ -366,18 +482,18 @@ class RainbowLightLeak: CIFilter {
             if resultImage == nil {
                 break
             }
-            let dx = CGFloat(1 + fRandom(min: 0.01, max: 0.25))
-            let dy = CGFloat(1 + fRandom(min: 0.01, max: 0.25))
+            let dx = CGFloat(1 + fRandom(min: 0.01, max: 0.1))
+            let dy = CGFloat(1 + fRandom(min: 0.01, max: 0.1))
             
             var tx = CGAffineTransform(scaleX: dx, y: dy)
             tx = CGAffineTransform(translationX: -dx, y: -dy)
             
             Logger.log("transform…")
-            let txLcdImage = lcdImage.applyingFilter(FILTER_TRANSFORM, withInputParameters: [kCIInputTransformKey: NSValue(cgAffineTransform: tx)]).cropping(to: extent)
+            let txLcdImage = lcdImage.applyingFilter(FILTER_TRANSFORM, parameters: [kCIInputTransformKey: NSValue(cgAffineTransform: tx)]).cropped(to: extent)
             
             Logger.log("compositing \(t + 1)…")
             
-            guard let alphaLCD = self.ciImage(txLcdImage, alpha: CGFloat(fRandom(min: 0.01, max: 0.5))) else {
+            guard let alphaLCD = self.ciImage(txLcdImage, alpha: CGFloat(fRandom(min: 0.5, max: 0.9))) else {
                 Logger.log("failed creating alpha lcd image.")
                 return nil
             }
@@ -392,7 +508,13 @@ class RainbowLightLeak: CIFilter {
         
         Logger.log("\(resultImage == nil ? "failed" : "ok")")
         
-        return resultImage
+        let blendFilter = FgBgBlend()
+        blendFilter.setDefaults()
+        blendFilter.inputAmount = self.inputAmount
+        blendFilter.fgImage = resultImage
+        blendFilter.bgImage = inputImage
+        
+        return blendFilter.outputImage
     }
     
     override var attributes: [String : Any] {
@@ -416,6 +538,15 @@ class RainbowLightLeak: CIFilter {
                                     kCIAttributeSliderMin: 0,
                                     kCIAttributeSliderMax: 1.0,
                                     kCIAttributeType: kCIAttributeTypeScalar],
+                "inputAmount": [kCIAttributeIdentity: 0,
+                                        kCIAttributeClass: "NSNumber",
+                                        kCIAttributeDefault: 0.5,
+                                        kCIAttributeDisplayName: "Amount",
+                                        kCIAttributeMin: 0,
+                                        kCIAttributeMax: 1.0,
+                                        kCIAttributeSliderMin: 0,
+                                        kCIAttributeSliderMax: 1.0,
+                                        kCIAttributeType: kCIAttributeTypeScalar],
                 
             ]
         }

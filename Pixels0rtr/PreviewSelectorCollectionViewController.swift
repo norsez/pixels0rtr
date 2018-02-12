@@ -109,7 +109,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         
     }
     
-    func addToBatch() {
+    @objc func addToBatch() {
         self.modeIsAddToBatch = !self.modeIsAddToBatch
         self.collectionView?.allowsMultipleSelection = self.modeIsAddToBatch
         self.collectionView?.backgroundColor = self.modeIsAddToBatch ? APP_COLOR_FONT : UIColor.black
@@ -135,7 +135,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         }
     }
     
-    func didPressRefresh (sender: Any) {
+    @objc func didPressRefresh (sender: Any) {
         
         SamplePreviewEngine.shared.lastImages = []
         SamplePreviewEngine.shared.lastParams = []
@@ -156,7 +156,7 @@ class PreviewSelectorCollectionViewController: UICollectionViewController, UICol
         self.createPreviews(withParams: self.sortParams)
     }
     
-    func dismissSelf() {
+    @objc func dismissSelf() {
         self.aborted = true
         if let ctrl = self.presentingViewController {
             ctrl.dismiss(animated: true, completion: nil)

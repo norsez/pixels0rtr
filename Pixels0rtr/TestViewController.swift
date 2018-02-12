@@ -57,7 +57,6 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
             let rf = RainbowLCD()
             rf.inputImage = CIImage(cgImage: cgImage)
             
-            
             let NUM = 12
             for n in 0..<12 {
                 

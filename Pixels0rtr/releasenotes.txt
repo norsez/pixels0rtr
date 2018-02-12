@@ -1,5 +1,15 @@
 release notes
 =============
+build 36
+- remove louped preview
+
+build 35
+-  remove output color select
+
+build 34
+- add output blend to RGB shift filter
+- add output blend to Rainbow lightleak filter
+
 build 31
 - max size of loupe preview is 600px
 - reduce int->double typecasting
