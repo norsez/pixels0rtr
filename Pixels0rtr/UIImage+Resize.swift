@@ -83,29 +83,49 @@ extension UIImage {
         return self.resize(size)
         
     }
+   
+/// Returns a image that fills in newSize
+//    func resize(_ newSize: CGSize) -> UIImage? {
+//        // Guard newSize is different
+//        guard self.size != newSize else { return self }
+//
+//        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+//
+//        self.draw(in: CGRect(x:0,y: 0, width: newSize.width, height: newSize.height))
+//        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        return newImage
+//    }
     
     func resize(_ size: CGSize) -> UIImage? {
-        guard let cgImage = self.cgImage?.copy() else {
-            Logger.log("can't make a copy of CGImage")
+
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
+        self.draw(in: CGRect(x:0, y:0, width: self.size.width, height: self.size.height))
+        guard let cgImage = UIGraphicsGetCurrentContext()?.makeImage() else {
+            UIGraphicsEndPDFContext()
+            print("can't create CGImage")
             return nil
         }
+        UIGraphicsEndPDFContext()
         
+
         let width = size.width
         let height = size.height
         let bitsPerComponent = cgImage.bitsPerComponent
         let bytesPerRow = cgImage.bitsPerComponent * Int(width)
         let colorSpace = cgImage.colorSpace ?? CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = cgImage.bitmapInfo
-        
+
         guard let context = CGContext(data: nil, width: Int(width), height:Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
             else {
                 Logger.log("can't create bitmap context")
                 return nil
         }
-        
+
         context.interpolationQuality = CGInterpolationQuality.high
         context.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
-        
+
         let scaledImage = context.makeImage().flatMap { UIImage(cgImage: $0) }
         return scaledImage
     }

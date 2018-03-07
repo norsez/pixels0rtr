@@ -231,6 +231,9 @@ class TestViewController: CanvasController, UIScrollViewDelegate, UIImagePickerC
         }
     }
     
+    @IBAction func didPressCRTSim(_ sender: Any) {
+        self.presentImagePicker(withMode: .CRTSim)
+    }
     @IBAction func didPressBatch(_ sender: Any) {
         
         let ctrl = BatchListTableViewController(style: .plain)

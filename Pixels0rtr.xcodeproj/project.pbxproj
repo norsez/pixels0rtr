@@ -57,6 +57,8 @@
 		F3D91AA41DFCE4C300D45413 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA31DFCE4C300D45413 /* Analytics.swift */; };
 		F3D91AA61DFCEF9F00D45413 /* releasenotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */; };
 		F3D91AA81DFE693900D45413 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D91AA71DFE693900D45413 /* UnlockViewController.swift */; };
+		F3DDAF3A203D2D9D00338B87 /* CRTSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DDAF39203D2D9D00338B87 /* CRTSimulator.swift */; };
+		F3DDAF3C203D4B4F00338B87 /* CRTScreen in Resources */ = {isa = PBXBuildFile; fileRef = F3DDAF3B203D4B4F00338B87 /* CRTScreen */; };
 		F3EF87D01E4EEF430026341C /* Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF87CF1E4EEF430026341C /* Batch.swift */; };
 		F3F17E6E1E40404300383CAA /* ThesholdControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F17E6D1E40404300383CAA /* ThesholdControl.swift */; };
 		F3F191741F64B04B00311B95 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3F191731F64B04B00311B95 /* GoogleService-Info.plist */; };
@@ -121,6 +123,8 @@
 		F3D91AA31DFCE4C300D45413 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		F3D91AA51DFCEF9F00D45413 /* releasenotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = releasenotes.txt; sourceTree = "<group>"; };
 		F3D91AA71DFE693900D45413 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
+		F3DDAF39203D2D9D00338B87 /* CRTSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CRTSimulator.swift; path = filter/CRTSimulator.swift; sourceTree = "<group>"; };
+		F3DDAF3B203D4B4F00338B87 /* CRTScreen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CRTScreen; path = ../../pde/CRTScreen; sourceTree = "<group>"; };
 		F3EF87CF1E4EEF430026341C /* Batch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Batch.swift; sourceTree = "<group>"; };
 		F3F17E6D1E40404300383CAA /* ThesholdControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThesholdControl.swift; sourceTree = "<group>"; };
 		F3F191731F64B04B00311B95 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 		F336FB5B1DEEBE3000FB3817 = {
 			isa = PBXGroup;
 			children = (
+				F3DDAF3B203D4B4F00338B87 /* CRTScreen */,
 				F336FB661DEEBE3000FB3817 /* Pixels0rtr */,
 				F336FB651DEEBE3000FB3817 /* Products */,
 				B243E03CA0A8704161CCBF3B /* Pods */,
@@ -282,6 +287,7 @@
 				F3A659961E87769100FA0DB8 /* CRTFilter.swift */,
 				F3B3D0301E852C5100C6A8D0 /* RBGFilter.swift */,
 				F3A659941E8769D600FA0DB8 /* RainbowLCD.swift */,
+				F3DDAF39203D2D9D00338B87 /* CRTSimulator.swift */,
 			);
 			name = filter;
 			path = ..;
@@ -361,6 +367,7 @@
 			files = (
 				F336FB721DEEBE3000FB3817 /* LaunchScreen.storyboard in Resources */,
 				F3504CCD1E0DE96400A7B5D3 /* defaultImage.jpg in Resources */,
+				F3DDAF3C203D4B4F00338B87 /* CRTScreen in Resources */,
 				F3F191741F64B04B00311B95 /* GoogleService-Info.plist in Resources */,
 				F336FB6F1DEEBE3000FB3817 /* Assets.xcassets in Resources */,
 				F336FB7A1DEEBE4600FB3817 /* Podfile in Resources */,
@@ -434,6 +441,7 @@
 				F3D28CF81E27661700565E71 /* SortLoupeView.swift in Sources */,
 				F345F0821F689C08004D2A7D /* CXEImageToVideo.swift in Sources */,
 				F3087B751DEFDCF700376A98 /* AppConfig.swift in Sources */,
+				F3DDAF3A203D2D9D00338B87 /* CRTSimulator.swift in Sources */,
 				F34575941E069F66001A110F /* StripBitmap.swift in Sources */,
 				F3B3D0311E852C5100C6A8D0 /* RBGFilter.swift in Sources */,
 				F3B7B1851E86A447008D5AE6 /* ImageFilterViewController.swift in Sources */,

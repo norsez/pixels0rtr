@@ -12,7 +12,38 @@ import AVFoundation
 
 extension UIImage {
     
-    
+    func colorArrays() -> [[SortColor]]{
+        
+        let bitmap = Bitmap(img: self.cgImage!)
+        guard let correctedBitmapCGImage = bitmap.asCGImage else {
+            Logger.log("can't create correct bitmap format")
+            return []
+        }
+        let imageProvider = correctedBitmapCGImage.dataProvider
+        let imageData = imageProvider?.data
+        
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(imageData)
+        
+        var results = [[SortColor]]()
+        let NUM_COMPS = 4 //know this from how bitmap object defines context
+        //let DATA_SIZE = Int(size.width)*Int(size.height) * NUM_COMPS
+        
+        for x in 0..<Int(self.size.width) {
+            var colorCols = [SortColor]()
+            for y in 0..<Int(self.size.height) {
+                let idx = (y * Int(size.width) + x) * NUM_COMPS
+                let c = SortColor(withRed: data[idx + 1],
+                                  green: data[idx + 2],
+                                  blue: data[idx + 3],
+                                  alpha: data[idx])
+                colorCols.append(c)
+            }
+            
+            results.append(colorCols)
+        }
+        
+        return results
+    }
     
     func blurredImage(withRadius radius: Double) -> UIImage {
         let imageToBlur = CIImage(image: self)

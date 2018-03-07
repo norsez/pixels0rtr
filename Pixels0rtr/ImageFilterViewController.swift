@@ -11,7 +11,7 @@ import Photos
 
 
 enum SelectedImageFilter: Int {
-    case RGBShift, RainbowLightleak
+    case RGBShift, RainbowLightleak, CRTSim
 }
 
 class ImageFilterViewController: UIViewController {
@@ -72,6 +72,8 @@ class ImageFilterViewController: UIViewController {
             self.filter = RainbowLCD()
         case .RainbowLightleak:
             self.filter = RainbowLightLeak()
+        case .CRTSim:
+            self.filter = CRTDisplay()
         }
         
         
@@ -135,7 +137,14 @@ class ImageFilterViewController: UIViewController {
         }
         
         
-        let ciImage = CIImage(cgImage: cgImage)
+        var ciImage = CIImage(cgImage: cgImage)
+        
+        if ciImage == nil {
+            if let ci =  image.ciImage {
+                ciImage = ci
+            }
+        }
+    
         
         if let key = self.controlKey {
             f.setValue(self.controlSlider.value, forKey: key)
@@ -166,11 +175,8 @@ class ImageFilterViewController: UIViewController {
     
     func applyFilter(withImage image: UIImage) -> UIImage? {
         
-        guard let cgImage = image.cgImage else {
-                return nil
-        }
         
-        let ciImage = CIImage(cgImage: cgImage)
+        let ciImage = CIImage(image: image)
         self.filter?.setValue(ciImage, forKey: "inputImage")
         
         if let output = self.filter?.outputImage {
