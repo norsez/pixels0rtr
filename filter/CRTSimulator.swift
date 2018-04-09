@@ -8,6 +8,33 @@
 
 import UIKit
 import QuartzCore
+
+//MARK:
+extension CGContext {
+    var flippedCoordinateImage: CIImage? {
+        var xForm = CGAffineTransform(translationX: 0, y: CGFloat(self.height))
+        xForm = xForm.scaledBy(x: 1, y: -1)
+        let extent = CGRect(x:0, y:0, width: CGFloat(self.width), height: CGFloat(self.height))
+        
+        guard let cgImage = self.makeImage().flatMap({ $0 }) else {
+            print("can't create cgImage")
+            return nil
+        }
+        
+        let ciImage = CIImage(cgImage:cgImage)
+        
+        let xformFilter = CIFilter(name: "CIAffineTransform", withInputParameters:[kCIInputTransformKey: NSValue(cgAffineTransform: xForm), kCIInputImageKey:  ciImage])
+        
+        
+        guard let ciImageOutput = xformFilter?.outputImage?.cropped(to: extent) else {
+            print("can't create ciimage for output")
+            return nil
+        }
+        return ciImageOutput
+    }
+}
+
+//MARK:
 class CRTSimulator {
     
     var inputImage: UIImage?
@@ -23,11 +50,11 @@ class CRTSimulator {
         instance.run()
         return instance.outputImage
     }
-    
-    
 }
 
 
+
+//MARK:
 class  DotPitch {
     //var bloomRadius = 2.5
     var pixel_w: Double = 6
@@ -148,6 +175,9 @@ class ApertureGrilleDV: DotPitch {
         self.strokeLine(pg: pg, color: self._blue)
     }
 }
+
+
+
 //MARK: CRT Display
 class CRTDisplay: CIFilter {
     @objc var inputImage: CIImage?
@@ -195,9 +225,9 @@ class CRTDisplay: CIFilter {
                                     kCIAttributeClass: "NSNumber",
                                     kCIAttributeDefault: 4,
                                     kCIAttributeDisplayName: "Glow Size",
-                                    kCIAttributeMin: 1,
+                                    kCIAttributeMin: 0.25,
                                     kCIAttributeMax: 10,
-                                    kCIAttributeSliderMin: 1,
+                                    kCIAttributeSliderMin: 0.25,
                                     kCIAttributeSliderMax: 10,
                                     kCIAttributeType: kCIAttributeTypeScalar
                 ],
@@ -205,10 +235,10 @@ class CRTDisplay: CIFilter {
                                      kCIAttributeClass: "NSNumber",
                                      kCIAttributeDefault: 4,
                                      kCIAttributeDisplayName: "Glow Decay",
-                                     kCIAttributeMin: 1,
-                                     kCIAttributeMax: 10,
-                                     kCIAttributeSliderMin: 0.0,
-                                     kCIAttributeSliderMax: 10,
+                                     kCIAttributeMin: 2,
+                                     kCIAttributeMax: 20,
+                                     kCIAttributeSliderMin: 2,
+                                     kCIAttributeSliderMax: 20,
                                      kCIAttributeType: kCIAttributeTypeScalar
                 ],
                 "inputMaxInputSize": [ kCIAttributeIdentity: 0,
@@ -216,9 +246,9 @@ class CRTDisplay: CIFilter {
                                     kCIAttributeDefault: 0,
                                     kCIAttributeDisplayName: "Max Input Size",
                                     kCIAttributeMin: 0,
-                                    kCIAttributeMax: 4,
+                                    kCIAttributeMax: 6,
                                     kCIAttributeSliderMin: 0,
-                                    kCIAttributeSliderMax: 4,
+                                    kCIAttributeSliderMax: 6,
                                     kCIAttributeType: kCIAttributeTypeScalar
                 ],
                 "inputBrightnessCurve": [ kCIAttributeIdentity: 0,
@@ -249,9 +279,9 @@ class CRTDisplay: CIFilter {
             }
             
             let uiimage = UIImage(ciImage: inputImage)
-            let INPUT_SIZE = [64, 120, 240, 320, 480]
+            let INPUT_SIZE = [24,48, 64, 120, 240, 320, 480]
             self.scaledImage = uiimage.resize(byMaxPixels: INPUT_SIZE[self.inputMaxInputSize])
-            
+            self.dotPitch = ApertureGrilleDV(pixelSize: self.inputPixelSize)
             self.dotPitch.pixel_w = Double(self.inputPixelSize)
             self.dotPitch.pixel_h = Double(self.inputPixelSize * 3)
             self.dotPitch.pixel_margin = Double(self.inputPixelSize)
@@ -285,11 +315,8 @@ class CRTDisplay: CIFilter {
                     }
                 }
             }
-            if let cgImage = context.makeImage().flatMap({ $0 }) {
-                return CIImage(cgImage: cgImage)
-            }else {
-                return nil
-            }
+            
+            return context.flippedCoordinateImage
         }
     }
 }
