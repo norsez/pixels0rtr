@@ -195,6 +195,7 @@ class CRTDisplay: CIFilter {
     var pixel_margin = 1
     var inputGlowFactor = 4
     var inputGlowDecay = 4
+    var inputGlowDepth: Double = 2
     
     var dotPitch = ApertureGrilleDV(pixelSize: 3)
     var inputBrightnessCurve = 2.0
@@ -240,6 +241,16 @@ class CRTDisplay: CIFilter {
                                      kCIAttributeSliderMin: 2,
                                      kCIAttributeSliderMax: 20,
                                      kCIAttributeType: kCIAttributeTypeScalar
+                ],
+                "inputGlowDepth": [ kCIAttributeIdentity: 0,
+                                    kCIAttributeClass: "NSNumber",
+                                    kCIAttributeDefault: 2,
+                                    kCIAttributeDisplayName: "Glow Depth",
+                                    kCIAttributeMin: 2,
+                                    kCIAttributeMax: 6,
+                                    kCIAttributeSliderMin: 2,
+                                    kCIAttributeSliderMax: 6,
+                                    kCIAttributeType: kCIAttributeTypeScalar
                 ],
                 "inputMaxInputSize": [ kCIAttributeIdentity: 0,
                                     kCIAttributeClass: "NSNumber",
@@ -287,6 +298,7 @@ class CRTDisplay: CIFilter {
             self.dotPitch.pixel_margin = Double(self.inputPixelSize)
             self.dotPitch.glowFactor = Double(self.inputGlowFactor)
             self.dotPitch.glowDecay = Double(self.inputGlowDecay)
+            self.dotPitch.numDepths = self.inputGlowDepth
             self.dotPitch.brightnessCurve = Double(self.inputBrightnessCurve)
             self.dotPitch.createTableLookup()
             
